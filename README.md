@@ -6,6 +6,10 @@ Ciencia Vitae exports are a strong reference use case because they are highly st
 
 For a complete practical guide, see [TUTORIAL.md](TUTORIAL.md).
 
+This app is also a first candidate for [d'BiYOK Lab](docs/DBIYOK_LAB.md), a PagBiOmicS initiative for local-first Bring Your Own Key AI apps.
+
+![d'BiYOK Lab banner](assets/dbiyok_lab_mark.svg)
+
 ## What It Does
 
 - Parses a local or uploaded CV PDF/TXT into editable JSON-like sections.
@@ -139,7 +143,12 @@ API key: leave empty unless your server requires one
 
 ## PagBiOmicS Web Roadmap
 
-This repository is currently a localhost version. The safest PagBiOmicS web strategy is not to run BYOK inside the website. The website should be a landing/download page that explains the workflow and sends users to the desktop app.
+This repository is currently a localhost version. The safest PagBiOmicS web strategy is to offer two routes and explain the trade-offs clearly:
+
+- **Run locally, recommended:** download the app, run it on localhost, and enter API keys only on the user's computer.
+- **Run from the web, advanced/future:** possible for low-risk workflows or demos, but it must warn users about API-key trust, browser risks, and data sensitivity.
+
+The first public web page should be a landing/download page that explains the workflow and sends users to the desktop app.
 
 - Downloadable Windows executable first.
 - Mac `.dmg` later, ideally built on macOS or GitHub Actions.
@@ -156,6 +165,7 @@ An embeddable HTML prototype is included in [pagbiomics_embed.html](pagbiomics_e
 - It links users to the desktop release.
 - It explains that API keys stay on the user's computer.
 - It links directly to Gemini/AI Studio/Ollama setup pages.
+- It can later link to a web BYOK lite mode once the warnings, privacy policy, and technical boundaries are clear.
 
 Future paid/API-hosted/Web3 ideas are tracked in [CHANGELOG.md](CHANGELOG.md), not exposed as current web options.
 
