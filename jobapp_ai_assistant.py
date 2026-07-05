@@ -1484,6 +1484,11 @@ def root() -> FileResponse:
     return FileResponse(STATIC_DIR / "index.html")
 
 
+@app.get("/pagbiomics-embed")
+def pagbiomics_embed_preview() -> FileResponse:
+    return FileResponse(_EXE_DIR / "pagbiomics_embed.html")
+
+
 @app.get("/api/health")
 def health() -> dict[str, Any]:
     settings = load_llm_settings()

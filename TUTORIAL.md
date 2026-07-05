@@ -28,7 +28,7 @@ JobApp AI Assistant was created to solve that problem locally:
 - Parse Ciencia Vitae-style exports into structured English fields.
 - Use AI parsing for better extraction, or local heuristic parsing without API credits.
 - Edit parsed CV fields in the browser.
-- Select or exclude individual publications, projects, jobs, skills, and other sections.
+- Select or exclude individual publications, projects, jobs, skills, and other sections before matching a job.
 - Fetch a job description from a URL when the site allows scraping.
 - Generate a tailored CV, cover letter, and interview preparation.
 - Export the parsed CV or final application as Markdown, DOCX, PDF, or JSON.
@@ -57,14 +57,15 @@ Port `8091` is recommended on this workstation because `8080` may already be use
 
 1. Open the app.
 2. Choose an AI provider in **AI Engine**.
-3. Use **Choose CV from PC** to upload a PDF/TXT/XML CV.
-4. Keep **AI parser** enabled for the strongest structured extraction.
-5. Turn **AI parser** off when you want a free local parse without spending API credits.
-6. Review and edit the parsed CV sections.
-7. Use toggles to select the items relevant to the target job.
-8. Paste or fetch a job posting URL.
-9. Click **Generate match**.
-10. Export Markdown, DOCX, or PDF for later editing.
+3. Use **Choose CV from PC** or **Import CV from local drive** to upload a PDF/TXT/XML CV.
+4. Choose **AI parser** when you have a configured API key or local LLM.
+5. Choose **Heuristic parser** when you want a free local parse without spending API credits.
+6. Use **Open last parsed CV** when you want to reuse the last imported profile.
+7. In Step 2, select the role type and work mode, then filter the CV sections that should guide the AI.
+8. Optionally download the full parsed CV or the filtered CV before matching.
+9. Paste or fetch a job posting URL.
+10. Click **Generate match**.
+11. Export Markdown, DOCX, or PDF for later editing.
 
 ## Parsed CV Exports
 
@@ -75,6 +76,8 @@ The CV parsing step can export:
 - selected CV fields as JSON.
 
 This is useful before running the AI match because the user can manually filter irrelevant details and give the model a cleaner, job-specific profile.
+
+The detailed CV editor is placed after the application history. That keeps the main workflow visible even for very long academic CVs with many publications, events, supervision entries, and courses.
 
 ## Provider Setup
 
@@ -118,3 +121,5 @@ The localhost version should remain the private, safest workflow. A public PagBi
 - ADA/Cardano native-token payments after server-side verification.
 
 For the web version, never expose hosted API keys or payment secrets in browser HTML.
+
+The file `pagbiomics_embed.html` is a first embeddable prototype for the PagBiOmicS website. It includes Free, BYOK, and Hosted API beta modes. The suggested beta price, EUR 1.99 for 20 applications, is reasonable as a low-friction test offer. If usage becomes serious, consider a monthly tier around EUR 4.99-9.99 plus BYOK free mode.

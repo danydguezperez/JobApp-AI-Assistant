@@ -94,15 +94,25 @@ function setBusy(button, busy, label) {
 
 function setCvExportEnabled(enabled) {
   [
-    "#exportCvMdBtn",
-    "#exportCvDocxBtn",
-    "#exportCvPdfBtn",
-    "#exportSelectedCvMdBtn",
-    "#exportSelectedCvJsonBtn",
+    "#exportFullCvBtn",
+    "#exportFilteredCvBtn",
   ].forEach((selector) => {
     const button = $(selector);
     if (button) button.disabled = !enabled;
   });
+}
+
+function useAiParser() {
+  return $("input[name='parserMode']:checked")?.value !== "heuristic";
+}
+
+function selectedWorkMode() {
+  return $("input[name='workMode']:checked")?.value || "Any";
+}
+
+function selectedCvExportFormats() {
+  const formats = $$("input[name='cvExportFormat']:checked").map((input) => input.value);
+  return formats.length ? formats : ["md"];
 }
 
 async function checkHealth() {
@@ -357,7 +367,7 @@ async function loadLocalCv(button) {
   try {
     const form = new FormData();
     form.append("use_local", "true");
-    form.append("use_ai", $("#useAiParser")?.checked ? "true" : "false");
+    form.append("use_ai", useAiParser() ? "true" : "false");
     const response = await api("/api/upload-cv", { method: "POST", body: form });
     const data = await response.json();
     renderCv(data.cv);
@@ -388,7 +398,7 @@ async function loadSavedCv(button) {
 async function uploadCv(file) {
   const form = new FormData();
   form.append("file", file);
-  form.append("use_ai", $("#useAiParser")?.checked ? "true" : "false");
+  form.append("use_ai", useAiParser() ? "true" : "false");
   try {
     toast("Extracting and parsing CV...");
     const response = await api("/api/upload-cv", { method: "POST", body: form });
@@ -438,6 +448,12 @@ async function exportParsedCv(format, selectedOnly = false, button = null) {
   }
 }
 
+async function exportParsedCvBatch(selectedOnly = false, button = null) {
+  for (const format of selectedCvExportFormats()) {
+    await exportParsedCv(format, selectedOnly, button);
+  }
+}
+
 function suggestByRole() {
   if (!state.cv) return;
   const role = selectedRole();
@@ -475,7 +491,7 @@ async function runMatch(button) {
   try {
     const payload = {
       job_text: jobText,
-      role_type: selectedRole(),
+      role_type: `${selectedRole()} | Work mode: ${selectedWorkMode()}`,
       selected_cv: selectedCv(),
       job_url: $("#jobUrlInput").value.trim(),
       company: $("#companyInput").value.trim(),
@@ -604,6 +620,7 @@ async function openExportsFolder(button) {
 function wireEvents() {
   setCvExportEnabled(false);
   $("#chooseCvBtn").addEventListener("click", chooseCvFromPc);
+  $("#chooseCvSecondaryBtn").addEventListener("click", chooseCvFromPc);
   $("#loadLocalBtn").addEventListener("click", (event) => loadLocalCv(event.currentTarget));
   $("#loadSavedBtn").addEventListener("click", (event) => loadSavedCv(event.currentTarget));
   $("#providerSelect").addEventListener("change", (event) => fillProviderFields(event.target.value));
@@ -621,13 +638,11 @@ function wireEvents() {
   $("#mdBtn").addEventListener("click", () => exportFile("md"));
   $("#docxBtn").addEventListener("click", () => exportFile("docx"));
   $("#pdfBtn").addEventListener("click", () => exportFile("pdf"));
-  $("#exportCvMdBtn").addEventListener("click", (event) => exportParsedCv("md", false, event.currentTarget));
-  $("#exportCvDocxBtn").addEventListener("click", (event) => exportParsedCv("docx", false, event.currentTarget));
-  $("#exportCvPdfBtn").addEventListener("click", (event) => exportParsedCv("pdf", false, event.currentTarget));
-  $("#exportSelectedCvMdBtn").addEventListener("click", (event) => exportParsedCv("md", true, event.currentTarget));
-  $("#exportSelectedCvJsonBtn").addEventListener("click", (event) => exportParsedCv("json", true, event.currentTarget));
+  $("#exportFullCvBtn").addEventListener("click", (event) => exportParsedCvBatch(false, event.currentTarget));
+  $("#exportFilteredCvBtn").addEventListener("click", (event) => exportParsedCvBatch(true, event.currentTarget));
   $("#refreshHistoryBtn").addEventListener("click", loadHistory);
   $("#openExportsBtn").addEventListener("click", (event) => openExportsFolder(event.currentTarget));
+  $("#toggleEditorBtn").addEventListener("click", () => $("#cvEditor").classList.toggle("is-collapsed"));
   $$(".tab").forEach((tab) => tab.addEventListener("click", () => setTab(tab.dataset.tab)));
   $$(".step").forEach((step) => {
     step.addEventListener("click", () => document.getElementById(step.dataset.jump).scrollIntoView({ behavior: "smooth" }));

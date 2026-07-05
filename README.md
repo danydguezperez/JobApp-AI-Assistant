@@ -12,6 +12,7 @@ For a complete practical guide, see [TUTORIAL.md](TUTORIAL.md).
 - Accepts structured CV sources from the user's computer, including PDF, TXT, and XML.
 - Works especially well with structured Ciencia Vitae exports.
 - Lets the user include or exclude each CV item before matching a job.
+- Places CV focusing before job matching so the AI receives only the evidence the user wants emphasized.
 - Exports the parsed CV itself as Markdown, DOCX, PDF, or JSON.
 - Exports only selected CV fields when the user wants to manually prepare a focused profile before calling the AI.
 - Fetches a job posting URL and fills the job description automatically when the page allows scraping.
@@ -61,17 +62,19 @@ The app may also run on `8080`, but that port can be occupied by other local ser
 
 ## CV Parsing Workflow
 
-1. Use **Choose CV from PC** to upload a PDF/TXT/XML CV through the file explorer.
-2. Keep **AI parser** enabled for the best structured English extraction.
-3. Turn **AI parser** off for a free local parse that avoids LLM/API credits.
-4. Edit the parsed fields directly in the browser.
-5. Use the toggles to include or exclude publications, projects, experience, software, or other sections.
+1. Use **Choose CV from PC** or **Import CV from local drive** to upload a PDF/TXT/XML CV through the file explorer.
+2. Select **AI parser** when a configured API key or local LLM is available.
+3. Select **Heuristic parser** for a free local parse that avoids LLM/API credits.
+4. Use **Open last parsed CV** to reuse the app's local CV memory instead of importing the same file repeatedly.
+5. Use Step 2 to include or exclude publications, projects, experience, software, or other sections before matching.
 6. Export either:
    - the full parsed CV,
    - only the selected fields,
    - or the final tailored application package after matching a job.
 
 The parsed export intentionally uses the structured data, not the raw Ciencia Vitae PDF headers. This removes repeated page headers, footer noise, and Portuguese platform labels where the parser has already translated the content into English.
+
+The detailed parsed CV editor is intentionally placed after the main workflow so large academic CVs do not push job matching and final exports too far down the page.
 
 ## Provider Setup Tutorial
 
@@ -116,6 +119,12 @@ This repository is currently a localhost version. A future PagBiOmicS web versio
 - Future Web3 payment option for ADA and Cardano native tokens, with wallet connection handled in the web frontend and payment verification handled server-side.
 
 The web version must be designed carefully around privacy: CVs, job postings, and API keys are sensitive data.
+
+An embeddable HTML prototype is included in [pagbiomics_embed.html](pagbiomics_embed.html). It contains three launch modes:
+
+- Free test: limited previews and email-gated downloads.
+- BYOK: free use with the user's own API key.
+- Hosted API beta: suggested low-friction beta price of EUR 1.99 for 20 applications. This is a good first test price; later, a EUR 4.99-9.99/month tier may make more sense if usage grows.
 
 Suggested Web3 path:
 

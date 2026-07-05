@@ -94,12 +94,29 @@ button:disabled {
 .brand-mark {
   display: grid;
   place-items: center;
+  position: relative;
   width: 42px;
   height: 42px;
   border-radius: 8px;
-  background: var(--accent);
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(102, 226, 192, 0.96), rgba(240, 200, 106, 0.92));
   color: #06110e;
   font-weight: 900;
+}
+
+.brand-mark span {
+  position: relative;
+  z-index: 1;
+}
+
+.brand-mark i {
+  position: absolute;
+  right: -10px;
+  bottom: -12px;
+  width: 32px;
+  height: 32px;
+  border: 8px solid rgba(7, 16, 15, 0.22);
+  border-radius: 999px;
 }
 
 .brand small,
@@ -260,11 +277,74 @@ button:disabled {
   accent-color: var(--accent);
 }
 
+.info-note {
+  margin: 18px 22px 22px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.04);
+  line-height: 1.5;
+}
+
+.info-note strong {
+  color: var(--text);
+}
+
+.muted-note {
+  margin: 0;
+}
+
+.import-grid,
+.parser-choice {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 18px 22px 0;
+}
+
+.import-grid .info-note {
+  margin: 0;
+}
+
+.parser-choice {
+  padding-bottom: 22px;
+}
+
+.parser-choice label {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.04);
+  line-height: 1.45;
+}
+
+.parser-choice input,
+.format-checks input {
+  margin-top: 3px;
+  accent-color: var(--accent);
+}
+
+.parser-choice strong {
+  display: block;
+  color: var(--text);
+}
+
 .editor-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
   padding: 18px;
+  max-height: none;
+  overflow: auto;
+}
+
+.editor-grid.is-collapsed {
+  max-height: 340px;
 }
 
 .empty-state {
@@ -318,7 +398,8 @@ button:disabled {
 }
 
 .toggle-row input,
-.role-strip input {
+.role-strip input,
+.work-mode-strip input {
   accent-color: var(--accent);
 }
 
@@ -401,14 +482,17 @@ button:disabled {
   background: rgba(255, 255, 255, 0.04);
 }
 
-.role-strip {
+.role-strip,
+.work-mode-strip {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   padding: 18px 22px 0;
 }
 
-.role-strip label {
+.role-strip label,
+.work-mode-strip label,
+.format-checks label {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -417,6 +501,43 @@ button:disabled {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.04);
+}
+
+.work-mode-strip {
+  padding-top: 10px;
+}
+
+.parsed-export {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.9fr) auto;
+  gap: 16px;
+  align-items: center;
+  margin: 0 22px 22px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.parsed-export h3,
+.parsed-export p {
+  margin: 0;
+}
+
+.parsed-export h3 {
+  color: var(--text);
+}
+
+.parsed-export p {
+  margin-top: 5px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.format-checks {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .selection-summary {
@@ -599,7 +720,10 @@ button:disabled {
 
   .editor-grid,
   .job-grid,
-  .provider-grid {
+  .provider-grid,
+  .import-grid,
+  .parser-choice,
+  .parsed-export {
     grid-template-columns: 1fr;
   }
 }
