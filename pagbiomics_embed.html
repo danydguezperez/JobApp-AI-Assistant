@@ -2,7 +2,8 @@
   PagBiOmicS / d'BiYOK Lab embed.
   Paste this whole block into Durable > Add section > Custom code > Embed.
 
-  The hero/banner image can remain as a separate image section above this embed.
+  The d'BiYOK Lab hero/banner image should remain as a separate image section above this embed.
+  This embed focuses on the JobApp AI Assistant application.
   The Windows .exe is distributed from the public GitHub release.
   Web Lite is intentionally paused because Durable embeds may block JavaScript execution.
 -->
@@ -25,6 +26,24 @@
     }
     .dbiyok-page * { box-sizing: border-box; }
     .dbiyok-wrap { padding: clamp(24px, 4vw, 52px); }
+    .jobapp-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+      gap: clamp(22px, 4vw, 42px);
+      align-items: center;
+    }
+    .jobapp-mark {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: #07110f;
+      background: linear-gradient(135deg, var(--mint), #e4cc72);
+      font-weight: 950;
+      margin-bottom: 16px;
+      box-shadow: 0 18px 44px rgba(97, 222, 192, 0.12);
+    }
     .dbiyok-kicker {
       color: var(--mint);
       font-size: 0.78rem;
@@ -33,32 +52,71 @@
       text-transform: uppercase;
       margin: 0 0 12px;
     }
-    .dbiyok-title {
+    .jobapp-title {
       margin: 0;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(2.6rem, 7vw, 5.6rem);
-      line-height: 0.92;
+      font-size: clamp(2.35rem, 6vw, 4.7rem);
+      line-height: 0.96;
       letter-spacing: 0;
     }
-    .dbiyok-title .bi-b { color: var(--mint); }
-    .dbiyok-title .bi-i {
-      color: rgba(97, 222, 192, 0.18);
-      text-shadow: 0 0 18px rgba(97, 222, 192, 0.55);
-    }
-    .dbiyok-subtitle {
+    .jobapp-subtitle {
       margin: 16px 0 0;
       color: var(--gold);
       font-size: clamp(1.2rem, 2.5vw, 1.85rem);
       font-weight: 900;
       line-height: 1.12;
     }
-    .dbiyok-lead {
+    .jobapp-lead {
       max-width: 880px;
       margin: 18px 0 0;
       color: var(--muted);
       font-size: 1.04rem;
       line-height: 1.62;
     }
+    .jobapp-preview {
+      border: 1px solid rgba(97, 222, 192, 0.22);
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 22% 18%, rgba(97, 222, 192, 0.18), transparent 35%),
+        rgba(255,255,255,0.045);
+      padding: 20px;
+    }
+    .jobapp-preview-screen {
+      min-height: 260px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 7px;
+      background: linear-gradient(145deg, rgba(8, 20, 22, 0.9), rgba(18, 35, 37, 0.88));
+      padding: 18px;
+    }
+    .jobapp-preview-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+      font-weight: 800;
+    }
+    .jobapp-preview-pill {
+      border: 1px solid rgba(97, 222, 192, 0.3);
+      border-radius: 999px;
+      padding: 6px 10px;
+      color: var(--mint);
+      font-size: 0.82rem;
+    }
+    .jobapp-preview-lines {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .jobapp-preview-line {
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.13);
+    }
+    .jobapp-preview-line.gold { background: rgba(242, 178, 31, 0.58); }
+    .jobapp-preview-line.mint { background: rgba(97, 222, 192, 0.54); }
     .dbiyok-actions, .dbiyok-mini-actions {
       display: flex;
       gap: 10px;
@@ -95,7 +153,7 @@
       cursor: not-allowed;
     }
     .dbiyok-section {
-      margin-top: 34px;
+      margin-top: 32px;
       padding-top: 30px;
       border-top: 1px solid rgba(255,255,255,0.12);
     }
@@ -187,26 +245,41 @@
       padding: 18px;
     }
     @media (max-width: 880px) {
+      .jobapp-hero,
       .dbiyok-mode-grid, .dbiyok-card-grid { grid-template-columns: 1fr; }
       .dbiyok-wrap { padding: 22px; }
     }
   </style>
 
   <div class="dbiyok-wrap">
-    <p class="dbiyok-kicker">PagBiOmicS project space</p>
-    <h2 class="dbiyok-title">d'<span class="bi-b">B</span><span class="bi-i">i</span>YOK Lab</h2>
-    <div class="dbiyok-subtitle">Bring Your Own Key for AI-assisted Apps</div>
-    <p class="dbiyok-lead">d'BiYOK Lab is Dany's idea to integrate <strong>Bi</strong> as Biodiscovery-Integrated with <strong>BYOK</strong>, Bring Your Own Key. The aim is a wider set of practical AI-assisted apps for professional productivity, biodiscovery, learning, entrepreneurship, and everyday workflows.</p>
-    <div class="dbiyok-actions">
-      <a class="dbiyok-btn warning" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download Windows app</a>
-      <a class="dbiyok-btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/tag/v0.1.0" target="_blank" rel="noopener">View GitHub release</a>
-      <a class="dbiyok-btn" href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener">Get a Gemini API key</a>
-    </div>
+    <section class="jobapp-hero" id="jobapp">
+      <div>
+        <div class="jobapp-mark" aria-hidden="true">JA</div>
+        <p class="dbiyok-kicker">Application showcase</p>
+        <h2 class="jobapp-title">JobApp AI Assistant</h2>
+        <div class="jobapp-subtitle">CV parser, job matcher, and editable application exporter.</div>
+        <p class="jobapp-lead">A local-first assistant for adapting structured CVs to specific job opportunities. It helps users parse a CV, focus the most relevant evidence, match it against a role, and export editable application materials.</p>
+      </div>
+      <div class="jobapp-preview" aria-hidden="true">
+        <div class="jobapp-preview-screen">
+          <div class="jobapp-preview-top">
+            <span>JobApp AI Assistant</span>
+            <span class="jobapp-preview-pill">Local + BYOK</span>
+          </div>
+          <div class="jobapp-preview-lines">
+            <div class="jobapp-preview-line mint" style="width: 82%"></div>
+            <div class="jobapp-preview-line" style="width: 94%"></div>
+            <div class="jobapp-preview-line" style="width: 74%"></div>
+            <div class="jobapp-preview-line gold" style="width: 56%"></div>
+            <div class="jobapp-preview-line" style="width: 88%"></div>
+            <div class="jobapp-preview-line mint" style="width: 64%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <section class="dbiyok-section" id="jobapp">
-      <h3>JobApp AI Assistant</h3>
-      <p>A CV and job-application assistant designed to parse structured CVs, focus the evidence that matters for a specific role, and generate editable application materials.</p>
-
+    <section class="dbiyok-section">
+      <h3>Available modes</h3>
       <div class="dbiyok-mode-grid">
         <article class="dbiyok-mode" id="jobapp-web">
           <h4>Use from the web: Web Lite paused</h4>
@@ -222,29 +295,31 @@
           <h4>Download desktop app</h4>
           <p>Best for private CVs, local exports, longer documents, and repeated use. The Windows app runs on localhost and keeps files on the user's computer.</p>
           <p class="dbiyok-note">The Windows release is public on GitHub. Download the executable, run it locally, and use your own API key or a local model.</p>
-          <div class="dbiyok-mini-actions">
-            <a class="dbiyok-btn warning" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download Windows app</a>
-            <a class="dbiyok-btn" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-README.pdf" target="_blank" rel="noopener">Download guide</a>
-          </div>
         </article>
       </div>
     </section>
 
     <section class="dbiyok-section">
-      <h3>How d'BiYOK Lab Works</h3>
+      <h3>What JobApp AI Assistant does</h3>
       <div class="dbiyok-card-grid">
         <article class="dbiyok-card">
-          <h4>Local-first when sensitive</h4>
-          <p>CVs, unpublished research, client work, and private business documents should stay local whenever possible.</p>
+          <h4>Parse and structure CVs</h4>
+          <p>Import PDF, TXT, or structured CV exports, then organize the content into editable English sections.</p>
         </article>
         <article class="dbiyok-card">
-          <h4>BYOK with guidance</h4>
-          <p>Users can connect Gemini, OpenAI, Claude, Ollama, DeepSeek, GLM, or compatible providers depending on each app.</p>
+          <h4>Focus the evidence</h4>
+          <p>Select the experience, projects, publications, and skills that matter most for each job application.</p>
         </article>
         <article class="dbiyok-card">
-          <h4>Productivity-driven</h4>
-          <p>The lab is not limited to research. It can support writing, data cleaning, literature work, business tasks, learning, and everyday workflows.</p>
+          <h4>Export editable outputs</h4>
+          <p>Generate tailored CV bullets, cover letters, interview notes, and exportable Markdown, DOCX, PDF, or JSON files.</p>
         </article>
+      </div>
+      <div class="dbiyok-actions">
+        <a class="dbiyok-btn warning" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download Windows app</a>
+        <a class="dbiyok-btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/tag/v0.1.0" target="_blank" rel="noopener">View GitHub release</a>
+        <a class="dbiyok-btn" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-README.pdf" target="_blank" rel="noopener">Download guide</a>
+        <a class="dbiyok-btn" href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener">Get a Gemini API key</a>
       </div>
     </section>
   </div>
