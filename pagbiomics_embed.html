@@ -2,10 +2,9 @@
   PagBiOmicS / d'BiYOK Lab embed.
   Paste this whole block into Durable > Add section > Custom code > Embed.
 
-  Important:
-  - The hero/banner image can remain as a separate image section above this embed.
-  - Replace WINDOWS_EXE_URL below when the public .exe download URL is available.
-  - Web Lite uses the visitor's own Gemini API key directly in their browser.
+  The hero/banner image can remain as a separate image section above this embed.
+  The Windows .exe is distributed from the public GitHub release.
+  Web Lite is intentionally paused because Durable embeds may block JavaScript execution.
 -->
 <section class="dbiyok-page" id="dbiyok-lab">
   <style>
@@ -15,7 +14,6 @@
       --soft: #94aaa4;
       --mint: #61dec0;
       --gold: #f2b21f;
-      --deep: #071113;
       --panel: rgba(10, 26, 29, 0.88);
       --line: rgba(97, 222, 192, 0.26);
       color: var(--ink);
@@ -90,6 +88,12 @@
       background: linear-gradient(135deg, #f6d36c, var(--gold));
       border-color: transparent;
     }
+    .dbiyok-btn.disabled {
+      color: #ffd9d9;
+      background: rgba(210, 36, 36, 0.12);
+      border-color: rgba(255, 83, 83, 0.55);
+      cursor: not-allowed;
+    }
     .dbiyok-section {
       margin-top: 34px;
       padding-top: 30px;
@@ -120,12 +124,15 @@
       background: var(--panel);
       padding: clamp(18px, 3vw, 26px);
     }
+    .dbiyok-mode.download {
+      border-color: rgba(242, 178, 31, 0.42);
+    }
     .dbiyok-mode h4, .dbiyok-card h4 {
       margin: 0;
       font-size: 1.25rem;
       line-height: 1.2;
     }
-    .dbiyok-mode p, .dbiyok-card p, .dbiyok-mode li {
+    .dbiyok-mode p, .dbiyok-card p {
       color: var(--muted);
       line-height: 1.55;
     }
@@ -135,45 +142,37 @@
       line-height: 1.48;
       margin-top: 12px;
     }
-    .dbiyok-webapp {
-      margin-top: 18px;
-      border: 1px solid rgba(242, 178, 31, 0.32);
-      border-radius: 8px;
-      background: rgba(7, 17, 19, 0.72);
-      padding: clamp(18px, 3vw, 26px);
-    }
-    .dbiyok-form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+    .dbiyok-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffd9d9;
+      border: 1px solid rgba(255, 83, 83, 0.5);
+      border-radius: 999px;
+      background: rgba(210, 36, 36, 0.12);
+      padding: 8px 12px;
+      font-weight: 900;
       margin-top: 14px;
     }
-    .dbiyok-field { display: grid; gap: 6px; }
-    .dbiyok-field label {
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 800;
+    .dbiyok-status-icon {
+      width: 24px;
+      height: 24px;
+      position: relative;
+      display: inline-block;
+      border: 2px solid #ff5555;
+      border-radius: 50%;
+      flex: 0 0 auto;
     }
-    .dbiyok-field input, .dbiyok-field textarea, .dbiyok-field select {
-      width: 100%;
-      border: 1px solid rgba(255,255,255,0.16);
-      border-radius: 7px;
-      background: rgba(255,255,255,0.06);
-      color: var(--ink);
-      padding: 10px 12px;
-      font: inherit;
-    }
-    .dbiyok-field textarea { min-height: 150px; resize: vertical; }
-    .dbiyok-output {
-      min-height: 160px;
-      white-space: pre-wrap;
-      color: var(--muted);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 7px;
-      background: rgba(255,255,255,0.045);
-      padding: 14px;
-      margin-top: 14px;
-      line-height: 1.5;
+    .dbiyok-status-icon::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 2px;
+      left: 2px;
+      top: 9px;
+      background: #ff5555;
+      transform: rotate(-38deg);
+      transform-origin: center;
     }
     .dbiyok-card-grid {
       display: grid;
@@ -187,11 +186,8 @@
       background: rgba(255,255,255,0.045);
       padding: 18px;
     }
-    .dbiyok-download {
-      border-color: rgba(242, 178, 31, 0.42);
-    }
     @media (max-width: 880px) {
-      .dbiyok-mode-grid, .dbiyok-form-grid, .dbiyok-card-grid { grid-template-columns: 1fr; }
+      .dbiyok-mode-grid, .dbiyok-card-grid { grid-template-columns: 1fr; }
       .dbiyok-wrap { padding: 22px; }
     }
   </style>
@@ -202,8 +198,8 @@
     <div class="dbiyok-subtitle">Bring Your Own Key for AI-assisted Apps</div>
     <p class="dbiyok-lead">d'BiYOK Lab is Dany's idea to integrate <strong>Bi</strong> as Biodiscovery-Integrated with <strong>BYOK</strong>, Bring Your Own Key. The aim is a wider set of practical AI-assisted apps for professional productivity, biodiscovery, learning, entrepreneurship, and everyday workflows.</p>
     <div class="dbiyok-actions">
-      <a class="dbiyok-btn primary" href="#jobapp-web">Use JobApp Web Lite</a>
-      <a class="dbiyok-btn warning" href="#download">Download desktop app</a>
+      <a class="dbiyok-btn warning" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download Windows app</a>
+      <a class="dbiyok-btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/tag/v0.1.0" target="_blank" rel="noopener">View GitHub release</a>
       <a class="dbiyok-btn" href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener">Get a Gemini API key</a>
     </div>
 
@@ -213,58 +209,25 @@
 
       <div class="dbiyok-mode-grid">
         <article class="dbiyok-mode" id="jobapp-web">
-          <h4>Use from the web: JobApp Web Lite</h4>
-          <p>Paste a CV/profile summary, paste a job description, add your own Gemini API key, and generate a first tailored application draft directly in the browser.</p>
-          <p class="dbiyok-note">Your API key is used client-side in your browser for this Web Lite mode. PagBiOmicS does not collect it in this static embed. For sensitive CVs or long workflows, the desktop app remains the safer option.</p>
+          <h4>Use from the web: Web Lite paused</h4>
+          <div class="dbiyok-status"><span class="dbiyok-status-icon" aria-hidden="true"></span> Not available in Durable yet</div>
+          <p>Web Lite needs JavaScript execution and careful browser-side API-key handling. Durable embeds currently render this inconsistently, so the web app mode is paused instead of being shown as a broken tool.</p>
+          <p class="dbiyok-note">Next step: deploy a dedicated backend or static BYOK web app outside Durable, then link it here as the official web version.</p>
           <div class="dbiyok-mini-actions">
-            <a class="dbiyok-btn primary" href="#web-lite-form">Open Web Lite form</a>
+            <span class="dbiyok-btn disabled">Web Lite paused</span>
           </div>
         </article>
 
-        <article class="dbiyok-mode dbiyok-download" id="download">
+        <article class="dbiyok-mode download" id="download">
           <h4>Download desktop app</h4>
           <p>Best for private CVs, local exports, longer documents, and repeated use. The Windows app runs on localhost and keeps files on the user's computer.</p>
-          <p class="dbiyok-note"><strong>Action needed:</strong> upload the Windows <code>.exe</code> to Durable, GitHub Releases, Google Drive, or another public download location, then replace the button URL below.</p>
+          <p class="dbiyok-note">The Windows release is public on GitHub. Download the executable, run it locally, and use your own API key or a local model.</p>
           <div class="dbiyok-mini-actions">
-            <a class="dbiyok-btn warning" href="REPLACE_WITH_PUBLIC_WINDOWS_EXE_URL" target="_blank" rel="noopener">Download Windows app</a>
+            <a class="dbiyok-btn warning" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download Windows app</a>
+            <a class="dbiyok-btn" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-README.pdf" target="_blank" rel="noopener">Download guide</a>
           </div>
         </article>
       </div>
-    </section>
-
-    <section class="dbiyok-section dbiyok-webapp" id="web-lite-form">
-      <h3>JobApp Web Lite</h3>
-      <p>This lightweight browser version is for quick BYOK tests. It does not replace the local app, but it gives visitors a real web option before downloading.</p>
-
-      <div class="dbiyok-form-grid">
-        <div class="dbiyok-field">
-          <label for="dbiyokApiKey">Gemini API key</label>
-          <input id="dbiyokApiKey" type="password" placeholder="Paste your Gemini API key">
-        </div>
-        <div class="dbiyok-field">
-          <label for="dbiyokModel">Model</label>
-          <select id="dbiyokModel">
-            <option value="gemini-2.5-flash">gemini-2.5-flash</option>
-            <option value="gemini-2.5-pro">gemini-2.5-pro</option>
-            <option value="gemini-2.0-flash">gemini-2.0-flash</option>
-          </select>
-        </div>
-        <div class="dbiyok-field">
-          <label for="dbiyokCv">CV / profile summary</label>
-          <textarea id="dbiyokCv" placeholder="Paste your CV text or a focused profile summary."></textarea>
-        </div>
-        <div class="dbiyok-field">
-          <label for="dbiyokJob">Job description</label>
-          <textarea id="dbiyokJob" placeholder="Paste the job posting or role description."></textarea>
-        </div>
-      </div>
-
-      <div class="dbiyok-mini-actions">
-        <button class="dbiyok-btn primary" type="button" onclick="dbiyokRunMatch()">Generate tailored draft</button>
-        <button class="dbiyok-btn" type="button" onclick="dbiyokCopyOutput()">Copy output</button>
-      </div>
-      <div class="dbiyok-output" id="dbiyokOutput">Output will appear here.</div>
-      <p class="dbiyok-note">Tip: create a restricted or low-quota Gemini API key for browser tests. Do not paste private keys on shared computers.</p>
     </section>
 
     <section class="dbiyok-section">
@@ -285,61 +248,4 @@
       </div>
     </section>
   </div>
-
-  <script>
-    async function dbiyokRunMatch() {
-      const key = document.getElementById('dbiyokApiKey').value.trim();
-      const model = document.getElementById('dbiyokModel').value;
-      const cv = document.getElementById('dbiyokCv').value.trim();
-      const job = document.getElementById('dbiyokJob').value.trim();
-      const out = document.getElementById('dbiyokOutput');
-
-      if (!key || !cv || !job) {
-        out.textContent = 'Please add a Gemini API key, CV/profile text, and job description.';
-        return;
-      }
-
-      out.textContent = 'Generating...';
-      const prompt = [
-        'You are JobApp AI Assistant, a careful job-application drafting assistant.',
-        'Use the CV/profile evidence and job description below.',
-        'Return concise, editable output with these sections:',
-        '1. Tailored CV bullets',
-        '2. Cover letter draft',
-        '3. Interview preparation',
-        '4. ATS keywords',
-        '',
-        'CV / PROFILE:',
-        cv,
-        '',
-        'JOB DESCRIPTION:',
-        job
-      ].join('\\n');
-
-      try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`;
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({contents: [{parts: [{text: prompt}]}]})
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.error?.message || 'Gemini request failed.');
-        }
-        out.textContent = data.candidates?.[0]?.content?.parts?.map(part => part.text).join('\\n') || 'No text returned.';
-      } catch (error) {
-        out.textContent = 'Could not generate output: ' + error.message;
-      }
-    }
-
-    async function dbiyokCopyOutput() {
-      const text = document.getElementById('dbiyokOutput').textContent;
-      try {
-        await navigator.clipboard.writeText(text);
-      } catch (error) {
-        window.prompt('Copy this text:', text);
-      }
-    }
-  </script>
 </section>
