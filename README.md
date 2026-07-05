@@ -6,9 +6,15 @@ Ciencia Vitae exports are a strong reference use case because they are highly st
 
 For a complete practical guide, see [TUTORIAL.md](TUTORIAL.md).
 
-This app is also a first candidate for [d'BiYOK Lab](docs/DBIYOK_LAB.md), a PagBiOmicS initiative for local-first Bring Your Own Key AI apps.
+This app can be presented under the broader [d'BiYOK Lab](docs/DBIYOK_LAB.md) idea, a PagBiOmicS initiative for local-first Bring Your Own Key AI apps.
 
-![d'BiYOK Lab banner](assets/dbiyok_lab_mark.svg)
+![JobApp AI Assistant mark](assets/jobapp_ai_assistant_mark.svg)
+
+d'BiYOK page materials are kept separately:
+
+- [d'BiYOK Lab concept](docs/DBIYOK_LAB.md)
+- [PagBiOmicS page copy](docs/PAGBIOMICS_DBIYOK_PAGE_COPY.md)
+- [Blog post draft](docs/BLOG_POST_DBIYOK_JOBAPP.md)
 
 ## What It Does
 
@@ -55,7 +61,7 @@ For non-technical users, the preferred distribution is the desktop executable: d
 For development:
 
 ```powershell
-cd "G:\O meu disco\JobApMaker"
+cd path\to\JobApp-AI-Assistant
 python -m pip install -r requirements.txt
 python -m uvicorn jobapp_ai_assistant:app --host 127.0.0.1 --port 8091
 ```
@@ -73,7 +79,7 @@ The app may also run on `8080`, but that port can be occupied by other local ser
 Windows build:
 
 ```powershell
-cd "G:\O meu disco\JobApMaker"
+cd path\to\JobApp-AI-Assistant
 powershell -ExecutionPolicy Bypass -File .\build_exe.ps1
 ```
 
@@ -88,6 +94,21 @@ For distribution, share only `dist\JobApMaker.exe`. Do not bundle local `data/`,
 The launcher prefers `localhost:8080`; if that is busy, it tries `8090`, `8091`, `8000`, and then a free port from `8100+`.
 
 macOS `.dmg` is a future release target. It should be built on macOS or through a GitHub Actions macOS runner, not from this Windows workstation.
+
+To generate a local PDF guide next to the executable:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build_readme_pdf.ps1
+```
+
+Linux and macOS users can fork the repository or run it locally with Python:
+
+```bash
+git clone <repository-url>
+cd JobApp-AI-Assistant
+python -m pip install -r requirements.txt
+python -m uvicorn jobapp_ai_assistant:app --host 127.0.0.1 --port 8091
+```
 
 ## CV Parsing Workflow
 
@@ -148,7 +169,7 @@ This repository is currently a localhost version. The safest PagBiOmicS web stra
 - **Run locally, recommended:** download the app, run it on localhost, and enter API keys only on the user's computer.
 - **Run from the web, advanced/future:** possible for low-risk workflows or demos, but it must warn users about API-key trust, browser risks, and data sensitivity.
 
-The first public web page should be a landing/download page that explains the workflow and sends users to the desktop app.
+The initial public web page should be a landing/download page that explains the workflow and sends users to the desktop app.
 
 - Downloadable Windows executable first.
 - Mac `.dmg` later, ideally built on macOS or GitHub Actions.

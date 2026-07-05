@@ -63,29 +63,27 @@ DB_PATH = _EXE_DIR / "applications.db"
 CV_JSON_PATH = DATA_DIR / "cv_profile.json"
 LLM_CONFIG_PATH = DATA_DIR / "llm_providers.json"
 
-LOCAL_CV_TEXT = Path("C:/Users/DANY/Documents/Agy_PC-Agent-Manager/extracted_job_docs/CV_DDP_2026_text.txt")
-LOCAL_CV_PDF = Path("C:/Users/DANY/Documents/Agy_PC-Agent-Manager/extracted_job_docs/CV_DDP_2026.pdf")
-LOCAL_CV_XML = Path("C:/Users/DANY/Documents/Agy_PC-Agent-Manager/CV_DDP_2026_0A12-DF56-155A.xml")
+def configured_path(env_name: str, fallback: Path) -> Path:
+    value = os.getenv(env_name, "").strip()
+    return Path(value) if value else fallback
+
+
+LOCAL_CV_TEXT = configured_path("JOBAPP_LOCAL_CV_TEXT", _EXE_DIR / "data" / "CV_text.txt")
+LOCAL_CV_PDF = configured_path("JOBAPP_LOCAL_CV_PDF", _EXE_DIR / "data" / "CV.pdf")
+LOCAL_CV_XML = configured_path("JOBAPP_LOCAL_CV_XML", _EXE_DIR / "data" / "CV.xml")
 LOCAL_CV_PDF_CANDIDATES = [
     LOCAL_CV_PDF,
     _EXE_DIR / "data" / "CV_DDP_2026.pdf",
     _EXE_DIR / "CV_DDP_2026.pdf",
-    Path("C:/Users/DANY/Documents/JobApMaker/data/CV_DDP_2026.pdf"),
 ]
 LOCAL_CV_TEXT_CANDIDATES = [
     LOCAL_CV_TEXT,
     _EXE_DIR / "data" / "CV_DDP_2026_text.txt",
     _EXE_DIR / "CV_DDP_2026_text.txt",
-    Path("C:/Users/DANY/Documents/JobApMaker/data/CV_DDP_2026_text.txt"),
 ]
-GEMINI_CONFIG = Path("C:/Users/DANY/Documents/Agy_PC-Agent-Manager/dashboard-agente-cero/config.json")
-# Primary strategic persona — always exists, kept up to date by Claude/Cowork
-PERSONA_MASTER = Path("C:/Users/DANY/Documents/Agy_PC-Agent-Manager/.persona/persona_master_EN.md")
-# Secondary: Antigravity brain dossier (may not exist)
-PROFILE_DOSSIER = Path(
-    "C:/Users/DANY/.gemini/antigravity/brain/"
-    "84c9f5c2-02db-4450-a1fa-7364a51ac74d/perfil_estrategico_y_roadmap.md"
-)
+GEMINI_CONFIG = configured_path("JOBAPP_GEMINI_CONFIG", _EXE_DIR / "config.json")
+PERSONA_MASTER = configured_path("JOBAPP_PERSONA_MASTER", _EXE_DIR / "data" / "persona_master_EN.md")
+PROFILE_DOSSIER = configured_path("JOBAPP_PROFILE_DOSSIER", _EXE_DIR / "data" / "profile_brief.md")
 
 APP_NAME = "JobApp AI Assistant"
 GEMINI_DEFAULT_MODEL = "gemini-3.5-flash"

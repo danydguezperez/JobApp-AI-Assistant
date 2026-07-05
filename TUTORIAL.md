@@ -49,7 +49,7 @@ The API key is entered inside the local app, not on the PagBiOmicS website.
 For development, open PowerShell:
 
 ```powershell
-cd "G:\O meu disco\JobApMaker"
+cd path\to\JobApp-AI-Assistant
 python -m pip install -r requirements.txt
 python -m uvicorn jobapp_ai_assistant:app --host 127.0.0.1 --port 8091
 ```
@@ -61,6 +61,17 @@ http://127.0.0.1:8091/
 ```
 
 Port `8091` is recommended on this workstation because `8080` may already be used by other local services.
+
+Optional local file configuration:
+
+```powershell
+$env:JOBAPP_LOCAL_CV_PDF="C:\path\to\CV.pdf"
+$env:JOBAPP_LOCAL_CV_TEXT="C:\path\to\CV_text.txt"
+$env:JOBAPP_LOCAL_CV_XML="C:\path\to\CV.xml"
+$env:JOBAPP_PROFILE_DOSSIER="C:\path\to\profile_brief.md"
+```
+
+Most users can skip this and simply upload a CV from the browser interface.
 
 ## Basic Workflow
 

@@ -1,7 +1,7 @@
 # d'BiYOK Lab
 
 **Working name:** d'BiYOK Lab  
-**Meaning:** Dany / discovery + Bio / biodiscovery + BYOK, Bring Your Own Key.
+**Meaning:** Dany's idea to integrate **Bi** as **Biodiscovery-Integrated** with **BYOK**, Bring Your Own Key.
 
 d'BiYOK Lab is a PagBiOmicS initiative for small, practical AI applications that users can run with their own API keys or local models.
 
@@ -9,7 +9,9 @@ d'BiYOK Lab is a PagBiOmicS initiative for small, practical AI applications that
 
 AI APIs make it possible to build highly customized tools for specific professional workflows. Many researchers, entrepreneurs, job seekers, educators, and citizens need useful AI apps but do not need a large SaaS platform or a system that stores their sensitive data.
 
-d'BiYOK Lab exists to share focused applications that:
+d'BiYOK Lab exists to share focused applications for productivity, education, biodiscovery, scientific work, entrepreneurship, and everyday problem solving. The project is not about claiming exclusivity; it is about making useful, understandable AI workflows easier to run, inspect, and adapt.
+
+The initiative aims to:
 
 - solve concrete productivity problems,
 - teach users how APIs and local AI tools work,
@@ -41,7 +43,7 @@ The long-term product line can offer two routes:
 - **Local app, recommended:** safest for private documents and API keys. The user downloads the app, runs it on localhost, and enters their key locally.
 - **Web BYOK lite, advanced/future:** useful for lightweight demos or public/non-sensitive data. Must show warnings, avoid storing keys, and ideally recommend temporary API keys with low limits.
 
-For JobApp AI Assistant, the local app should be the first public release. The web page should initially be a landing/download and education page.
+For JobApp AI Assistant, the local app is one practical app within this broader project. The web page should initially be a landing/download and education page.
 
 ## Monetization Without Hosted AI Costs
 
@@ -58,7 +60,7 @@ Avoid hosted free LLM tests until there is a robust backend with cost controls.
 
 ## First App
 
-**JobApp AI Assistant** is the first d'BiYOK Lab candidate:
+**JobApp AI Assistant** is one d'BiYOK Lab app candidate:
 
 - parse structured CVs,
 - filter relevant CV sections,
@@ -71,3 +73,5 @@ Avoid hosted free LLM tests until there is a robust backend with cost controls.
 
 - Editable SVG banner: `assets/dbiyok_lab_mark.svg`
 - Generated concept PNG: `assets/dbiyok_lab_concept.png`
+- Page hero concept PNG: `assets/dbiyok_lab_page_hero.png`
+- JobApp app mark: `assets/jobapp_ai_assistant_mark.svg`

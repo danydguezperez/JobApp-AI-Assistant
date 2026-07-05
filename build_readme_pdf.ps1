@@ -21,6 +21,9 @@ files = [
     ("Tutorial", root / "TUTORIAL.md"),
     ("Security", root / "SECURITY.md"),
     ("d'BiYOK Lab", root / "docs" / "DBIYOK_LAB.md"),
+    ("PagBiOmicS Page Copy", root / "docs" / "PAGBIOMICS_DBIYOK_PAGE_COPY.md"),
+    ("Blog Post Draft", root / "docs" / "BLOG_POST_DBIYOK_JOBAPP.md"),
+    ("Image Prompts", root / "docs" / "IMAGE_PROMPTS.md"),
 ]
 
 styles = getSampleStyleSheet()
