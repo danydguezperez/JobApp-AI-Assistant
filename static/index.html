@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JobApp AI Assistant</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="rail">
+        <div class="brand">
+          <span class="brand-mark">JA</span>
+          <div>
+            <strong>JobApp AI Assistant</strong>
+            <small>CV parser and job matcher</small>
+          </div>
+        </div>
+        <nav class="steps" aria-label="Workflow">
+          <button class="step" data-jump="providerSection">0. AI Engine</button>
+          <button class="step is-active" data-jump="cvSection">1. CV</button>
+          <button class="step" data-jump="selectionSection">2. Selection</button>
+          <button class="step" data-jump="matchSection">3. Match</button>
+          <button class="step" data-jump="historySection">4. History</button>
+        </nav>
+        <section class="status-card">
+          <span class="status-dot" id="statusDot"></span>
+          <div>
+            <strong id="statusTitle">Checking</strong>
+            <small id="statusText">Local server</small>
+          </div>
+        </section>
+      </aside>
+
+      <section class="workspace">
+        <header class="hero">
+          <div>
+            <p class="eyebrow">CV parser, matcher, and exporter</p>
+            <h1>Parse a Ciencia Vitae CV, tailor it to any job, and export the application package.</h1>
+          </div>
+          <div class="hero-actions">
+            <button class="ghost" id="chooseCvBtn" type="button">Choose CV from PC</button>
+            <button class="ghost" id="loadSavedBtn" type="button">Open last parsed CV</button>
+            <button class="primary" id="loadLocalBtn" type="button">Load configured CV</button>
+          </div>
+        </header>
+
+        <section class="panel provider-panel" id="providerSection">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">AI Engine</p>
+              <h2>Provider and model</h2>
+            </div>
+            <div class="provider-actions">
+              <button class="ghost" id="refreshProviderBtn" type="button">Refresh status</button>
+              <button class="ghost" id="clearProviderKeyBtn" type="button">Clear API key</button>
+              <button class="ghost" id="testProviderBtn" type="button">Test connection</button>
+              <button class="primary" id="saveProviderBtn" type="button">Save engine</button>
+            </div>
+          </div>
+          <div class="provider-grid">
+            <label>
+              Provider
+              <select id="providerSelect"></select>
+            </label>
+            <label>
+              Model
+              <input id="providerModelInput" type="text" placeholder="gemini-3.5-flash, gpt-5.5, deepseek-chat..." />
+            </label>
+            <label>
+              Base URL
+              <input id="providerBaseUrlInput" type="url" placeholder="https://api.openai.com/v1" />
+            </label>
+            <label>
+              API key
+              <input id="providerKeyInput" type="password" placeholder="Keep current" autocomplete="off" />
+            </label>
+          </div>
+          <div class="provider-meta">
+            <span id="providerKeyStatus">No key loaded</span>
+            <span id="providerActiveStatus">Active engine</span>
+          </div>
+        </section>
+
+        <section class="panel" id="cvSection">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Step 1</p>
+              <h2>CV parsing and editing</h2>
+            </div>
+            <div class="cv-actions">
+              <label class="inline-check" title="Turn off to parse locally without spending LLM/API credits.">
+                <input id="useAiParser" type="checkbox" checked />
+                AI parser
+              </label>
+              <label class="upload">
+                <input id="cvFile" type="file" accept=".pdf,.txt,.xml" />
+                Upload CV from PC
+              </label>
+              <button class="ghost" id="exportCvMdBtn" type="button" disabled>Full MD</button>
+              <button class="ghost" id="exportCvDocxBtn" type="button" disabled>Full DOCX</button>
+              <button class="ghost" id="exportCvPdfBtn" type="button" disabled>Full PDF</button>
+              <button class="ghost" id="exportSelectedCvMdBtn" type="button" disabled>Selected MD</button>
+              <button class="ghost" id="exportSelectedCvJsonBtn" type="button" disabled>Selected JSON</button>
+            </div>
+          </div>
+          <div id="cvEditor" class="editor-grid empty-state">
+            Load your local Ciencia Vitae CV or upload a PDF/TXT to convert it into editable, selectable sections.
+          </div>
+          <div id="cvSourceMeta" class="cv-source" hidden></div>
+        </section>
+
+        <section class="panel" id="selectionSection">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Step 2</p>
+              <h2>Items included in this application</h2>
+            </div>
+            <button class="ghost" id="selectRelevantBtn" type="button">Suggest by role</button>
+          </div>
+          <div class="role-strip" role="group" aria-label="Role type">
+            <label><input type="radio" name="roleType" value="Scientific" /> Scientific</label>
+            <label><input type="radio" name="roleType" value="Commercial B2B" /> Commercial B2B</label>
+            <label><input type="radio" name="roleType" value="Hybrid" checked /> Hybrid</label>
+          </div>
+          <div id="selectionSummary" class="selection-summary">No CV loaded yet.</div>
+        </section>
+
+        <section class="panel" id="matchSection">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Step 3</p>
+              <h2>Job posting and outputs</h2>
+            </div>
+            <button class="primary" id="matchBtn" type="button">Generate match</button>
+          </div>
+          <div class="job-grid">
+            <label>
+              Position
+              <input id="positionInput" type="text" placeholder="Bioinformatics Scientist, Account Manager..." />
+            </label>
+            <label>
+              Company
+              <input id="companyInput" type="text" placeholder="Company name" />
+            </label>
+            <label>
+              Job posting URL
+              <div class="url-fetch-row">
+                <input id="jobUrlInput" type="url" placeholder="LinkedIn, Wellfound, EURAXESS..." />
+                <button class="ghost" id="fetchBtn" type="button">Fetch -></button>
+              </div>
+            </label>
+          </div>
+          <label class="job-text">
+            Job description
+            <textarea id="jobText" rows="12" placeholder="Paste the full job posting here, or fetch it from the URL above..."></textarea>
+          </label>
+
+          <div class="result-shell" id="resultShell" hidden>
+            <div class="tabs" role="tablist">
+              <button class="tab is-active" data-tab="cvResult">Tailored CV</button>
+              <button class="tab" data-tab="letterResult">Cover letter</button>
+              <button class="tab" data-tab="interviewResult">Interview prep</button>
+            </div>
+            <div class="result-actions">
+              <span id="atsBadge" class="ats-badge">ATS</span>
+              <button class="ghost" id="copyBtn" type="button">Copy</button>
+              <button class="ghost" id="mdBtn" type="button">MD</button>
+              <button class="ghost" id="docxBtn" type="button">DOCX</button>
+              <button class="ghost" id="pdfBtn" type="button">PDF</button>
+            </div>
+            <article id="cvResult" class="result-pane is-active"></article>
+            <article id="letterResult" class="result-pane"></article>
+            <article id="interviewResult" class="result-pane"></article>
+          </div>
+        </section>
+
+        <section class="panel" id="historySection">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Local SQLite</p>
+              <h2>Application history</h2>
+            </div>
+            <div class="history-actions">
+              <button class="ghost" id="openExportsBtn" type="button">Open exports folder</button>
+              <button class="ghost" id="refreshHistoryBtn" type="button">Refresh</button>
+            </div>
+          </div>
+          <div id="historyList" class="history-list empty-state">No generated applications yet.</div>
+        </section>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" hidden></div>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
