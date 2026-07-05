@@ -1,292 +1,345 @@
 <!--
-  PagBiOmicS embed prototype for d'BiYOK Lab and JobApp AI Assistant.
-  This is a landing/download and education block, not a hosted API-key form.
-  API keys should stay inside the local app until a dedicated secure web mode exists.
+  PagBiOmicS / d'BiYOK Lab embed.
+  Paste this whole block into Durable > Add section > Custom code > Embed.
+
+  Important:
+  - The hero/banner image can remain as a separate image section above this embed.
+  - Replace WINDOWS_EXE_URL below when the public .exe download URL is available.
+  - Web Lite uses the visitor's own Gemini API key directly in their browser.
 -->
-<section class="pagbio-dbiyok">
+<section class="dbiyok-page" id="dbiyok-lab">
   <style>
-    .pagbio-dbiyok {
-      --bg0: #061012;
-      --bg1: #102224;
-      --panel: rgba(14, 28, 31, 0.9);
-      --line: rgba(255, 255, 255, 0.14);
-      --text: #f5fbf8;
-      --muted: #a9b9b4;
-      --mint: #66e2c0;
-      --gold: #f0c86a;
-      --cyan: #66d8e2;
+    .dbiyok-page {
+      --ink: #f7fbf7;
+      --muted: #c8d8d3;
+      --soft: #94aaa4;
+      --mint: #61dec0;
+      --gold: #f2b21f;
+      --deep: #071113;
+      --panel: rgba(10, 26, 29, 0.88);
+      --line: rgba(97, 222, 192, 0.26);
+      color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: linear-gradient(145deg, var(--bg0), var(--bg1) 58%, #171810);
-      border: 1px solid var(--line);
-      border-radius: 12px;
+      background: linear-gradient(145deg, #061012 0%, #102123 62%, #17170d 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
       overflow: hidden;
     }
-    .pagbio-dbiyok * { box-sizing: border-box; }
-    .pagbio-wrap { padding: clamp(22px, 4vw, 44px); }
-    .pagbio-banner {
-      min-height: 118px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 22px;
-      padding: clamp(18px, 3vw, 28px);
-      margin: calc(clamp(22px, 4vw, 44px) * -1) calc(clamp(22px, 4vw, 44px) * -1) 30px;
-      border-bottom: 1px solid var(--line);
-      background:
-        radial-gradient(circle at 12% 28%, rgba(102, 226, 192, 0.24), transparent 28%),
-        linear-gradient(135deg, rgba(6, 16, 18, 0.95), rgba(16, 34, 36, 0.92));
-    }
-    .pagbio-brand {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-    .pagbio-emblem {
-      width: 58px;
-      height: 58px;
-      flex: 0 0 auto;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 50% 50%, var(--mint) 0 4px, transparent 5px),
-        radial-gradient(circle at 20% 22%, var(--mint) 0 4px, transparent 5px),
-        radial-gradient(circle at 70% 28%, var(--mint) 0 4px, transparent 5px),
-        radial-gradient(circle at 36% 72%, var(--mint) 0 4px, transparent 5px),
-        radial-gradient(circle at 78% 74%, var(--mint) 0 4px, transparent 5px);
-      border: 1px solid rgba(102, 226, 192, 0.32);
-      box-shadow: 0 0 34px rgba(102, 226, 192, 0.18);
-    }
-    .pagbio-wordmark {
-      font-size: clamp(1.55rem, 4vw, 2.6rem);
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: 0;
-    }
-    .pagbio-wordmark .bi,
-    .dbiyok-title .bi-main {
+    .dbiyok-page * { box-sizing: border-box; }
+    .dbiyok-wrap { padding: clamp(24px, 4vw, 52px); }
+    .dbiyok-kicker {
       color: var(--mint);
-      text-shadow: 0 0 20px rgba(102, 226, 192, 0.22);
-    }
-    .dbiyok-title .i-ghost {
-      color: rgba(102, 226, 192, 0.18);
-      text-shadow: 0 0 18px rgba(102, 226, 192, 0.55);
-    }
-    .pagbio-tagline {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.35;
-    }
-    .pagbio-mark {
-      width: 52px;
-      height: 52px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      color: #06110f;
+      font-size: 0.78rem;
       font-weight: 900;
-      background: linear-gradient(135deg, var(--mint), var(--gold));
-      box-shadow: 0 18px 44px rgba(102, 226, 192, 0.16);
-      flex: 0 0 auto;
-    }
-    .pagbio-banner-note {
-      max-width: 340px;
-      color: var(--muted);
-      font-weight: 750;
-      line-height: 1.35;
-      text-align: right;
-    }
-    .pagbio-hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-      gap: clamp(20px, 4vw, 42px);
-      align-items: center;
-    }
-    .pagbio-kicker {
-      color: var(--mint);
-      font-size: 0.82rem;
-      font-weight: 900;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin: 0 0 10px;
+      margin: 0 0 12px;
     }
     .dbiyok-title {
       margin: 0;
-      font-size: clamp(2.4rem, 7vw, 5.4rem);
-      line-height: 0.95;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.6rem, 7vw, 5.6rem);
+      line-height: 0.92;
       letter-spacing: 0;
     }
-    .pagbio-subtitle {
-      margin: 14px 0 0;
+    .dbiyok-title .bi-b { color: var(--mint); }
+    .dbiyok-title .bi-i {
+      color: rgba(97, 222, 192, 0.18);
+      text-shadow: 0 0 18px rgba(97, 222, 192, 0.55);
+    }
+    .dbiyok-subtitle {
+      margin: 16px 0 0;
       color: var(--gold);
-      font-size: clamp(1.15rem, 2.5vw, 1.75rem);
-      font-weight: 850;
-      line-height: 1.15;
-    }
-    .pagbio-dbiyok p {
-      color: var(--muted);
-      line-height: 1.56;
-      margin: 14px 0 0;
-    }
-    .pagbio-visual {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.04);
-      padding: 20px;
-    }
-    .pagbio-visual-inner {
-      min-height: 260px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background:
-        radial-gradient(circle at 28% 28%, rgba(102, 226, 192, 0.22), transparent 34%),
-        linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .pagbio-key {
-      width: min(78%, 280px);
-      aspect-ratio: 1.7;
-      border: 2px solid rgba(102, 226, 192, 0.55);
-      border-radius: 18px;
-      position: relative;
-      display: grid;
-      place-items: center;
-      color: var(--text);
+      font-size: clamp(1.2rem, 2.5vw, 1.85rem);
       font-weight: 900;
-      font-size: 1.9rem;
+      line-height: 1.12;
     }
-    .pagbio-key::before {
-      content: "";
-      position: absolute;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      left: -28px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: linear-gradient(135deg, var(--mint), var(--gold));
-    }
-    .pagbio-key::after {
-      content: "";
-      position: absolute;
-      right: 28px;
-      bottom: -22px;
-      width: 96px;
-      height: 44px;
-      border-radius: 10px;
-      border: 1px solid rgba(240, 200, 106, 0.7);
-    }
-    .pagbio-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 28px;
-    }
-    .pagbio-card {
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: var(--panel);
-      padding: 18px;
-      min-height: 188px;
-    }
-    .pagbio-card h3 {
-      margin: 0 0 10px;
+    .dbiyok-lead {
+      max-width: 880px;
+      margin: 18px 0 0;
+      color: var(--muted);
       font-size: 1.04rem;
-      line-height: 1.25;
+      line-height: 1.62;
     }
-    .pagbio-card strong { color: var(--gold); }
-    .pagbio-actions {
+    .dbiyok-actions, .dbiyok-mini-actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 24px;
+      margin-top: 22px;
     }
-    .pagbio-btn {
+    .dbiyok-btn {
       min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 7px;
+      padding: 0 16px;
+      color: var(--ink);
+      background: rgba(255,255,255,0.06);
+      text-decoration: none;
+      font-weight: 850;
+    }
+    .dbiyok-btn.primary {
+      color: #07110f;
+      background: linear-gradient(135deg, var(--mint), #e4cc72);
+      border-color: transparent;
+    }
+    .dbiyok-btn.warning {
+      color: #07110f;
+      background: linear-gradient(135deg, #f6d36c, var(--gold));
+      border-color: transparent;
+    }
+    .dbiyok-section {
+      margin-top: 34px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .dbiyok-section h3 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.05;
+    }
+    .dbiyok-section > p {
+      max-width: 860px;
+      color: var(--muted);
+      line-height: 1.62;
+      margin: 12px 0 0;
+    }
+    .dbiyok-mode-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .dbiyok-mode {
+      min-height: 248px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 0 16px;
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.06);
-      text-decoration: none;
-      cursor: pointer;
-      font-weight: 750;
+      background: var(--panel);
+      padding: clamp(18px, 3vw, 26px);
     }
-    .pagbio-btn.primary {
-      color: #06110f;
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--mint), var(--gold));
+    .dbiyok-mode h4, .dbiyok-card h4 {
+      margin: 0;
+      font-size: 1.25rem;
+      line-height: 1.2;
     }
-    .pagbio-small {
-      font-size: 0.9rem;
+    .dbiyok-mode p, .dbiyok-card p, .dbiyok-mode li {
       color: var(--muted);
+      line-height: 1.55;
+    }
+    .dbiyok-note {
+      color: var(--soft);
+      font-size: 0.92rem;
+      line-height: 1.48;
+      margin-top: 12px;
+    }
+    .dbiyok-webapp {
+      margin-top: 18px;
+      border: 1px solid rgba(242, 178, 31, 0.32);
+      border-radius: 8px;
+      background: rgba(7, 17, 19, 0.72);
+      padding: clamp(18px, 3vw, 26px);
+    }
+    .dbiyok-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
       margin-top: 14px;
     }
-    @media (max-width: 900px) {
-      .pagbio-banner { align-items: flex-start; flex-direction: column; }
-      .pagbio-banner-note { text-align: left; }
-      .pagbio-hero,
-      .pagbio-grid { grid-template-columns: 1fr; }
-      .pagbio-card { min-height: auto; }
+    .dbiyok-field { display: grid; gap: 6px; }
+    .dbiyok-field label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+    .dbiyok-field input, .dbiyok-field textarea, .dbiyok-field select {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 7px;
+      background: rgba(255,255,255,0.06);
+      color: var(--ink);
+      padding: 10px 12px;
+      font: inherit;
+    }
+    .dbiyok-field textarea { min-height: 150px; resize: vertical; }
+    .dbiyok-output {
+      min-height: 160px;
+      white-space: pre-wrap;
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 7px;
+      background: rgba(255,255,255,0.045);
+      padding: 14px;
+      margin-top: 14px;
+      line-height: 1.5;
+    }
+    .dbiyok-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .dbiyok-card {
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.045);
+      padding: 18px;
+    }
+    .dbiyok-download {
+      border-color: rgba(242, 178, 31, 0.42);
+    }
+    @media (max-width: 880px) {
+      .dbiyok-mode-grid, .dbiyok-form-grid, .dbiyok-card-grid { grid-template-columns: 1fr; }
+      .dbiyok-wrap { padding: 22px; }
     }
   </style>
 
-  <div class="pagbio-wrap">
-    <header class="pagbio-banner" aria-label="PagBiOmicS banner identity">
-      <div class="pagbio-brand">
-        <div class="pagbio-emblem" aria-hidden="true"></div>
-        <div>
-          <div class="pagbio-wordmark">Pag<span class="bi">Bi</span>OmicS</div>
-          <p class="pagbio-tagline">Bioinformatics, omics and practical AI-assisted workflows.</p>
-        </div>
-      </div>
-      <div class="pagbio-banner-note">d'BiYOK Lab is part of a broader PagBiOmicS space for practical AI tools.</div>
-    </header>
-
-    <div class="pagbio-hero">
-      <div>
-        <p class="pagbio-kicker">PagBiOmicS project space</p>
-        <h2 class="dbiyok-title">d'<span class="bi-main">B</span><span class="i-ghost">i</span>YOK Lab</h2>
-        <div class="pagbio-subtitle">Bring Your Own Key for AI-assisted Apps</div>
-        <p>d'BiYOK Lab is Dany's idea to integrate <strong>Bi</strong> as Biodiscovery-Integrated with <strong>BYOK</strong>, Bring Your Own Key. The aim is a wider set of practical apps for professional productivity, research, learning, entrepreneurship, and everyday workflows.</p>
-        <p>The current public direction is simple: keep sensitive work local when possible, let users connect their own Gemini, OpenAI, Claude, Ollama, DeepSeek, GLM, or compatible provider, and make API use understandable instead of mysterious.</p>
-        <div class="pagbio-actions">
-          <a class="pagbio-btn primary" href="https://pagbiomics.com/jobapp-download" target="_blank" rel="noopener">Download JobApp AI Assistant</a>
-          <a class="pagbio-btn" href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener">Get a Gemini API key</a>
-          <a class="pagbio-btn" href="https://docs.ollama.com/api" target="_blank" rel="noopener">Use Ollama locally</a>
-        </div>
-      </div>
-
-      <div class="pagbio-visual" aria-hidden="true">
-        <div class="pagbio-visual-inner">
-          <div class="pagbio-key">BYOK</div>
-        </div>
-      </div>
+  <div class="dbiyok-wrap">
+    <p class="dbiyok-kicker">PagBiOmicS project space</p>
+    <h2 class="dbiyok-title">d'<span class="bi-b">B</span><span class="bi-i">i</span>YOK Lab</h2>
+    <div class="dbiyok-subtitle">Bring Your Own Key for AI-assisted Apps</div>
+    <p class="dbiyok-lead">d'BiYOK Lab is Dany's idea to integrate <strong>Bi</strong> as Biodiscovery-Integrated with <strong>BYOK</strong>, Bring Your Own Key. The aim is a wider set of practical AI-assisted apps for professional productivity, biodiscovery, learning, entrepreneurship, and everyday workflows.</p>
+    <div class="dbiyok-actions">
+      <a class="dbiyok-btn primary" href="#jobapp-web">Use JobApp Web Lite</a>
+      <a class="dbiyok-btn warning" href="#download">Download desktop app</a>
+      <a class="dbiyok-btn" href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener">Get a Gemini API key</a>
     </div>
 
-    <div class="pagbio-grid" aria-label="d'BiYOK Lab modes">
-      <article class="pagbio-card">
-        <h3>1. JobApp AI Assistant</h3>
-        <p>A local app for adapting structured CVs to job posts. It can parse, filter, match, and export editable application documents.</p>
-      </article>
-      <article class="pagbio-card">
-        <h3>2. Local-first by default</h3>
-        <p>Recommended for CVs, unpublished research, private client work, and personal API keys. The app runs on localhost.</p>
-      </article>
-      <article class="pagbio-card">
-        <h3>3. BYOK with guidance</h3>
-        <p>Users bring their own key or local model, with direct setup links and warnings about privacy, limits, and provider terms.</p>
-      </article>
-      <article class="pagbio-card">
-        <h3>4. Wider app set</h3>
-        <p>The same idea can support writing, data cleaning, literature work, business tasks, learning tools, and casual productivity.</p>
-      </article>
-    </div>
+    <section class="dbiyok-section" id="jobapp">
+      <h3>JobApp AI Assistant</h3>
+      <p>A CV and job-application assistant designed to parse structured CVs, focus the evidence that matters for a specific role, and generate editable application materials.</p>
 
-    <p class="pagbio-small">No API key is collected on this page. The current recommendation is to enter keys only inside the local desktop app until a dedicated secure web mode exists.</p>
+      <div class="dbiyok-mode-grid">
+        <article class="dbiyok-mode" id="jobapp-web">
+          <h4>Use from the web: JobApp Web Lite</h4>
+          <p>Paste a CV/profile summary, paste a job description, add your own Gemini API key, and generate a first tailored application draft directly in the browser.</p>
+          <p class="dbiyok-note">Your API key is used client-side in your browser for this Web Lite mode. PagBiOmicS does not collect it in this static embed. For sensitive CVs or long workflows, the desktop app remains the safer option.</p>
+          <div class="dbiyok-mini-actions">
+            <a class="dbiyok-btn primary" href="#web-lite-form">Open Web Lite form</a>
+          </div>
+        </article>
+
+        <article class="dbiyok-mode dbiyok-download" id="download">
+          <h4>Download desktop app</h4>
+          <p>Best for private CVs, local exports, longer documents, and repeated use. The Windows app runs on localhost and keeps files on the user's computer.</p>
+          <p class="dbiyok-note"><strong>Action needed:</strong> upload the Windows <code>.exe</code> to Durable, GitHub Releases, Google Drive, or another public download location, then replace the button URL below.</p>
+          <div class="dbiyok-mini-actions">
+            <a class="dbiyok-btn warning" href="REPLACE_WITH_PUBLIC_WINDOWS_EXE_URL" target="_blank" rel="noopener">Download Windows app</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="dbiyok-section dbiyok-webapp" id="web-lite-form">
+      <h3>JobApp Web Lite</h3>
+      <p>This lightweight browser version is for quick BYOK tests. It does not replace the local app, but it gives visitors a real web option before downloading.</p>
+
+      <div class="dbiyok-form-grid">
+        <div class="dbiyok-field">
+          <label for="dbiyokApiKey">Gemini API key</label>
+          <input id="dbiyokApiKey" type="password" placeholder="Paste your Gemini API key">
+        </div>
+        <div class="dbiyok-field">
+          <label for="dbiyokModel">Model</label>
+          <select id="dbiyokModel">
+            <option value="gemini-2.5-flash">gemini-2.5-flash</option>
+            <option value="gemini-2.5-pro">gemini-2.5-pro</option>
+            <option value="gemini-2.0-flash">gemini-2.0-flash</option>
+          </select>
+        </div>
+        <div class="dbiyok-field">
+          <label for="dbiyokCv">CV / profile summary</label>
+          <textarea id="dbiyokCv" placeholder="Paste your CV text or a focused profile summary."></textarea>
+        </div>
+        <div class="dbiyok-field">
+          <label for="dbiyokJob">Job description</label>
+          <textarea id="dbiyokJob" placeholder="Paste the job posting or role description."></textarea>
+        </div>
+      </div>
+
+      <div class="dbiyok-mini-actions">
+        <button class="dbiyok-btn primary" type="button" onclick="dbiyokRunMatch()">Generate tailored draft</button>
+        <button class="dbiyok-btn" type="button" onclick="dbiyokCopyOutput()">Copy output</button>
+      </div>
+      <div class="dbiyok-output" id="dbiyokOutput">Output will appear here.</div>
+      <p class="dbiyok-note">Tip: create a restricted or low-quota Gemini API key for browser tests. Do not paste private keys on shared computers.</p>
+    </section>
+
+    <section class="dbiyok-section">
+      <h3>How d'BiYOK Lab Works</h3>
+      <div class="dbiyok-card-grid">
+        <article class="dbiyok-card">
+          <h4>Local-first when sensitive</h4>
+          <p>CVs, unpublished research, client work, and private business documents should stay local whenever possible.</p>
+        </article>
+        <article class="dbiyok-card">
+          <h4>BYOK with guidance</h4>
+          <p>Users can connect Gemini, OpenAI, Claude, Ollama, DeepSeek, GLM, or compatible providers depending on each app.</p>
+        </article>
+        <article class="dbiyok-card">
+          <h4>Productivity-driven</h4>
+          <p>The lab is not limited to research. It can support writing, data cleaning, literature work, business tasks, learning, and everyday workflows.</p>
+        </article>
+      </div>
+    </section>
   </div>
+
+  <script>
+    async function dbiyokRunMatch() {
+      const key = document.getElementById('dbiyokApiKey').value.trim();
+      const model = document.getElementById('dbiyokModel').value;
+      const cv = document.getElementById('dbiyokCv').value.trim();
+      const job = document.getElementById('dbiyokJob').value.trim();
+      const out = document.getElementById('dbiyokOutput');
+
+      if (!key || !cv || !job) {
+        out.textContent = 'Please add a Gemini API key, CV/profile text, and job description.';
+        return;
+      }
+
+      out.textContent = 'Generating...';
+      const prompt = [
+        'You are JobApp AI Assistant, a careful job-application drafting assistant.',
+        'Use the CV/profile evidence and job description below.',
+        'Return concise, editable output with these sections:',
+        '1. Tailored CV bullets',
+        '2. Cover letter draft',
+        '3. Interview preparation',
+        '4. ATS keywords',
+        '',
+        'CV / PROFILE:',
+        cv,
+        '',
+        'JOB DESCRIPTION:',
+        job
+      ].join('\\n');
+
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`;
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({contents: [{parts: [{text: prompt}]}]})
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error?.message || 'Gemini request failed.');
+        }
+        out.textContent = data.candidates?.[0]?.content?.parts?.map(part => part.text).join('\\n') || 'No text returned.';
+      } catch (error) {
+        out.textContent = 'Could not generate output: ' + error.message;
+      }
+    }
+
+    async function dbiyokCopyOutput() {
+      const text = document.getElementById('dbiyokOutput').textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (error) {
+        window.prompt('Copy this text:', text);
+      }
+    }
+  </script>
 </section>
