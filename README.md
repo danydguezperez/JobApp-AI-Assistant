@@ -86,6 +86,14 @@ The detailed parsed CV editor is intentionally placed after the main workflow so
 6. Click **Save engine**.
 7. Click **Test connection**.
 
+Direct provider help:
+
+- Gemini API key: <https://ai.google.dev/gemini-api/docs/api-key>
+- Google AI Studio: <https://ai.google.dev/aistudio>
+- OpenAI API keys: <https://platform.openai.com/api-keys>
+- Claude API keys: <https://console.anthropic.com/settings/keys>
+- Ollama local API: <https://docs.ollama.com/api>
+
 For local Ollama:
 
 ```text
@@ -106,33 +114,31 @@ API key: leave empty unless your server requires one
 
 ## PagBiOmicS Web Roadmap
 
-This repository is currently a localhost version. A future PagBiOmicS web version could follow the visual identity of `pagbiomics.com` and offer:
+This repository is currently a localhost version. A future PagBiOmicS web version could follow the visual identity of `pagbiomics.com` and start with:
 
 - Free trial with a limited number of test generations.
 - BYOK free mode, where users add their own API keys.
-- Paid hosted mode using a managed Gemini/OpenAI/Claude provider.
 - Browser-visible results with download gated by email capture and a lightweight anti-bot check.
 - Email delivery of generated application packages.
 - Newsletter signup for job-search, bioinformatics, omics, and scientific-career resources.
 - Optional unobtrusive ad placement at export time, never inside the editing or matching workflow.
-- Optional subscription tier for recurring CV tailoring and application tracking.
-- Future Web3 payment option for ADA and Cardano native tokens, with wallet connection handled in the web frontend and payment verification handled server-side.
 
 The web version must be designed carefully around privacy: CVs, job postings, and API keys are sensitive data.
 
-An embeddable HTML prototype is included in [pagbiomics_embed.html](pagbiomics_embed.html). It contains three launch modes:
+An embeddable HTML prototype is included in [pagbiomics_embed.html](pagbiomics_embed.html). It contains two launch modes:
 
 - Free test: limited previews and email-gated downloads.
 - BYOK: free use with the user's own API key.
-- Hosted API beta: suggested low-friction beta price of EUR 1.99 for 20 applications. This is a good first test price; later, a EUR 4.99-9.99/month tier may make more sense if usage grows.
 
-Suggested Web3 path:
+Future paid/API-hosted/Web3 ideas are tracked in [CHANGELOG.md](CHANGELOG.md), not exposed as current web options.
 
-- Start with conventional payments and BYOK first.
-- Add a Cardano wallet-connect layer only in the hosted PagBiOmicS web version.
-- Use a server-side payment-verification service before unlocking downloads or subscriptions.
-- Do not put hosted API keys, payment verification secrets, or entitlement logic in client-side HTML.
-- Evaluate Cardano Developer Portal payment guidance, MeshJS for wallet integration, and Blockfrost or a similar provider for blockchain reads/submission.
+Near-term monetization without direct payments:
+
+- email-gated downloads and newsletter growth,
+- ethical anti-bot validation before free downloads,
+- sponsored placements from biotech, omics, scientific software, or training providers,
+- job board partnerships,
+- premium consulting/CV review services outside the automated app.
 
 ## Notes
 

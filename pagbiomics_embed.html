@@ -60,7 +60,7 @@
       background: linear-gradient(135deg, var(--mint), var(--gold));
     }
     .pagbio-plans {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       margin-top: 24px;
     }
     .pagbio-plan, .pagbio-tool {
@@ -120,11 +120,6 @@
         <div class="pagbio-price">Free</div>
         <p>Use your own Gemini, OpenAI, Claude, DeepSeek, GLM, Ollama, or compatible API. Best privacy/cost balance.</p>
       </article>
-      <article class="pagbio-plan">
-        <strong>Hosted API beta</strong>
-        <div class="pagbio-price">EUR 1.99 / 20 apps</div>
-        <p>Low-friction beta price using PagBiOmicS hosted API credits. Later tiers can add subscriptions and team use.</p>
-      </article>
     </div>
 
     <div class="pagbio-tool">
@@ -134,7 +129,6 @@
           <select data-jobapp-field="mode">
             <option value="free">Free test</option>
             <option value="byok">BYOK</option>
-            <option value="paid">Hosted API beta</option>
           </select>
         </label>
         <label>
@@ -154,7 +148,7 @@
           <textarea data-jobapp-field="job" rows="8" placeholder="Paste the job description or URL here..."></textarea>
         </label>
         <div class="pagbio-downloads">
-          <span class="pagbio-small">Downloads should be gated server-side by email validation, captcha/anti-bot checks, and payment entitlement. Do not place hosted API secrets in this HTML.</span>
+          <span class="pagbio-small">Downloads can be gated by email validation and anti-bot checks. Monetization can come later from sponsored biotech/scientific-tool placements, newsletter growth, and premium consulting. Do not place hosted API secrets in this HTML.</span>
           <button class="pagbio-btn primary" data-jobapp-action="generate">Generate preview</button>
         </div>
       </div>
@@ -173,7 +167,7 @@
           alert("Enter an email to unlock downloads.");
           return;
         }
-        alert("Preview flow ready. Connect this button to the hosted PagBiOmicS API when backend entitlements are live.");
+        alert("Preview flow ready. Connect this button to the PagBiOmicS backend when the free/BYOK workflow is live.");
       });
     })();
   </script>

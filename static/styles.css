@@ -291,6 +291,30 @@ button:disabled {
   color: var(--text);
 }
 
+.api-help {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: -8px 22px 22px;
+}
+
+.api-help a {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.04);
+  text-decoration: none;
+  font-size: 0.88rem;
+}
+
+.api-help a:hover {
+  border-color: rgba(102, 226, 192, 0.54);
+}
+
 .muted-note {
   margin: 0;
 }

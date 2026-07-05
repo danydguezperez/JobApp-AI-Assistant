@@ -83,6 +83,14 @@ The detailed CV editor is placed after the application history. That keeps the m
 
 Use BYOK: bring your own key.
 
+Helpful links:
+
+- Gemini API key: <https://ai.google.dev/gemini-api/docs/api-key>
+- Google AI Studio: <https://ai.google.dev/aistudio>
+- OpenAI API keys: <https://platform.openai.com/api-keys>
+- Claude API keys: <https://console.anthropic.com/settings/keys>
+- Ollama local API: <https://docs.ollama.com/api>
+
 Examples:
 
 ```text
@@ -108,18 +116,16 @@ API key: leave empty unless your local server requires one
 
 ## Future PagBiOmicS Web Version
 
-The localhost version should remain the private, safest workflow. A public PagBiOmicS web version can later add:
+The localhost version should remain the private, safest workflow. A public PagBiOmicS web version should start with:
 
 - BYOK free mode,
 - limited free tests,
-- hosted paid API mode,
 - email capture before downloading files,
 - anti-bot validation,
 - optional newsletter signup,
 - discreet export-time ads,
-- subscriptions,
-- ADA/Cardano native-token payments after server-side verification.
+- biotech/scientific-tool sponsorship placements.
 
 For the web version, never expose hosted API keys or payment secrets in browser HTML.
 
-The file `pagbiomics_embed.html` is a first embeddable prototype for the PagBiOmicS website. It includes Free, BYOK, and Hosted API beta modes. The suggested beta price, EUR 1.99 for 20 applications, is reasonable as a low-friction test offer. If usage becomes serious, consider a monthly tier around EUR 4.99-9.99 plus BYOK free mode.
+The file `pagbiomics_embed.html` is a first embeddable prototype for the PagBiOmicS website. It currently includes Free and BYOK modes only. Hosted API, subscriptions, direct payments, and Cardano/Web3 options are future roadmap items tracked in `CHANGELOG.md`.
