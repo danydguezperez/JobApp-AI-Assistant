@@ -2,7 +2,7 @@
 
 ## Title Options
 
-- Introducing d'BiYOK Lab: Bring Your Key AI-assisted Apps by PagBiOmICs
+- Introducing d'BiYOK Lab: Bring Your Own Key AI-assisted Apps by PagBiOmicS
 - Why I Am Building BYOK AI Apps for Researchers, Professionals, and Everyday Workflows
 - JobApp AI Assistant: A Local AI Tool for Tailoring Scientific CVs
 
@@ -10,7 +10,7 @@
 
 AI tools are becoming more powerful, but many useful professional workflows still need more than a generic chatbot. Researchers, freelancers, entrepreneurs, and technical professionals often need small, focused applications that understand a specific task and help them work faster without giving up control of their data.
 
-That is the idea behind **d'BiYOK Lab**, a PagBiOmICs initiative that combines **Bi**, as **Biodiscovery-Integrated**, with BYOK: **Bring Your Key for AI-assisted Apps**.
+That is the idea behind **d'BiYOK Lab**, a PagBiOmicS initiative that integrates **Bi**, as **Biodiscovery-Integrated**, with BYOK: **Bring Your Own Key for AI-assisted Apps**.
 
 The goal is to create practical AI applications that users can run with their own API keys or local models. These tools are meant to be productive, educational, and transparent. They should help people understand how AI APIs work, where their data goes, and why local-first workflows matter when documents are sensitive.
 

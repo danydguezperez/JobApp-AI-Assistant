@@ -1,5 +1,5 @@
 <!--
-  PagBiOmICs embed prototype for d'BiYOK Lab and JobApp AI Assistant.
+  PagBiOmicS embed prototype for d'BiYOK Lab and JobApp AI Assistant.
   This is a landing/download and education block, not a hosted API-key form.
   API keys should stay inside the local app until a dedicated secure web mode exists.
 -->
@@ -24,14 +24,37 @@
     }
     .pagbio-dbiyok * { box-sizing: border-box; }
     .pagbio-wrap { padding: clamp(22px, 4vw, 44px); }
-    .pagbio-brand {
+    .pagbio-banner {
+      min-height: 118px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      padding-bottom: 22px;
+      gap: 22px;
+      padding: clamp(18px, 3vw, 28px);
+      margin: calc(clamp(22px, 4vw, 44px) * -1) calc(clamp(22px, 4vw, 44px) * -1) 30px;
       border-bottom: 1px solid var(--line);
-      margin-bottom: 28px;
+      background:
+        radial-gradient(circle at 12% 28%, rgba(102, 226, 192, 0.24), transparent 28%),
+        linear-gradient(135deg, rgba(6, 16, 18, 0.95), rgba(16, 34, 36, 0.92));
+    }
+    .pagbio-brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .pagbio-emblem {
+      width: 58px;
+      height: 58px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, var(--mint) 0 4px, transparent 5px),
+        radial-gradient(circle at 20% 22%, var(--mint) 0 4px, transparent 5px),
+        radial-gradient(circle at 70% 28%, var(--mint) 0 4px, transparent 5px),
+        radial-gradient(circle at 36% 72%, var(--mint) 0 4px, transparent 5px),
+        radial-gradient(circle at 78% 74%, var(--mint) 0 4px, transparent 5px);
+      border: 1px solid rgba(102, 226, 192, 0.32);
+      box-shadow: 0 0 34px rgba(102, 226, 192, 0.18);
     }
     .pagbio-wordmark {
       font-size: clamp(1.55rem, 4vw, 2.6rem);
@@ -40,9 +63,13 @@
       letter-spacing: 0;
     }
     .pagbio-wordmark .bi,
-    .dbiyok-title .bi {
+    .dbiyok-title .bi-main {
       color: var(--mint);
       text-shadow: 0 0 20px rgba(102, 226, 192, 0.22);
+    }
+    .dbiyok-title .i-ghost {
+      color: rgba(102, 226, 192, 0.18);
+      text-shadow: 0 0 18px rgba(102, 226, 192, 0.55);
     }
     .pagbio-tagline {
       margin: 6px 0 0;
@@ -61,6 +88,13 @@
       background: linear-gradient(135deg, var(--mint), var(--gold));
       box-shadow: 0 18px 44px rgba(102, 226, 192, 0.16);
       flex: 0 0 auto;
+    }
+    .pagbio-banner-note {
+      max-width: 340px;
+      color: var(--muted);
+      font-weight: 750;
+      line-height: 1.35;
+      text-align: right;
     }
     .pagbio-hero {
       display: grid;
@@ -193,6 +227,8 @@
       margin-top: 14px;
     }
     @media (max-width: 900px) {
+      .pagbio-banner { align-items: flex-start; flex-direction: column; }
+      .pagbio-banner-note { text-align: left; }
       .pagbio-hero,
       .pagbio-grid { grid-template-columns: 1fr; }
       .pagbio-card { min-height: auto; }
@@ -200,20 +236,23 @@
   </style>
 
   <div class="pagbio-wrap">
-    <header class="pagbio-brand" aria-label="PagBiOmICs identity">
-      <div>
-        <div class="pagbio-wordmark">Pag<span class="bi">Bi</span>OMICS</div>
-        <p class="pagbio-tagline">Bioinformatics, omics and practical AI-assisted workflows.</p>
+    <header class="pagbio-banner" aria-label="PagBiOmicS banner identity">
+      <div class="pagbio-brand">
+        <div class="pagbio-emblem" aria-hidden="true"></div>
+        <div>
+          <div class="pagbio-wordmark">Pag<span class="bi">Bi</span>OmicS</div>
+          <p class="pagbio-tagline">Bioinformatics, omics and practical AI-assisted workflows.</p>
+        </div>
       </div>
-      <div class="pagbio-mark" aria-hidden="true">JA</div>
+      <div class="pagbio-banner-note">d'BiYOK Lab is part of a broader PagBiOmicS space for practical AI tools.</div>
     </header>
 
     <div class="pagbio-hero">
       <div>
-        <p class="pagbio-kicker">PagBiOmICs project space</p>
-        <h2 class="dbiyok-title">d'<span class="bi">Bi</span>YOK Lab</h2>
-        <div class="pagbio-subtitle">Bring Your Key for AI-assisted Apps</div>
-        <p>d'BiYOK Lab is Dany's idea to connect <strong>Bi</strong> as Biodiscovery-Integrated with BYOK-style AI tools. The aim is a wider set of practical apps for professional productivity, research, learning, entrepreneurship, and everyday workflows.</p>
+        <p class="pagbio-kicker">PagBiOmicS project space</p>
+        <h2 class="dbiyok-title">d'<span class="bi-main">B</span><span class="i-ghost">i</span>YOK Lab</h2>
+        <div class="pagbio-subtitle">Bring Your Own Key for AI-assisted Apps</div>
+        <p>d'BiYOK Lab is Dany's idea to integrate <strong>Bi</strong> as Biodiscovery-Integrated with <strong>BYOK</strong>, Bring Your Own Key. The aim is a wider set of practical apps for professional productivity, research, learning, entrepreneurship, and everyday workflows.</p>
         <p>The current public direction is simple: keep sensitive work local when possible, let users connect their own Gemini, OpenAI, Claude, Ollama, DeepSeek, GLM, or compatible provider, and make API use understandable instead of mysterious.</p>
         <div class="pagbio-actions">
           <a class="pagbio-btn primary" href="https://pagbiomics.com/jobapp-download" target="_blank" rel="noopener">Download JobApp AI Assistant</a>

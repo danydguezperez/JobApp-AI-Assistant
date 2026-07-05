@@ -1,7 +1,7 @@
 # d'BiYOK Lab
 
 **Working name:** d'BiYOK Lab  
-**Meaning:** Dany's idea to integrate **Bi** as **Biodiscovery-Integrated** with **BYOK**, expressed as **Bring Your Key for AI-assisted Apps**.
+**Meaning:** Dany's idea to integrate **Bi** as **Biodiscovery-Integrated** with **BYOK**, expressed as **Bring Your Own Key for AI-assisted Apps**.
 
 d'BiYOK Lab is a PagBiOmicS initiative for small, practical AI-assisted applications that users can run with their own API keys or local models.
 

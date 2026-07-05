@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="560" viewBox="0 0 1400 560" role="img" aria-labelledby="title desc">
   <title id="title">d'BiYOK Lab</title>
-  <desc id="desc">PagBiOmICs Bring Your Key AI-assisted apps mark for biodiscovery and productivity tools.</desc>
+  <desc id="desc">PagBiOmicS Bring Your Own Key AI-assisted apps mark for biodiscovery and productivity tools.</desc>
   <defs>
     <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0" stop-color="#061012"/>
@@ -26,9 +26,9 @@
   </g>
   <g transform="translate(392 140)">
     <text font-family="Inter, Segoe UI, Arial, sans-serif" font-size="86" font-weight="900" letter-spacing="0">
-      <tspan fill="#f5fbf8">d'</tspan><tspan fill="#66e2c0">Bi</tspan><tspan fill="#f5fbf8">YOK Lab</tspan>
+      <tspan fill="#f5fbf8">d'</tspan><tspan fill="#66e2c0">B</tspan><tspan fill="#66e2c0" opacity="0.18">i</tspan><tspan fill="#f5fbf8">YOK Lab</tspan>
     </text>
-    <text y="72" fill="#66e2c0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="28" font-weight="800">Bring Your Key for AI-assisted Apps</text>
+    <text y="72" fill="#66e2c0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="28" font-weight="800">Bring Your Own Key for AI-assisted Apps</text>
     <text y="136" fill="#a9b9b4" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="30">Practical tools for productivity, biodiscovery, learning, and everyday workflows.</text>
     <g transform="translate(0 196)" fill="none" stroke-width="2">
       <rect width="154" height="46" rx="8" stroke="#66e2c0"/>
