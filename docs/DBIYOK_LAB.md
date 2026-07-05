@@ -1,15 +1,15 @@
 # d'BiYOK Lab
 
 **Working name:** d'BiYOK Lab  
-**Meaning:** Dany's idea to integrate **Bi** as **Biodiscovery-Integrated** with **BYOK**, Bring Your Own Key.
+**Meaning:** Dany's idea to integrate **Bi** as **Biodiscovery-Integrated** with **BYOK**, expressed as **Bring Your Key for AI-assisted Apps**.
 
-d'BiYOK Lab is a PagBiOmicS initiative for small, practical AI applications that users can run with their own API keys or local models.
+d'BiYOK Lab is a PagBiOmicS initiative for small, practical AI-assisted applications that users can run with their own API keys or local models.
 
 ## Why It Exists
 
 AI APIs make it possible to build highly customized tools for specific professional workflows. Many researchers, entrepreneurs, job seekers, educators, and citizens need useful AI apps but do not need a large SaaS platform or a system that stores their sensitive data.
 
-d'BiYOK Lab exists to share focused applications for productivity, education, biodiscovery, scientific work, entrepreneurship, and everyday problem solving. The project is not about claiming exclusivity; it is about making useful, understandable AI workflows easier to run, inspect, and adapt.
+d'BiYOK Lab exists to share focused applications for productivity, education, biodiscovery, scientific work, entrepreneurship, and everyday problem solving. It is intentionally wider than research-only tooling: the same approach can support professional work, casual use, learning, and practical day-to-day workflows. The project is not about claiming exclusivity; it is about making useful, understandable AI workflows easier to run, inspect, and adapt.
 
 The initiative aims to:
 
@@ -58,7 +58,7 @@ Near-term options:
 
 Avoid hosted free LLM tests until there is a robust backend with cost controls.
 
-## First App
+## Current App
 
 **JobApp AI Assistant** is one d'BiYOK Lab app candidate:
 

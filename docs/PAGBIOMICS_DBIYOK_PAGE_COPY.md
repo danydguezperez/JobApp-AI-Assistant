@@ -1,13 +1,16 @@
-# PagBiOmicS Page Copy: d'BiYOK Lab
+# PagBiOmICs Page Copy: d'BiYOK Lab
 
 ## Hero
 
+Top identity should follow the PagBiOmICs LinkedIn/banner style, without extra launch-slogan wording that is not intended for this page.
+
+**PagBiOmICs**  
 **d'BiYOK Lab**  
-**Biodiscovery-Integrated BYOK AI Apps**
+**Bring Your Key for AI-assisted Apps**
 
-d'BiYOK Lab is Dany's idea to combine **Bi**, as **Biodiscovery-Integrated**, with **BYOK**, Bring Your Own Key. It is a PagBiOmicS space for practical AI applications that help researchers, professionals, entrepreneurs, and citizens use AI more productively while keeping control of their own data and API keys.
+d'BiYOK Lab is Dany's idea to combine **Bi**, as **Biodiscovery-Integrated**, with BYOK-style AI workflows. It is a PagBiOmICs space for practical AI-assisted applications that help researchers, professionals, entrepreneurs, learners, and everyday users work more productively while understanding data, API-key responsibility, and local-first options.
 
-The goal is simple: build small, useful, transparent apps that solve real workflow problems and also teach users how modern AI tools, APIs, and local-first applications work.
+The goal is simple: build a wider set of small, useful, transparent apps that solve real workflow problems and also teach users how modern AI tools, APIs, and local applications work.
 
 Primary action: **Download JobApp AI Assistant**  
 Secondary action: **Learn how API keys work**
@@ -16,16 +19,16 @@ Suggested hero image: `assets/dbiyok_lab_page_hero.png`
 
 ## What d'BiYOK Lab Does
 
-- Shares practical BYOK AI apps.
+- Shares practical Bring Your Key AI-assisted apps.
 - Prioritizes local-first workflows for sensitive data.
 - Helps users connect Gemini, OpenAI, Claude, Ollama, DeepSeek, GLM, or compatible APIs.
 - Explains the risks and responsibilities of API keys.
-- Creates educational tools for researchers, freelancers, entrepreneurs, and technical professionals.
+- Creates educational tools for researchers, freelancers, entrepreneurs, technical professionals, and general users.
 - Keeps hosted paid AI generation as a future option, not the default starting point.
 
 ## Why BYOK?
 
-BYOK means **Bring Your Own Key**. Instead of asking PagBiOmicS to pay for every AI generation, users can run apps with their own API key or local model. This keeps costs transparent and helps users understand what they are using.
+In this project, BYOK is presented as **Bring Your Key for AI-assisted Apps**. Instead of asking PagBiOmICs to pay for every AI generation, users can run apps with their own API key or local model. This keeps costs transparent and helps users understand what they are using.
 
 For sensitive documents such as CVs, unpublished research, client work, or business plans, the safest option is usually local:
 
@@ -47,7 +50,7 @@ It can:
 - generate tailored CV bullets, cover letters, and interview preparation,
 - export Markdown, DOCX, PDF, and JSON files.
 
-This is one app in the d'BiYOK Lab direction, not the only possible app. More tools can follow the same philosophy.
+JobApp AI Assistant is one app in the d'BiYOK Lab direction. More tools can follow the same philosophy.
 
 ## Local vs Web
 

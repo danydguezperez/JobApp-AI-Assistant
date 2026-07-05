@@ -2,15 +2,15 @@
 
 ## Title Options
 
-- Introducing d'BiYOK Lab: Local-First BYOK AI Apps by PagBiOmicS
-- Why I Am Building BYOK AI Apps for Researchers and Professionals
+- Introducing d'BiYOK Lab: Bring Your Key AI-assisted Apps by PagBiOmICs
+- Why I Am Building BYOK AI Apps for Researchers, Professionals, and Everyday Workflows
 - JobApp AI Assistant: A Local AI Tool for Tailoring Scientific CVs
 
 ## Draft
 
 AI tools are becoming more powerful, but many useful professional workflows still need more than a generic chatbot. Researchers, freelancers, entrepreneurs, and technical professionals often need small, focused applications that understand a specific task and help them work faster without giving up control of their data.
 
-That is the idea behind **d'BiYOK Lab**, a PagBiOmicS initiative that combines **Bi**, as **Biodiscovery-Integrated**, with **BYOK**, Bring Your Own Key.
+That is the idea behind **d'BiYOK Lab**, a PagBiOmICs initiative that combines **Bi**, as **Biodiscovery-Integrated**, with BYOK: **Bring Your Key for AI-assisted Apps**.
 
 The goal is to create practical AI applications that users can run with their own API keys or local models. These tools are meant to be productive, educational, and transparent. They should help people understand how AI APIs work, where their data goes, and why local-first workflows matter when documents are sensitive.
 
@@ -22,7 +22,7 @@ JobApp AI Assistant helps with that process. It can import a structured CV, pars
 
 The current strategy is local-first. Users download the app, run it on their own computer, and add their own API key inside the local interface. This avoids asking users to paste private API keys into a public website and keeps CV files and generated documents on the user's machine.
 
-The broader d'BiYOK Lab idea is not limited to CV tools. Future apps can focus on biodiscovery, literature workflows, data cleaning, proposal writing, business development, scientific communication, or other productivity tasks where custom AI workflows are more useful than a generic chat window.
+The broader d'BiYOK Lab idea is not limited to CV tools or research-only workflows. Future apps can focus on biodiscovery, literature work, data cleaning, proposal writing, business development, scientific communication, learning tools, everyday productivity, or other tasks where custom AI workflows are more useful than a generic chat window.
 
 The philosophy is simple:
 

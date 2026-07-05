@@ -6,7 +6,7 @@ Ciencia Vitae exports are a strong reference use case because they are highly st
 
 For a complete practical guide, see [TUTORIAL.md](TUTORIAL.md).
 
-This app can be presented under the broader [d'BiYOK Lab](docs/DBIYOK_LAB.md) idea, a PagBiOmicS initiative for local-first Bring Your Own Key AI apps.
+This app can be presented under the broader [d'BiYOK Lab](docs/DBIYOK_LAB.md) idea, a PagBiOmicS initiative for Bring Your Key AI-assisted apps across professional productivity, biodiscovery, learning, entrepreneurship, and everyday workflows.
 
 ![JobApp AI Assistant mark](assets/jobapp_ai_assistant_mark.svg)
 
