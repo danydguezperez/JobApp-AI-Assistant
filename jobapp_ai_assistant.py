@@ -1486,7 +1486,9 @@ def root() -> FileResponse:
 
 @app.get("/pagbiomics-embed")
 def pagbiomics_embed_preview() -> FileResponse:
-    return FileResponse(_EXE_DIR / "pagbiomics_embed.html")
+    bundled = BASE_DIR / "pagbiomics_embed.html"
+    local = _EXE_DIR / "pagbiomics_embed.html"
+    return FileResponse(bundled if bundled.exists() else local)
 
 
 @app.get("/api/health")

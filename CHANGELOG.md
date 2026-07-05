@@ -2,9 +2,11 @@
 
 ## Unreleased
 
-- Web monetization focus changed from paid hosted API to two simpler launch modes:
-  - Free test with email and anti-bot validation.
-  - BYOK, where users bring their own Gemini/OpenAI/Claude/Ollama-compatible API key.
+- Web prototype changed again after product/security review:
+  - no hosted free LLM tests paid by PagBiOmicS,
+  - no API-key entry in the website,
+  - website becomes a download/education page,
+  - BYOK happens inside the local desktop app.
 - Hosted API, subscriptions, crypto, Cardano native tokens, and direct paid credits are moved to future roadmap.
 - Added direct API key help links for Gemini, OpenAI, Claude, and Ollama.
 - Future monetization ideas to evaluate:

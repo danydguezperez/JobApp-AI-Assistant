@@ -11,7 +11,7 @@ pyinstaller `
     --noconsole `
     --name "JobApMaker" `
     --add-data "static;static" `
-    --add-data "data;data" `
+    --add-data "pagbiomics_embed.html;." `
     --hidden-import uvicorn.logging `
     --hidden-import uvicorn.loops `
     --hidden-import uvicorn.loops.auto `
@@ -34,4 +34,5 @@ pyinstaller `
 
 Write-Host ""
 Write-Host "LISTO: dist\JobApMaker.exe" -ForegroundColor Green
-Write-Host "Doble-clic para arrancar. Prefiere localhost:8080; si esta ocupado usa 8090/8091." -ForegroundColor Green
+Write-Host "Doble-clic para arrancar. Prefiere localhost:8080; si esta ocupado usa 8090/8091/8000 o un puerto libre 8100+." -ForegroundColor Green
+Write-Host "Para distribuir, comparte solo dist\JobApMaker.exe. Los datos se crean localmente en el PC del usuario." -ForegroundColor Green

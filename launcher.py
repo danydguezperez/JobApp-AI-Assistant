@@ -34,7 +34,12 @@ def choose_port() -> int:
     for port in (8080, 8090, 8091, 8000):
         if not is_port_open(port):
             return port
-    return 8080
+    for port in range(8100, 8201):
+        if not is_port_open(port):
+            return port
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.bind(("127.0.0.1", 0))
+        return int(sock.getsockname()[1])
 
 
 def wait_and_open(port: int = 8080, timeout: int = 30) -> None:
@@ -49,7 +54,7 @@ def main() -> None:
     port = choose_port()
     threading.Thread(target=wait_and_open, args=(port,), daemon=True).start()
 
-    import server  # noqa: F401 - make sure PyInstaller bundles the FastAPI app module
+    import jobapp_ai_assistant  # noqa: F401 - make sure PyInstaller bundles the FastAPI app module
     import uvicorn
 
     uvicorn.run(

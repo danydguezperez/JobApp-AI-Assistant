@@ -37,7 +37,16 @@ JobApp AI Assistant was created to solve that problem locally:
 
 ## How To Run On This PC
 
-Open PowerShell:
+For ordinary users, use the packaged desktop app:
+
+```text
+Double-click JobApMaker.exe
+```
+
+It starts the local server and opens the browser automatically.
+The API key is entered inside the local app, not on the PagBiOmicS website.
+
+For development, open PowerShell:
 
 ```powershell
 cd "G:\O meu disco\JobApMaker"
@@ -116,16 +125,22 @@ API key: leave empty unless your local server requires one
 
 ## Future PagBiOmicS Web Version
 
-The localhost version should remain the private, safest workflow. A public PagBiOmicS web version should start with:
+The localhost/desktop version should remain the private, safest workflow. A public PagBiOmicS web page should start as a landing/download page, not as a hosted BYOK app.
 
-- BYOK free mode,
-- limited free tests,
-- email capture before downloading files,
-- anti-bot validation,
+- Windows executable download,
+- API-key tutorials,
+- email capture for release notifications and newsletter signup,
 - optional newsletter signup,
-- discreet export-time ads,
+- sponsor placements from biotech, omics, scientific software, training providers, recruiters, or job boards,
 - biotech/scientific-tool sponsorship placements.
 
-For the web version, never expose hosted API keys or payment secrets in browser HTML.
+For the web version, never ask users to paste API keys into the website unless there is a dedicated security model, privacy policy, and backend design. The safer product is: users enter API keys only inside the local desktop app.
 
-The file `pagbiomics_embed.html` is a first embeddable prototype for the PagBiOmicS website. It currently includes Free and BYOK modes only. Hosted API, subscriptions, direct payments, and Cardano/Web3 options are future roadmap items tracked in `CHANGELOG.md`.
+The file `pagbiomics_embed.html` is a first embeddable prototype for the PagBiOmicS website. It points users to the downloadable app and official API-key guides. Hosted API, subscriptions, direct payments, and Cardano/Web3 options are future roadmap items tracked in `CHANGELOG.md`.
+
+For non-technical users, the best first experience is:
+
+1. Download `JobApMaker.exe`.
+2. Double-click it.
+3. Use the app in the browser window it opens.
+4. Add a Gemini/OpenAI/Claude/Ollama key only inside the local app.

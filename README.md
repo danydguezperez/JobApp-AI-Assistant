@@ -46,6 +46,10 @@ Local providers can run without an API key when they expose an OpenAI-compatible
 
 ## Recommended Local Workflow
 
+For non-technical users, the preferred distribution is the desktop executable: double-click `JobApMaker.exe`, the app starts a local server, and the browser opens automatically.
+
+For development:
+
 ```powershell
 cd "G:\O meu disco\JobApMaker"
 python -m pip install -r requirements.txt
@@ -59,6 +63,27 @@ http://127.0.0.1:8091/
 ```
 
 The app may also run on `8080`, but that port can be occupied by other local services on the workstation.
+
+## Desktop Distribution
+
+Windows build:
+
+```powershell
+cd "G:\O meu disco\JobApMaker"
+powershell -ExecutionPolicy Bypass -File .\build_exe.ps1
+```
+
+Output:
+
+```text
+dist\JobApMaker.exe
+```
+
+For distribution, share only `dist\JobApMaker.exe`. Do not bundle local `data/`, `exports/`, `applications.db`, or API configuration files. On first run, the app creates its own local data folders next to the executable on the user's computer.
+
+The launcher prefers `localhost:8080`; if that is busy, it tries `8090`, `8091`, `8000`, and then a free port from `8100+`.
+
+macOS `.dmg` is a future release target. It should be built on macOS or through a GitHub Actions macOS runner, not from this Windows workstation.
 
 ## CV Parsing Workflow
 
@@ -114,28 +139,29 @@ API key: leave empty unless your server requires one
 
 ## PagBiOmicS Web Roadmap
 
-This repository is currently a localhost version. A future PagBiOmicS web version could follow the visual identity of `pagbiomics.com` and start with:
+This repository is currently a localhost version. The safest PagBiOmicS web strategy is not to run BYOK inside the website. The website should be a landing/download page that explains the workflow and sends users to the desktop app.
 
-- Free trial with a limited number of test generations.
-- BYOK free mode, where users add their own API keys.
-- Browser-visible results with download gated by email capture and a lightweight anti-bot check.
-- Email delivery of generated application packages.
+- Downloadable Windows executable first.
+- Mac `.dmg` later, ideally built on macOS or GitHub Actions.
+- BYOK inside the local app, not inside the website.
+- Free local tools: heuristic parsing and parsed-CV exports without AI credits.
+- Email capture for updates, tutorials, and release notifications.
 - Newsletter signup for job-search, bioinformatics, omics, and scientific-career resources.
-- Optional unobtrusive ad placement at export time, never inside the editing or matching workflow.
+- Optional sponsor placements from biotech, omics, scientific software, training providers, recruiters, or job boards.
 
 The web version must be designed carefully around privacy: CVs, job postings, and API keys are sensitive data.
 
-An embeddable HTML prototype is included in [pagbiomics_embed.html](pagbiomics_embed.html). It contains two launch modes:
+An embeddable HTML prototype is included in [pagbiomics_embed.html](pagbiomics_embed.html). It is now a landing/download block, not a hosted BYOK app.
 
-- Free test: limited previews and email-gated downloads.
-- BYOK: free use with the user's own API key.
+- It links users to the desktop release.
+- It explains that API keys stay on the user's computer.
+- It links directly to Gemini/AI Studio/Ollama setup pages.
 
 Future paid/API-hosted/Web3 ideas are tracked in [CHANGELOG.md](CHANGELOG.md), not exposed as current web options.
 
 Near-term monetization without direct payments:
 
-- email-gated downloads and newsletter growth,
-- ethical anti-bot validation before free downloads,
+- email-gated release notifications and newsletter growth,
 - sponsored placements from biotech, omics, scientific software, or training providers,
 - job board partnerships,
 - premium consulting/CV review services outside the automated app.

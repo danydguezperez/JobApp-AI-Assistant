@@ -1,13 +1,12 @@
 <!--
   PagBiOmicS embed prototype for JobApp AI Assistant.
-  Paste this block inside a PagBiOmicS page section.
-  Configure data-api-base when the hosted backend is available.
+  This version is a download/education block, not a hosted BYOK web app.
+  The user's API key should be entered only in the local desktop app.
 -->
-<section class="pagbio-jobapp" data-api-base="https://api.pagbiomics.com/jobapp">
+<section class="pagbio-jobapp">
   <style>
     .pagbio-jobapp {
-      --bg: #071012;
-      --panel: rgba(14, 28, 31, 0.88);
+      --panel: rgba(14, 28, 31, 0.9);
       --line: rgba(255, 255, 255, 0.14);
       --text: #f5fbf8;
       --muted: #a9b9b4;
@@ -42,16 +41,19 @@
       font-weight: 900;
     }
     .pagbio-jobapp h2 { margin: 0; font-size: clamp(2rem, 5vw, 4rem); line-height: 0.98; letter-spacing: 0; }
+    .pagbio-jobapp h3 { margin: 0 0 8px; }
     .pagbio-jobapp p { color: var(--muted); line-height: 1.55; }
-    .pagbio-actions, .pagbio-plans, .pagbio-form, .pagbio-downloads { display: grid; gap: 14px; }
-    .pagbio-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 24px; }
-    .pagbio-btn, .pagbio-file {
-      min-height: 42px;
+    .pagbio-btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 0 14px;
+      padding: 0 16px;
       color: var(--text);
       background: rgba(255, 255, 255, 0.06);
+      text-decoration: none;
       cursor: pointer;
     }
     .pagbio-btn.primary {
@@ -59,40 +61,23 @@
       font-weight: 800;
       background: linear-gradient(135deg, var(--mint), var(--gold));
     }
-    .pagbio-plans {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .pagbio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
       margin-top: 24px;
     }
-    .pagbio-plan, .pagbio-tool {
+    .pagbio-card {
       border: 1px solid var(--line);
       border-radius: 10px;
       background: var(--panel);
       padding: 18px;
     }
-    .pagbio-plan strong { display: block; font-size: 1.1rem; }
-    .pagbio-price { color: var(--gold); font-weight: 900; font-size: 1.4rem; margin: 10px 0; }
-    .pagbio-tool { margin-top: 24px; }
-    .pagbio-form {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .pagbio-form label { display: grid; gap: 7px; color: var(--muted); font-size: 0.9rem; }
-    .pagbio-form input, .pagbio-form textarea, .pagbio-form select {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 11px 12px;
-      color: var(--text);
-      background: rgba(0, 0, 0, 0.24);
-    }
-    .pagbio-form textarea, .pagbio-downloads { grid-column: 1 / -1; }
-    .pagbio-downloads {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: end;
-      margin-top: 10px;
-    }
-    .pagbio-small { font-size: 0.86rem; color: var(--muted); }
+    .pagbio-card strong { color: var(--gold); }
+    .pagbio-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+    .pagbio-small { font-size: 0.88rem; color: var(--muted); margin-top: 14px; }
     @media (max-width: 820px) {
-      .pagbio-head, .pagbio-actions, .pagbio-plans, .pagbio-form, .pagbio-downloads { grid-template-columns: 1fr; }
+      .pagbio-head, .pagbio-grid { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -103,72 +88,32 @@
           <span class="pagbio-mark">JA</span>
           <span>PagBiOmicS Labs<br /><small>JobApp AI Assistant</small></span>
         </div>
-        <h2>Tailor a scientific CV before each application.</h2>
-        <p>Upload a structured CV, focus the relevant evidence, and generate a job-specific CV and cover letter. Built for research, biotech, omics, and technical-commercial profiles.</p>
+        <h2>Tailor your CV locally, with your own AI key.</h2>
+        <p>Download the local app, import your CV, paste a job posting, and generate a tailored CV, cover letter, and interview prep. Your CV and API key stay on your computer.</p>
       </div>
-      <button class="pagbio-btn primary" data-jobapp-action="start">Start</button>
+      <a class="pagbio-btn primary" href="https://pagbiomics.com/jobapp-download" target="_blank" rel="noopener">Download app</a>
     </div>
 
-    <div class="pagbio-plans" aria-label="Plans">
-      <article class="pagbio-plan">
-        <strong>Free test</strong>
-        <div class="pagbio-price">3 tests</div>
-        <p>Try parsing and preview generated results. Download can be unlocked after email and anti-bot validation.</p>
+    <div class="pagbio-grid" aria-label="Use modes">
+      <article class="pagbio-card">
+        <h3>1. Local desktop app</h3>
+        <p>Double-click the Windows app and it opens a private localhost page. No terminal or Python setup for non-technical users.</p>
       </article>
-      <article class="pagbio-plan">
-        <strong>BYOK</strong>
-        <div class="pagbio-price">Free</div>
-        <p>Use your own Gemini, OpenAI, Claude, DeepSeek, GLM, Ollama, or compatible API. Best privacy/cost balance.</p>
+      <article class="pagbio-card">
+        <h3>2. Bring your own API key</h3>
+        <p>Use Gemini, OpenAI, Claude, Ollama, DeepSeek, GLM, or another compatible provider from inside the local app.</p>
+      </article>
+      <article class="pagbio-card">
+        <h3>3. Free local tools</h3>
+        <p>Use heuristic CV parsing and parsed-CV exports without AI credits. AI matching requires the user's own key or local model.</p>
       </article>
     </div>
 
-    <div class="pagbio-tool">
-      <div class="pagbio-form">
-        <label>
-          Mode
-          <select data-jobapp-field="mode">
-            <option value="free">Free test</option>
-            <option value="byok">BYOK</option>
-          </select>
-        </label>
-        <label>
-          Email for downloads
-          <input type="email" data-jobapp-field="email" placeholder="you@example.com" />
-        </label>
-        <label>
-          API key (BYOK only)
-          <input type="password" data-jobapp-field="apiKey" placeholder="Stored only for this session" />
-        </label>
-        <label>
-          CV file
-          <input class="pagbio-file" type="file" data-jobapp-field="cv" accept=".pdf,.txt,.xml" />
-        </label>
-        <label>
-          Job posting
-          <textarea data-jobapp-field="job" rows="8" placeholder="Paste the job description or URL here..."></textarea>
-        </label>
-        <div class="pagbio-downloads">
-          <span class="pagbio-small">Downloads can be gated by email validation and anti-bot checks. Monetization can come later from sponsored biotech/scientific-tool placements, newsletter growth, and premium consulting. Do not place hosted API secrets in this HTML.</span>
-          <button class="pagbio-btn primary" data-jobapp-action="generate">Generate preview</button>
-        </div>
-      </div>
+    <div class="pagbio-actions">
+      <a class="pagbio-btn primary" href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener">Get Gemini API key</a>
+      <a class="pagbio-btn" href="https://ai.google.dev/aistudio" target="_blank" rel="noopener">Open Google AI Studio</a>
+      <a class="pagbio-btn" href="https://docs.ollama.com/api" target="_blank" rel="noopener">Use Ollama locally</a>
     </div>
+    <p class="pagbio-small">No API key is collected on this website. Future sponsored biotech/scientific-tool placements can support the project without making PagBiOmicS pay for users' AI generations.</p>
   </div>
-
-  <script>
-    (() => {
-      const root = document.currentScript.closest(".pagbio-jobapp");
-      const start = root.querySelector('[data-jobapp-action="start"]');
-      const generate = root.querySelector('[data-jobapp-action="generate"]');
-      start?.addEventListener("click", () => root.querySelector('[data-jobapp-field="cv"]')?.click());
-      generate?.addEventListener("click", () => {
-        const email = root.querySelector('[data-jobapp-field="email"]')?.value.trim();
-        if (!email) {
-          alert("Enter an email to unlock downloads.");
-          return;
-        }
-        alert("Preview flow ready. Connect this button to the PagBiOmicS backend when the free/BYOK workflow is live.");
-      });
-    })();
-  </script>
 </section>
