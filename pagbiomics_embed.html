@@ -282,9 +282,9 @@
       <div class="dbiyok-mode-grid">
         <article class="dbiyok-mode" id="jobapp-web">
           <h4>Use from the web: experimental Web Lite</h4>
-          <div class="dbiyok-status"><span class="dbiyok-status-icon" aria-hidden="true"></span> Public or anonymized text only</div>
-          <p>Web Lite runs in the browser and calls Gemini directly with the user's own API key. It is useful for quick tests, but it is not the recommended path for private CVs or sensitive documents.</p>
-          <p class="dbiyok-note">For real CV work, use the local Windows app. For web tests, use a temporary or low-limit key and avoid confidential content.</p>
+          <div class="dbiyok-status"><span class="dbiyok-status-icon" aria-hidden="true"></span> API-key caution</div>
+          <p>Web Lite runs in the browser and calls Gemini directly with the user's own API key. The main risk is exposing that key in a browser environment, especially on shared computers or with browser extensions.</p>
+          <p class="dbiyok-note">Recommended workflow: create a temporary or low-limit key, test Web Lite, clear the key field, and then revoke or delete that key in Google AI Studio.</p>
           <div class="dbiyok-mini-actions">
             <a class="dbiyok-btn danger" href="https://danydguezperez.github.io/JobApp-AI-Assistant/jobapp-web-lite.html" target="_blank" rel="noopener">Open Web Lite test</a>
           </div>
@@ -292,7 +292,7 @@
 
         <article class="dbiyok-mode download" id="download">
           <h4>Download desktop app</h4>
-          <p>Best for private CVs, local exports, longer documents, and repeated use. The Windows app runs on localhost and keeps files on the user's computer.</p>
+          <p>Best for repeated use, local exports, longer documents, and users who do not want to paste an API key into a browser page. The Windows app runs on localhost and keeps files on the user's computer.</p>
           <p class="dbiyok-note">The Windows release is public on GitHub. Download the executable, run it locally, and use your own API key or a local model.</p>
         </article>
       </div>

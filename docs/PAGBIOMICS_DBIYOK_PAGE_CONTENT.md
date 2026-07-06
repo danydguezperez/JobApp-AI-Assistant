@@ -30,7 +30,7 @@ Suggested hero image: `assets/dbiyok_lab_page_hero.png`
 
 In this project, BYOK is presented as **Bring Your Own Key for AI-assisted Apps**. Instead of asking PagBiOmicS to pay for every AI generation, users can run apps with their own API key or local model. This keeps costs transparent and helps users understand what they are using.
 
-For sensitive documents such as CVs, unpublished research, client work, or business plans, the safest option is usually local:
+For repeated work or when the user wants to avoid browser-side API-key exposure, the safest option is usually local:
 
 1. Download the app.
 2. Run it on your own computer.
@@ -58,7 +58,7 @@ JobApp AI Assistant is one app in the d'BiYOK Lab direction. More tools can foll
 Best for CVs, private research, client documents, and personal API keys.
 
 **Web BYOK lite, experimental**  
-Useful for low-risk demos and public data. It must include clear warnings, avoid storing keys, and recommend temporary low-limit API keys.
+Useful for quick browser tests. It must include clear warnings, avoid storing keys, and recommend temporary low-limit API keys that users revoke or delete after testing.
 
 ## Monetization Direction
 
@@ -72,4 +72,4 @@ The first version does not need hosted paid AI generations. Better early options
 
 ## Safety Message
 
-PagBiOmicS should not ask users to paste private API keys into a public web form for sensitive CV work. The desktop app remains the recommended mode. Web Lite can be offered only as an experimental browser-side test for anonymized or public text.
+PagBiOmicS should clearly explain that Web Lite uses a browser-entered API key. The recommended browser workflow is: create a temporary or restricted key, test the tool, clear the key field, and revoke or delete the key after testing.

@@ -174,15 +174,15 @@
           <div class="mark" aria-hidden="true">JA</div>
           <p class="eyebrow">Experimental Web Lite</p>
           <h1>JobApp AI Assistant</h1>
-          <p>Quick BYOK test for public or low-risk CV summaries. For private CVs, long documents, or repeated applications, use the local Windows app.</p>
+          <p>Quick BYOK test from the browser. The main caution is the API key: use a temporary or restricted key, test the workflow, then remove or revoke that key in your provider account.</p>
           <div class="actions">
             <a class="btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-Windows.exe">Download local app</a>
             <a class="btn" href="https://github.com/danydguezperez/JobApp-AI-Assistant">View repository</a>
           </div>
         </div>
         <div class="warning">
-          <strong>Privacy warning:</strong>
-          <p>This page runs in your browser and sends the text you provide directly to the Gemini API using your API key. PagBiOmicS does not need a backend for this test, but browser extensions, shared computers, and website scripts can create risks. Do not use this mode for confidential CVs, unpublished work, client documents, or sensitive personal data.</p>
+          <strong>API-key warning:</strong>
+          <p>This page runs in your browser and sends your request directly to the Gemini API using the key you paste here. PagBiOmicS does not store the key, but browser extensions, shared computers, injected scripts, and browser history/autofill can create exposure risks. Best practice: create a temporary or low-limit key for this test, use it, clear it from this page, and then revoke/delete it in Google AI Studio.</p>
         </div>
       </section>
 
@@ -203,15 +203,16 @@
               </select>
             </label>
             <div class="checks">
-              <label><input id="safeData" type="checkbox" /> I confirm this is public, anonymized, or low-risk text.</label>
-              <label><input id="ownKey" type="checkbox" /> I understand this uses my own Gemini API key and provider limits.</label>
+              <label><input id="safeData" type="checkbox" /> I understand that my browser sends this text directly to the model provider.</label>
+              <label><input id="ownKey" type="checkbox" /> I am using my own temporary or restricted API key and will revoke/delete it after testing.</label>
             </div>
             <div class="actions">
               <button class="primary" id="generateBtn" type="button">Generate draft</button>
+              <button id="clearKeyBtn" type="button">Clear key field</button>
               <button id="copyBtn" type="button">Copy output</button>
               <button id="downloadBtn" type="button" disabled>Download MD</button>
             </div>
-            <p class="mini">Tip: create a restricted or temporary API key for browser tests. Use the desktop app for real CV work.</p>
+            <p class="mini">Tip: after testing, delete or revoke the browser-test key in Google AI Studio. Clearing this field only removes the visible value from the page.</p>
           </div>
           <div>
             <label>
@@ -254,7 +255,7 @@
         const jobText = $("jobText").value.trim();
         if (!key) return setOutput("Error: add your Gemini API key first.");
         if (!$("safeData").checked || !$("ownKey").checked) {
-          return setOutput("Error: confirm the privacy and API-key warnings before generating.");
+          return setOutput("Error: confirm the browser/API-key warnings before generating.");
         }
         if (cvText.length < 80 || jobText.length < 80) {
           return setOutput("Error: add a longer CV/profile summary and job posting.");
@@ -286,6 +287,12 @@
         await navigator.clipboard.writeText(lastOutput);
       }
 
+      function clearKeyField() {
+        $("apiKey").value = "";
+        $("apiKey").focus();
+        setOutput("API key field cleared on this page. If this was a temporary browser-test key, revoke or delete it in Google AI Studio too.");
+      }
+
       function downloadOutput() {
         if (!lastOutput) return;
         const blob = new Blob([lastOutput], { type: "text/markdown;charset=utf-8" });
@@ -297,6 +304,7 @@
       }
 
       $("generateBtn").addEventListener("click", generateDraft);
+      $("clearKeyBtn").addEventListener("click", clearKeyField);
       $("copyBtn").addEventListener("click", copyOutput);
       $("downloadBtn").addEventListener("click", downloadOutput);
     </script>

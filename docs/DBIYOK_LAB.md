@@ -33,7 +33,7 @@ The initiative aims to:
 1. **Local-first when data is sensitive.** CVs, unpublished research, client files, and private business documents should stay on the user's machine whenever possible.
 2. **BYOK by default.** Users can connect Gemini, OpenAI, Claude, Ollama, DeepSeek, GLM, or another compatible provider.
 3. **Education before monetization.** Each app should help users understand what is happening, where data goes, and what an API key means.
-4. **Web when appropriate.** Web versions can exist for low-risk workflows, demos, or static utilities, but must include clear API/data warnings.
+4. **Web when appropriate.** Web versions can exist when the API-key risk is explained clearly and users are guided to use temporary or restricted keys.
 5. **Simple distribution.** Non-technical users should be able to download an executable and double-click.
 
 ## Web And Local Modes
@@ -41,9 +41,9 @@ The initiative aims to:
 The long-term product line can offer two routes:
 
 - **Local app, recommended:** safest for private documents and API keys. The user downloads the app, runs it on localhost, and enters their key locally.
-- **Web BYOK lite, experimental:** useful for lightweight demos or public/non-sensitive data. Must show warnings, avoid storing keys, and recommend temporary or low-limit API keys.
+- **Web BYOK lite, experimental:** useful for lightweight browser tests. Must show warnings, avoid storing keys, and recommend temporary or low-limit API keys that users revoke or delete after testing.
 
-For JobApp AI Assistant, the local app is the recommended mode for private CV work. The web page can link to a separate Web Lite experiment for anonymized tests, while the main PagBiOmicS page remains a landing/download and education page.
+For JobApp AI Assistant, the local app is the recommended mode for repeated use. The web page can also link to a separate Web Lite experiment, with clear guidance to use a temporary or restricted API key and revoke it after testing.
 
 ## Monetization Without Hosted AI Costs
 

@@ -168,26 +168,26 @@ API key: leave empty unless your server requires one
 This repository is currently a localhost version. The safest PagBiOmicS web strategy is to offer two routes and explain the trade-offs clearly:
 
 - **Run locally, recommended:** download the app, run it on localhost, and enter API keys only on the user's computer.
-- **Run from the web, experimental:** possible for low-risk workflows or demos, but it must warn users about API-key trust, browser risks, and data sensitivity.
+- **Run from the web, experimental:** possible for quick BYOK tests, but it must warn users that the API key is pasted into a browser page. Users should use a temporary or restricted key, test the workflow, clear the field, and revoke/delete the key after testing.
 
-The initial public web page should be a landing/download page that explains the workflow and sends users to the desktop app. An experimental Web Lite page is included for public or anonymized tests only.
+The initial public web page should explain both routes: a local desktop app and an experimental Web Lite page. The Web Lite warning focuses on API-key exposure in the browser.
 
 - Downloadable Windows executable first.
 - Mac `.dmg` later, ideally built on macOS or GitHub Actions.
-- BYOK inside the local app for private work; Web Lite is only for public, anonymized, or low-risk tests.
+- BYOK inside the local app for routine work; Web Lite is only for quick browser tests with temporary or restricted API keys.
 - Free local tools: heuristic parsing and parsed-CV exports without AI credits.
 - Email capture for updates, tutorials, and release notifications.
 - Newsletter signup for job-search, bioinformatics, omics, and scientific-career resources.
 - Optional sponsor placements from biotech, omics, scientific software, training providers, recruiters, or job boards.
 
-The web version must be designed carefully around privacy: CVs, job postings, and API keys are sensitive data.
+The web version must be designed carefully around API-key handling: a browser-entered key can be exposed by shared devices, extensions, injected scripts, autofill, or careless reuse.
 
 An embeddable HTML prototype is included in [pagbiomics_embed.html](pagbiomics_embed.html). It is a landing/download block with a link to the experimental Web Lite page.
 
 - It links users to the desktop release.
-- It explains that private API keys and sensitive CV work belong in the local desktop app.
+- It explains that browser-entered API keys should be temporary or restricted and removed/revoked after testing.
 - It links directly to Gemini/AI Studio/Ollama setup pages.
-- It links to Web Lite only as a low-risk browser experiment.
+- It links to Web Lite as an experimental browser BYOK mode.
 
 Future paid/API-hosted/Web3 ideas are tracked in [CHANGELOG.md](CHANGELOG.md), not exposed as current web options.
 
