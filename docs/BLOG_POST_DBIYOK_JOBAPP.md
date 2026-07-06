@@ -72,7 +72,7 @@ JobApp AI Assistant currently supports workflows such as:
 
 The current recommendation is to use the desktop/local version for sensitive CVs and long workflows.
 
-An experimental browser-based Web Lite version can be used for quick BYOK tests. The important caution is the API key: users should create a temporary or restricted key, use it for the test, clear it from the page, and revoke or delete it afterward.
+An experimental browser-based Web App Lite version can be used to import a CV, focus the evidence, and run quick BYOK tests. The important caution is the API key: users should create a temporary or restricted key, use it for the test, clear it from the page, and revoke or delete it afterward.
 
 ## Beyond Research: Wider Productivity Applications
 

@@ -57,8 +57,8 @@ JobApp AI Assistant is one app in the d'BiYOK Lab direction. More tools can foll
 **Local app, recommended for private data**  
 Best for CVs, private research, client documents, and personal API keys.
 
-**Web BYOK lite, experimental**  
-Useful for quick browser tests. It must include clear warnings, avoid storing keys, and recommend temporary low-limit API keys that users revoke or delete after testing.
+**Web App Lite, experimental**  
+Useful for browser-side CV import, focused editing, and BYOK generation tests. It must include clear warnings, avoid storing keys, and recommend temporary low-limit API keys that users revoke or delete after testing.
 
 ## Monetization Direction
 
@@ -72,4 +72,4 @@ The first version does not need hosted paid AI generations. Better early options
 
 ## Safety Message
 
-PagBiOmicS should clearly explain that Web Lite uses a browser-entered API key. The recommended browser workflow is: create a temporary or restricted key, test the tool, clear the key field, and revoke or delete the key after testing.
+PagBiOmicS should clearly explain that Web App Lite uses a browser-entered API key. The recommended browser workflow is: create a temporary or restricted key, test the tool, clear the key field, and revoke or delete the key after testing.

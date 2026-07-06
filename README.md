@@ -15,7 +15,7 @@ d'BiYOK page materials are kept separately:
 - [d'BiYOK Lab concept](docs/DBIYOK_LAB.md)
 - [PagBiOmicS page content](docs/PAGBIOMICS_DBIYOK_PAGE_CONTENT.md)
 - [Blog post draft](docs/BLOG_POST_DBIYOK_JOBAPP.md)
-- [Experimental Web Lite page](docs/jobapp-web-lite.html)
+- [Experimental Web App Lite page](docs/jobapp-web-lite.html)
 
 ## What It Does
 
@@ -168,13 +168,13 @@ API key: leave empty unless your server requires one
 This repository is currently a localhost version. The safest PagBiOmicS web strategy is to offer two routes and explain the trade-offs clearly:
 
 - **Run locally, recommended:** download the app, run it on localhost, and enter API keys only on the user's computer.
-- **Run from the web, experimental:** possible for quick BYOK tests, but it must warn users that the API key is pasted into a browser page. Users should use a temporary or restricted key, test the workflow, clear the field, and revoke/delete the key after testing.
+- **Run from the web, experimental:** possible for browser-based CV import, focused editing, and BYOK generation, but it must warn users that the API key is pasted into a browser page. Users should use a temporary or restricted key, test the workflow, clear the field, and revoke/delete the key after testing.
 
-The initial public web page should explain both routes: a local desktop app and an experimental Web Lite page. The Web Lite warning focuses on API-key exposure in the browser.
+The initial public web page should explain both routes: a local desktop app and an experimental Web App Lite page. The Web App Lite warning focuses on API-key exposure in the browser.
 
 - Downloadable Windows executable first.
 - Mac `.dmg` later, ideally built on macOS or GitHub Actions.
-- BYOK inside the local app for routine work; Web Lite is only for quick browser tests with temporary or restricted API keys.
+- BYOK inside the local app for routine work; Web App Lite is for browser tests with temporary or restricted API keys.
 - Free local tools: heuristic parsing and parsed-CV exports without AI credits.
 - Email capture for updates, tutorials, and release notifications.
 - Newsletter signup for job-search, bioinformatics, omics, and scientific-career resources.
@@ -182,12 +182,14 @@ The initial public web page should explain both routes: a local desktop app and 
 
 The web version must be designed carefully around API-key handling: a browser-entered key can be exposed by shared devices, extensions, injected scripts, autofill, or careless reuse.
 
-An embeddable HTML prototype is included in [pagbiomics_embed.html](pagbiomics_embed.html). It is a landing/download block with a link to the experimental Web Lite page.
+An embeddable HTML prototype is included in [pagbiomics_embed.html](pagbiomics_embed.html). It is a landing/download block with a link to the experimental Web App Lite page.
 
 - It links users to the desktop release.
 - It explains that browser-entered API keys should be temporary or restricted and removed/revoked after testing.
 - It links directly to Gemini/AI Studio/Ollama setup pages.
-- It links to Web Lite as an experimental browser BYOK mode.
+- It links to Web App Lite as an experimental browser BYOK mode.
+
+The Web App Lite page vendors the minimal PDF.js browser files under `docs/vendor/` so PDF parsing does not require loading a PDF parser from an external CDN on the same page where users enter an API key.
 
 Future paid/API-hosted/Web3 ideas are tracked in [CHANGELOG.md](CHANGELOG.md), not exposed as current web options.
 

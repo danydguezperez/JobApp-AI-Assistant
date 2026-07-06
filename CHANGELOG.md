@@ -9,9 +9,9 @@
   - BYOK happens inside the local desktop app.
 - Hosted API, subscriptions, crypto, Cardano native tokens, and direct paid credits are moved to future roadmap.
 - Added direct API key help links for Gemini, OpenAI, Claude, and Ollama.
-- Added an experimental browser-only Web Lite page for public or anonymized tests.
+- Expanded the experimental Web App Lite page with browser-side CV import, PDF/TXT/Markdown/JSON parsing, editable section toggles, focused CV export, job URL fetch attempts, and Gemini BYOK generation.
 - Renamed public distribution references from JobApMaker to JobApp AI Assistant.
-- Clarified Web Lite warnings around browser-entered API keys: use a temporary or restricted key, test, clear the field, and revoke/delete the key after testing.
+- Clarified Web App Lite warnings around browser-entered API keys: use a temporary or restricted key, test, clear the field, and revoke/delete the key after testing.
 - Future monetization ideas to evaluate:
   - sponsored biotech/scientific software placements,
   - newsletter sponsorships,

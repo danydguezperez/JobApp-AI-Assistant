@@ -11,7 +11,7 @@ Do not paste private API keys into random websites. JobApp AI Assistant is desig
 
 The PagBiOmicS website embed is a download/education block. It should not collect API keys.
 
-An experimental Web Lite page may be published for browser-based tests. In that mode, the user's browser calls the selected AI provider directly with the user's own API key. The main risk is API-key exposure in the browser environment. PagBiOmicS should label this clearly and recommend a temporary or restricted key that the user revokes or deletes after testing.
+An experimental Web App Lite page may be published for browser-based tests. In that mode, the user's browser can parse a CV locally and call the selected AI provider directly with the user's own API key. The main risk is API-key exposure in the browser environment. PagBiOmicS should label this clearly and recommend a temporary or restricted key that the user revokes or deletes after testing.
 
 ## Why Be Careful With BYOK In The Website?
 
@@ -22,7 +22,9 @@ Asking users to paste API keys into a website creates trust and liability proble
 - browser extensions or injected scripts may see sensitive fields,
 - a backend proxy must be carefully secured and documented.
 
-For early releases, the safer approach for repeated or sensitive work is a local executable. A static Web Lite mode can exist as a clearly labelled browser experiment if users are told to use a temporary or low-limit key and remove/revoke it after testing.
+For early releases, the safer approach for repeated or sensitive work is a local executable. A static Web App Lite mode can exist as a clearly labelled browser experiment if users are told to use a temporary or low-limit key and remove/revoke it after testing.
+
+The Web App Lite page vendors PDF.js locally in this repository for browser-side PDF parsing. It should not load parser code from a third-party CDN on the same page where users paste API keys.
 
 ## Hosted API Roadmap
 

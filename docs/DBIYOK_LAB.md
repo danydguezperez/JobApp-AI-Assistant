@@ -41,9 +41,9 @@ The initiative aims to:
 The long-term product line can offer two routes:
 
 - **Local app, recommended:** safest for private documents and API keys. The user downloads the app, runs it on localhost, and enters their key locally.
-- **Web BYOK lite, experimental:** useful for lightweight browser tests. Must show warnings, avoid storing keys, and recommend temporary or low-limit API keys that users revoke or delete after testing.
+- **Web App Lite, experimental:** useful for browser-side CV import, focused editing, and BYOK generation tests. Must show warnings, avoid storing keys, and recommend temporary or low-limit API keys that users revoke or delete after testing.
 
-For JobApp AI Assistant, the local app is the recommended mode for repeated use. The web page can also link to a separate Web Lite experiment, with clear guidance to use a temporary or restricted API key and revoke it after testing.
+For JobApp AI Assistant, the local app is the recommended mode for repeated use. The web page can also link to a separate Web App Lite experiment, with clear guidance to use a temporary or restricted API key and revoke it after testing.
 
 ## Monetization Without Hosted AI Costs
 

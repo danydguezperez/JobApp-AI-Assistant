@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>JobApp AI Assistant Web Lite</title>
+    <title>JobApp AI Assistant Web App Lite</title>
     <style>
       :root {
         --ink: #f7fbf7;
@@ -12,7 +12,6 @@
         --mint: #61dec0;
         --gold: #f2b21f;
         --danger: #ff6767;
-        --bg: #061012;
         --panel: rgba(10, 26, 29, 0.92);
         --line: rgba(97, 222, 192, 0.24);
       }
@@ -27,11 +26,7 @@
           linear-gradient(145deg, #061012 0%, #102123 62%, #17170d 100%);
         min-height: 100vh;
       }
-      main {
-        width: min(1180px, calc(100% - 28px));
-        margin: 0 auto;
-        padding: 38px 0 54px;
-      }
+      main { width: min(1220px, calc(100% - 28px)); margin: 0 auto; padding: 38px 0 54px; }
       .hero, .panel {
         border: 1px solid var(--line);
         border-radius: 10px;
@@ -45,6 +40,7 @@
         gap: 24px;
         align-items: center;
       }
+      .panel { padding: clamp(20px, 4vw, 34px); margin-top: 18px; }
       .mark {
         width: 58px;
         height: 58px;
@@ -64,19 +60,10 @@
         letter-spacing: 0.1em;
         text-transform: uppercase;
       }
-      h1, h2 {
-        font-family: Georgia, "Times New Roman", serif;
-        letter-spacing: 0;
-      }
-      h1 {
-        margin: 0;
-        font-size: clamp(2.45rem, 7vw, 5.1rem);
-        line-height: 0.94;
-      }
-      h2 {
-        margin: 0 0 14px;
-        font-size: clamp(1.8rem, 4vw, 2.8rem);
-      }
+      h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; letter-spacing: 0; }
+      h1 { margin: 0; font-size: clamp(2.45rem, 7vw, 5.1rem); line-height: 0.94; }
+      h2 { margin: 0 0 14px; font-size: clamp(1.8rem, 4vw, 2.75rem); }
+      h3 { margin: 0 0 8px; font-size: 1.35rem; }
       p { color: var(--muted); line-height: 1.62; }
       a { color: var(--mint); }
       .warning {
@@ -86,13 +73,8 @@
         padding: 16px;
       }
       .warning strong { color: #ffd1d1; }
-      .grid {
-        display: grid;
-        grid-template-columns: 0.9fr 1.1fr;
-        gap: 18px;
-        margin-top: 18px;
-      }
-      .panel { padding: clamp(20px, 4vw, 34px); margin-top: 18px; }
+      .grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 18px; margin-top: 18px; }
+      .three-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
       label { display: grid; gap: 8px; color: var(--muted); font-weight: 800; }
       input, select, textarea {
         width: 100%;
@@ -103,25 +85,18 @@
         padding: 12px 13px;
         font: inherit;
       }
-      textarea { min-height: 170px; resize: vertical; }
-      .checks {
-        display: grid;
-        gap: 10px;
-        margin-top: 14px;
-      }
-      .checks label {
+      input[type="file"] { padding: 10px; }
+      textarea { min-height: 160px; resize: vertical; }
+      .section-card textarea { min-height: 120px; }
+      .checks { display: grid; gap: 10px; margin-top: 14px; }
+      .checks label, .inline-check {
         display: flex;
         align-items: flex-start;
         gap: 10px;
         font-weight: 700;
       }
-      .checks input { width: auto; margin-top: 4px; }
-      .actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 18px;
-      }
+      .checks input, .inline-check input { width: auto; margin-top: 4px; }
+      .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
       button, .btn {
         min-height: 44px;
         display: inline-flex;
@@ -141,19 +116,34 @@
         background: linear-gradient(135deg, var(--mint), #e4cc72);
         border-color: transparent;
       }
-      button:disabled {
-        cursor: not-allowed;
-        opacity: 0.5;
+      button:disabled { cursor: not-allowed; opacity: 0.5; }
+      .mini { color: var(--soft); font-size: 0.92rem; }
+      .status {
+        margin-top: 12px;
+        border: 1px solid rgba(255,255,255,0.13);
+        border-radius: 7px;
+        background: rgba(255,255,255,0.045);
+        color: var(--muted);
+        padding: 12px;
       }
-      .sponsor {
-        border: 1px dashed rgba(242, 178, 31, 0.52);
+      .section-list { display: grid; gap: 12px; margin-top: 16px; }
+      .section-card {
+        border: 1px solid rgba(255,255,255,0.13);
         border-radius: 8px;
-        padding: 16px;
-        background: rgba(242, 178, 31, 0.06);
+        background: rgba(255,255,255,0.045);
+        padding: 14px;
       }
+      .section-card header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .section-card strong { color: var(--ink); }
       .output {
         white-space: pre-wrap;
-        min-height: 220px;
+        min-height: 240px;
         border: 1px solid rgba(255,255,255,0.13);
         border-radius: 8px;
         background: rgba(0,0,0,0.23);
@@ -161,9 +151,14 @@
         color: var(--ink);
         line-height: 1.55;
       }
-      .mini { color: var(--soft); font-size: 0.92rem; }
-      @media (max-width: 900px) {
-        .hero, .grid { grid-template-columns: 1fr; }
+      .sponsor {
+        border: 1px dashed rgba(242, 178, 31, 0.52);
+        border-radius: 8px;
+        padding: 16px;
+        background: rgba(242, 178, 31, 0.06);
+      }
+      @media (max-width: 920px) {
+        .hero, .grid, .three-grid { grid-template-columns: 1fr; }
       }
     </style>
   </head>
@@ -172,9 +167,9 @@
       <section class="hero">
         <div>
           <div class="mark" aria-hidden="true">JA</div>
-          <p class="eyebrow">Experimental Web Lite</p>
+          <p class="eyebrow">Experimental Web App Lite</p>
           <h1>JobApp AI Assistant</h1>
-          <p>Quick BYOK test from the browser. The main caution is the API key: use a temporary or restricted key, test the workflow, then remove or revoke that key in your provider account.</p>
+          <p>Import a CV in the browser, focus the relevant evidence, paste or fetch a job posting when possible, and generate an editable draft with your own Gemini API key.</p>
           <div class="actions">
             <a class="btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-Windows.exe">Download local app</a>
             <a class="btn" href="https://github.com/danydguezperez/JobApp-AI-Assistant">View repository</a>
@@ -182,12 +177,83 @@
         </div>
         <div class="warning">
           <strong>API-key warning:</strong>
-          <p>This page runs in your browser and sends your request directly to the Gemini API using the key you paste here. PagBiOmicS does not store the key, but browser extensions, shared computers, injected scripts, and browser history/autofill can create exposure risks. Best practice: create a temporary or low-limit key for this test, use it, clear it from this page, and then revoke/delete it in Google AI Studio.</p>
+          <p>This page runs in your browser and sends your request directly to Gemini using the key you paste here. PagBiOmicS does not store the key. Best practice: create a temporary or low-limit key, test the workflow, clear it from this page, and then revoke/delete it in Google AI Studio.</p>
+          <p class="mini">PDF parsing uses the PDF.js files vendored in this repository, not an external CDN.</p>
         </div>
       </section>
 
       <section class="panel">
-        <h2>Generate a quick tailored draft</h2>
+        <p class="eyebrow">Step 1</p>
+        <h2>Import CV</h2>
+        <div class="grid">
+          <div>
+            <label>
+              CV file from your computer
+              <input id="cvFile" type="file" accept=".pdf,.txt,.md,.json" />
+            </label>
+            <div class="actions">
+              <button id="parseCvBtn" class="primary" type="button">Parse CV in browser</button>
+              <button id="clearCvBtn" type="button">Clear CV</button>
+            </div>
+            <p class="mini">Supported here: PDF, TXT, Markdown, and simple JSON. The desktop app remains better for large or complex CV workflows.</p>
+            <div id="cvStatus" class="status">No CV loaded yet.</div>
+          </div>
+          <div>
+            <label>
+              Import profile text from URL, when CORS allows it
+              <input id="profileUrl" type="url" placeholder="ORCID/Ciencia Vitae/public profile URL" />
+            </label>
+            <div class="actions">
+              <button id="fetchProfileBtn" type="button">Fetch profile URL</button>
+            </div>
+            <p class="mini">Many platforms block browser fetches. If that happens, copy/paste the profile or use the desktop app.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <p class="eyebrow">Step 2</p>
+        <h2>Focus CV evidence</h2>
+        <p>Select only the sections that should guide this application. You can edit each block before generating.</p>
+        <div class="actions">
+          <button id="selectAllBtn" type="button">Select all</button>
+          <button id="selectCoreBtn" type="button">Select core profile</button>
+          <button id="downloadFocusedBtn" type="button" disabled>Download focused CV MD</button>
+        </div>
+        <div id="sections" class="section-list">
+          <div class="status">Import a CV to create editable sections.</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <p class="eyebrow">Step 3</p>
+        <h2>Job posting</h2>
+        <div class="three-grid">
+          <label>
+            Position
+            <input id="position" type="text" placeholder="Bioinformatics Analyst, Account Manager..." />
+          </label>
+          <label>
+            Company
+            <input id="company" type="text" placeholder="Company name" />
+          </label>
+          <label>
+            Job URL
+            <input id="jobUrl" type="url" placeholder="Job posting URL" />
+          </label>
+        </div>
+        <div class="actions">
+          <button id="fetchJobBtn" type="button">Fetch job URL</button>
+        </div>
+        <label style="margin-top:14px">
+          Job description
+          <textarea id="jobText" placeholder="Paste the job posting here, or fetch it from a URL if the site allows browser access."></textarea>
+        </label>
+      </section>
+
+      <section class="panel">
+        <p class="eyebrow">Step 4</p>
+        <h2>Generate application draft</h2>
         <div class="grid">
           <div>
             <label>
@@ -203,7 +269,7 @@
               </select>
             </label>
             <div class="checks">
-              <label><input id="safeData" type="checkbox" /> I understand that my browser sends this text directly to the model provider.</label>
+              <label><input id="safeData" type="checkbox" /> I understand that my browser sends the selected CV text and job text directly to Gemini.</label>
               <label><input id="ownKey" type="checkbox" /> I am using my own temporary or restricted API key and will revoke/delete it after testing.</label>
             </div>
             <div class="actions">
@@ -212,17 +278,9 @@
               <button id="copyBtn" type="button">Copy output</button>
               <button id="downloadBtn" type="button" disabled>Download MD</button>
             </div>
-            <p class="mini">Tip: after testing, delete or revoke the browser-test key in Google AI Studio. Clearing this field only removes the visible value from the page.</p>
           </div>
           <div>
-            <label>
-              CV or profile summary
-              <textarea id="cvText" placeholder="Paste a focused CV or profile summary for this browser test."></textarea>
-            </label>
-            <label style="margin-top:14px">
-              Job posting
-              <textarea id="jobText" placeholder="Paste the job posting or a short role description."></textarea>
-            </label>
+            <div class="status" id="focusPreview">No focused CV selected yet.</div>
           </div>
         </div>
       </section>
@@ -238,9 +296,28 @@
       </section>
     </main>
 
-    <script>
+    <script type="module">
+      import * as pdfjsLib from "./vendor/pdf.mjs";
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "./vendor/pdf.worker.mjs";
+
       const $ = (id) => document.getElementById(id);
+      const sectionOrder = ["profile", "experience", "education", "skills", "publications", "projects", "software", "other"];
+      const sectionLabels = {
+        profile: "Profile summary",
+        experience: "Experience",
+        education: "Education",
+        skills: "Skills",
+        publications: "Publications",
+        projects: "Projects",
+        software: "Software",
+        other: "Other evidence"
+      };
+      let sections = {};
       let lastOutput = "";
+
+      function setStatus(id, text) {
+        $(id).textContent = text;
+      }
 
       function setOutput(text) {
         lastOutput = text;
@@ -248,19 +325,229 @@
         $("downloadBtn").disabled = !text || text.startsWith("Error:");
       }
 
+      function cleanText(text) {
+        return (text || "")
+          .replace(/\r/g, "\n")
+          .replace(/[ \t]+\n/g, "\n")
+          .replace(/\n{3,}/g, "\n\n")
+          .replace(/^\s*(p[aá]gina|page)\s+\d+.*$/gim, "")
+          .replace(/^\s*c[ií]ência vitae.*$/gim, "")
+          .replace(/^\s*curriculum vitae.*$/gim, "")
+          .trim();
+      }
+
+      async function readPdf(file) {
+        const data = new Uint8Array(await file.arrayBuffer());
+        const pdf = await pdfjsLib.getDocument({ data }).promise;
+        const pages = [];
+        for (let pageNo = 1; pageNo <= pdf.numPages; pageNo += 1) {
+          const page = await pdf.getPage(pageNo);
+          const content = await page.getTextContent();
+          pages.push(content.items.map((item) => item.str || "").join(" "));
+        }
+        return pages.join("\n\n");
+      }
+
+      async function readCvFile(file) {
+        const name = file.name.toLowerCase();
+        if (name.endsWith(".pdf")) return readPdf(file);
+        return file.text();
+      }
+
+      function mergeSection(key, value) {
+        const text = cleanText(value);
+        if (!text) return;
+        sections[key] = sections[key] ? `${sections[key]}\n\n${text}` : text;
+      }
+
+      function parseJsonCv(text) {
+        const data = JSON.parse(text);
+        const chunks = {};
+        for (const [key, value] of Object.entries(data)) {
+          if (Array.isArray(value)) {
+            chunks[key.toLowerCase()] = value.map((item) => typeof item === "string" ? item : Object.values(item).filter(Boolean).join(" | ")).join("\n");
+          } else if (typeof value === "object" && value) {
+            chunks[key.toLowerCase()] = Object.entries(value).map(([k, v]) => `${k}: ${v}`).join("\n");
+          } else {
+            chunks[key.toLowerCase()] = String(value || "");
+          }
+        }
+        sections = {};
+        for (const [key, value] of Object.entries(chunks)) {
+          const mapped = sectionOrder.find((name) => key.includes(name)) || (key.includes("personal") ? "profile" : "other");
+          mergeSection(mapped, value);
+        }
+      }
+
+      function parseTextCv(text) {
+        const cleaned = cleanText(text);
+        const lines = cleaned.split("\n");
+        sections = { profile: "" };
+        let current = "profile";
+        const headingMap = [
+          ["experience", /^(experience|professional|employment|work experience|positions?|appointments?)$/i],
+          ["education", /^(education|academic degrees?|degrees?|training)$/i],
+          ["skills", /^(skills?|technical skills?|competenc|expertise|languages?)$/i],
+          ["publications", /^(publications?|articles?|papers?|scientific production)$/i],
+          ["projects", /^(projects?|research projects?|grants?)$/i],
+          ["software", /^(software|tools?|code|repositories|github)$/i],
+        ];
+        for (const raw of lines) {
+          const line = raw.trim();
+          if (!line) {
+            mergeSection(current, "\n");
+            continue;
+          }
+          const normalized = line.replace(/[:\-]+$/, "").trim();
+          const match = headingMap.find(([, pattern]) => pattern.test(normalized));
+          if (match) {
+            current = match[0];
+            if (!sections[current]) sections[current] = "";
+            continue;
+          }
+          mergeSection(current, line);
+        }
+        if (!sections.profile && cleaned) sections.profile = cleaned.slice(0, 1200);
+      }
+
+      function renderSections() {
+        const container = $("sections");
+        container.innerHTML = "";
+        const entries = sectionOrder.filter((key) => sections[key]?.trim());
+        if (!entries.length) {
+          container.innerHTML = '<div class="status">No sections detected. Paste text manually in the CV area after importing.</div>';
+          updateFocusedPreview();
+          return;
+        }
+        for (const key of entries) {
+          const card = document.createElement("article");
+          card.className = "section-card";
+          card.innerHTML = `
+            <header>
+              <strong>${sectionLabels[key]}</strong>
+              <label class="inline-check"><input type="checkbox" class="section-toggle" data-section="${key}" checked /> Include</label>
+            </header>
+            <textarea class="section-text" data-section="${key}">${sections[key]}</textarea>
+          `;
+          container.appendChild(card);
+        }
+        container.querySelectorAll("textarea, input").forEach((element) => {
+          element.addEventListener("input", updateFocusedPreview);
+          element.addEventListener("change", updateFocusedPreview);
+        });
+        $("downloadFocusedBtn").disabled = false;
+        updateFocusedPreview();
+      }
+
+      function getFocusedCv() {
+        const cards = Array.from(document.querySelectorAll(".section-card"));
+        return cards.map((card) => {
+          const toggle = card.querySelector(".section-toggle");
+          const text = card.querySelector(".section-text").value.trim();
+          if (!toggle.checked || !text) return "";
+          const label = sectionLabels[toggle.dataset.section] || toggle.dataset.section;
+          return `## ${label}\n${text}`;
+        }).filter(Boolean).join("\n\n");
+      }
+
+      function updateFocusedPreview() {
+        const focused = getFocusedCv();
+        $("focusPreview").textContent = focused
+          ? `Focused CV ready: ${focused.length.toLocaleString()} characters selected.`
+          : "No focused CV selected yet.";
+      }
+
+      async function parseCv() {
+        const file = $("cvFile").files?.[0];
+        if (!file) return setStatus("cvStatus", "Choose a CV file first.");
+        setStatus("cvStatus", `Reading ${file.name}...`);
+        try {
+          const text = await readCvFile(file);
+          if (file.name.toLowerCase().endsWith(".json")) parseJsonCv(text);
+          else parseTextCv(text);
+          renderSections();
+          setStatus("cvStatus", `Loaded ${file.name}. Parsed ${Object.keys(sections).filter((key) => sections[key]?.trim()).length} editable sections in the browser.`);
+        } catch (error) {
+          setStatus("cvStatus", `Could not parse CV: ${error.message}`);
+        }
+      }
+
+      async function fetchPlainUrl(inputId, targetId, statusId) {
+        const url = $(inputId).value.trim();
+        if (!url) return setStatus(statusId, "Add a URL first.");
+        try {
+          setStatus(statusId, "Fetching URL...");
+          const response = await fetch(url);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const html = await response.text();
+          const doc = new DOMParser().parseFromString(html, "text/html");
+          doc.querySelectorAll("script,style,nav,footer,header,aside").forEach((node) => node.remove());
+          const text = cleanText(doc.body?.innerText || html).slice(0, 18000);
+          $(targetId).value = text;
+          setStatus(statusId, `Fetched ${text.length.toLocaleString()} characters. Review before generating.`);
+        } catch (error) {
+          setStatus(statusId, `Browser fetch failed, usually because of CORS or login protection. Paste the text manually. Details: ${error.message}`);
+        }
+      }
+
+      async function fetchProfileUrl() {
+        const url = $("profileUrl").value.trim();
+        if (!url) return setStatus("cvStatus", "Add a profile URL first.");
+        try {
+          setStatus("cvStatus", "Fetching profile URL...");
+          const response = await fetch(url);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const html = await response.text();
+          const doc = new DOMParser().parseFromString(html, "text/html");
+          doc.querySelectorAll("script,style,nav,footer,header,aside").forEach((node) => node.remove());
+          const text = cleanText(doc.body?.innerText || html).slice(0, 22000);
+          parseTextCv(text);
+          renderSections();
+          setStatus("cvStatus", `Fetched and parsed ${text.length.toLocaleString()} characters from the profile URL. Review sections before generating.`);
+        } catch (error) {
+          setStatus("cvStatus", `Browser profile fetch failed, usually because of CORS, login protection, or platform restrictions. Paste the profile/CV text manually or use the desktop app. Details: ${error.message}`);
+        }
+      }
+
+      function downloadText(filename, text, type = "text/markdown;charset=utf-8") {
+        const blob = new Blob([text], { type });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }
+
       async function generateDraft() {
         const key = $("apiKey").value.trim();
         const model = $("model").value;
-        const cvText = $("cvText").value.trim();
+        const focusedCv = getFocusedCv();
         const jobText = $("jobText").value.trim();
+        const position = $("position").value.trim();
+        const company = $("company").value.trim();
         if (!key) return setOutput("Error: add your Gemini API key first.");
         if (!$("safeData").checked || !$("ownKey").checked) {
           return setOutput("Error: confirm the browser/API-key warnings before generating.");
         }
-        if (cvText.length < 80 || jobText.length < 80) {
-          return setOutput("Error: add a longer CV/profile summary and job posting.");
-        }
-        const prompt = `You are JobApp AI Assistant. Use the CV/profile summary and job posting below to create a concise, editable job-application draft. Return Markdown with these sections: Tailored CV bullets, Cover letter draft, Interview risks and answers, ATS keywords.\n\nCV/profile summary:\n${cvText}\n\nJob posting:\n${jobText}`;
+        if (focusedCv.length < 80) return setOutput("Error: import or select more CV content first.");
+        if (jobText.length < 80) return setOutput("Error: add a longer job posting.");
+        const prompt = `You are JobApp AI Assistant. Create an editable job-application draft from the selected CV evidence and the job posting.
+
+Return Markdown with these sections:
+1. Tailored CV bullets
+2. Cover letter draft
+3. Interview risks and strong answers
+4. ATS keywords
+5. Missing information to ask the user
+
+Position: ${position || "Not specified"}
+Company: ${company || "Not specified"}
+
+Selected CV evidence:
+${focusedCv}
+
+Job posting:
+${jobText}`;
         setOutput("Generating...");
         try {
           const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`, {
@@ -272,9 +559,7 @@
             })
           });
           const data = await response.json();
-          if (!response.ok) {
-            throw new Error(data.error?.message || `Gemini request failed (${response.status})`);
-          }
+          if (!response.ok) throw new Error(data.error?.message || `Gemini request failed (${response.status})`);
           const text = data.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("\n").trim();
           setOutput(text || "Error: empty model response.");
         } catch (error) {
@@ -282,31 +567,42 @@
         }
       }
 
-      async function copyOutput() {
-        if (!lastOutput) return;
-        await navigator.clipboard.writeText(lastOutput);
+      function clearCv() {
+        sections = {};
+        $("cvFile").value = "";
+        $("sections").innerHTML = '<div class="status">Import a CV to create editable sections.</div>';
+        $("downloadFocusedBtn").disabled = true;
+        setStatus("cvStatus", "No CV loaded yet.");
+        updateFocusedPreview();
       }
 
-      function clearKeyField() {
+      $("parseCvBtn").addEventListener("click", parseCv);
+      $("clearCvBtn").addEventListener("click", clearCv);
+      $("fetchProfileBtn").addEventListener("click", fetchProfileUrl);
+      $("fetchJobBtn").addEventListener("click", () => fetchPlainUrl("jobUrl", "jobText", "focusPreview"));
+      $("selectAllBtn").addEventListener("click", () => {
+        document.querySelectorAll(".section-toggle").forEach((box) => { box.checked = true; });
+        updateFocusedPreview();
+      });
+      $("selectCoreBtn").addEventListener("click", () => {
+        document.querySelectorAll(".section-toggle").forEach((box) => {
+          box.checked = ["profile", "experience", "skills", "software"].includes(box.dataset.section);
+        });
+        updateFocusedPreview();
+      });
+      $("downloadFocusedBtn").addEventListener("click", () => downloadText("focused-cv.md", getFocusedCv()));
+      $("generateBtn").addEventListener("click", generateDraft);
+      $("clearKeyBtn").addEventListener("click", () => {
         $("apiKey").value = "";
         $("apiKey").focus();
         setOutput("API key field cleared on this page. If this was a temporary browser-test key, revoke or delete it in Google AI Studio too.");
-      }
-
-      function downloadOutput() {
-        if (!lastOutput) return;
-        const blob = new Blob([lastOutput], { type: "text/markdown;charset=utf-8" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "jobapp-web-lite-output.md";
-        link.click();
-        URL.revokeObjectURL(link.href);
-      }
-
-      $("generateBtn").addEventListener("click", generateDraft);
-      $("clearKeyBtn").addEventListener("click", clearKeyField);
-      $("copyBtn").addEventListener("click", copyOutput);
-      $("downloadBtn").addEventListener("click", downloadOutput);
+      });
+      $("copyBtn").addEventListener("click", async () => {
+        if (lastOutput) await navigator.clipboard.writeText(lastOutput);
+      });
+      $("downloadBtn").addEventListener("click", () => {
+        if (lastOutput) downloadText("jobapp-web-lite-output.md", lastOutput);
+      });
     </script>
   </body>
 </html>
