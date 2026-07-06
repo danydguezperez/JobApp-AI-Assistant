@@ -1,4 +1,4 @@
-# build_exe.ps1 - genera JobApMaker.exe
+# build_exe.ps1 - generates JobApp-AI-Assistant-Windows.exe
 # Ejecutar desde la raiz del proyecto: .\build_exe.ps1
 
 $ErrorActionPreference = "Stop"
@@ -9,7 +9,7 @@ Write-Host "Construyendo ejecutable..." -ForegroundColor Cyan
 pyinstaller `
     --onefile `
     --noconsole `
-    --name "JobApMaker" `
+    --name "JobApp-AI-Assistant-Windows" `
     --add-data "static;static" `
     --add-data "pagbiomics_embed.html;." `
     --hidden-import uvicorn.logging `
@@ -33,6 +33,6 @@ pyinstaller `
     launcher.py
 
 Write-Host ""
-Write-Host "LISTO: dist\JobApMaker.exe" -ForegroundColor Green
+Write-Host "LISTO: dist\JobApp-AI-Assistant-Windows.exe" -ForegroundColor Green
 Write-Host "Doble-clic para arrancar. Prefiere localhost:8080; si esta ocupado usa 8090/8091/8000 o un puerto libre 8100+." -ForegroundColor Green
-Write-Host "Para distribuir, comparte solo dist\JobApMaker.exe. Los datos se crean localmente en el PC del usuario." -ForegroundColor Green
+Write-Host "Para distribuir, comparte solo dist\JobApp-AI-Assistant-Windows.exe. Los datos se crean localmente en el PC del usuario." -ForegroundColor Green

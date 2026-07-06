@@ -9,6 +9,8 @@
   - BYOK happens inside the local desktop app.
 - Hosted API, subscriptions, crypto, Cardano native tokens, and direct paid credits are moved to future roadmap.
 - Added direct API key help links for Gemini, OpenAI, Claude, and Ollama.
+- Added an experimental browser-only Web Lite page for public or anonymized tests.
+- Renamed public distribution references from JobApMaker to JobApp AI Assistant.
 - Future monetization ideas to evaluate:
   - sponsored biotech/scientific software placements,
   - newsletter sponsorships,

@@ -41,9 +41,9 @@ The initiative aims to:
 The long-term product line can offer two routes:
 
 - **Local app, recommended:** safest for private documents and API keys. The user downloads the app, runs it on localhost, and enters their key locally.
-- **Web BYOK lite, advanced/future:** useful for lightweight demos or public/non-sensitive data. Must show warnings, avoid storing keys, and ideally recommend temporary API keys with low limits.
+- **Web BYOK lite, experimental:** useful for lightweight demos or public/non-sensitive data. Must show warnings, avoid storing keys, and recommend temporary or low-limit API keys.
 
-For JobApp AI Assistant, the local app is one practical app within this broader project. The web page should initially be a landing/download and education page.
+For JobApp AI Assistant, the local app is the recommended mode for private CV work. The web page can link to a separate Web Lite experiment for anonymized tests, while the main PagBiOmicS page remains a landing/download and education page.
 
 ## Monetization Without Hosted AI Costs
 

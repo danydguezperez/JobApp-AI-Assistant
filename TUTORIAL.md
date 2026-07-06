@@ -40,7 +40,7 @@ JobApp AI Assistant was created to solve that problem locally:
 For ordinary users, use the packaged desktop app:
 
 ```text
-Double-click JobApMaker.exe
+Double-click JobApp-AI-Assistant-Windows.exe
 ```
 
 It starts the local server and opens the browser automatically.
@@ -151,7 +151,7 @@ The file `pagbiomics_embed.html` is a first embeddable prototype for the PagBiOm
 
 For non-technical users, the best first experience is:
 
-1. Download `JobApMaker.exe`.
+1. Download `JobApp-AI-Assistant-Windows.exe`.
 2. Double-click it.
 3. Use the app in the browser window it opens.
 4. Add a Gemini/OpenAI/Claude/Ollama key only inside the local app.

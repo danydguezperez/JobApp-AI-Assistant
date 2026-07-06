@@ -5,7 +5,7 @@
   The d'BiYOK Lab hero/banner image should remain as a separate image section above this embed.
   This embed focuses on the JobApp AI Assistant application.
   The Windows .exe is distributed from the public GitHub release.
-  Web Lite is intentionally paused because Durable embeds may block JavaScript execution.
+  Web Lite runs as a separate static page because Durable embeds may block JavaScript execution.
 -->
 <section class="dbiyok-page" id="dbiyok-lab">
   <style>
@@ -146,11 +146,10 @@
       background: linear-gradient(135deg, #f6d36c, var(--gold));
       border-color: transparent;
     }
-    .dbiyok-btn.disabled {
+    .dbiyok-btn.danger {
       color: #ffd9d9;
       background: rgba(210, 36, 36, 0.12);
       border-color: rgba(255, 83, 83, 0.55);
-      cursor: not-allowed;
     }
     .dbiyok-section {
       margin-top: 32px;
@@ -282,12 +281,12 @@
       <h3>Available modes</h3>
       <div class="dbiyok-mode-grid">
         <article class="dbiyok-mode" id="jobapp-web">
-          <h4>Use from the web: Web Lite paused</h4>
-          <div class="dbiyok-status"><span class="dbiyok-status-icon" aria-hidden="true"></span> Not available in Durable yet</div>
-          <p>Web Lite needs JavaScript execution and careful browser-side API-key handling. Durable embeds currently render this inconsistently, so the web app mode is paused instead of being shown as a broken tool.</p>
-          <p class="dbiyok-note">Next step: deploy a dedicated backend or static BYOK web app outside Durable, then link it here as the official web version.</p>
+          <h4>Use from the web: experimental Web Lite</h4>
+          <div class="dbiyok-status"><span class="dbiyok-status-icon" aria-hidden="true"></span> Public or anonymized text only</div>
+          <p>Web Lite runs in the browser and calls Gemini directly with the user's own API key. It is useful for quick tests, but it is not the recommended path for private CVs or sensitive documents.</p>
+          <p class="dbiyok-note">For real CV work, use the local Windows app. For web tests, use a temporary or low-limit key and avoid confidential content.</p>
           <div class="dbiyok-mini-actions">
-            <span class="dbiyok-btn disabled">Web Lite paused</span>
+            <a class="dbiyok-btn danger" href="https://danydguezperez.github.io/JobApp-AI-Assistant/jobapp-web-lite.html" target="_blank" rel="noopener">Open Web Lite test</a>
           </div>
         </article>
 

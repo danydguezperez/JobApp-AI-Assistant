@@ -1,4 +1,4 @@
-# build_readme_pdf.ps1 - creates the local PDF guide next to JobApMaker.exe
+# build_readme_pdf.ps1 - creates the local PDF guide next to JobApp AI Assistant.
 # Run from the project root: .\build_readme_pdf.ps1
 
 $ErrorActionPreference = "Stop"
@@ -21,7 +21,7 @@ files = [
     ("Tutorial", root / "TUTORIAL.md"),
     ("Security", root / "SECURITY.md"),
     ("d'BiYOK Lab", root / "docs" / "DBIYOK_LAB.md"),
-    ("PagBiOmicS Page Copy", root / "docs" / "PAGBIOMICS_DBIYOK_PAGE_COPY.md"),
+    ("PagBiOmicS Page Content", root / "docs" / "PAGBIOMICS_DBIYOK_PAGE_CONTENT.md"),
     ("Blog Post Draft", root / "docs" / "BLOG_POST_DBIYOK_JOBAPP.md"),
     ("Image Prompts", root / "docs" / "IMAGE_PROMPTS.md"),
 ]

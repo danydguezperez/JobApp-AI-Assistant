@@ -1,44 +1,99 @@
-# Blog Post Draft: Introducing d'BiYOK Lab and JobApp AI Assistant
+# d'BiYOK Lab: A Parallel PagBiOmicS Space for Practical AI-Assisted Productivity Tools
 
-## Title Options
+Artificial intelligence is rapidly becoming part of how we write, research, organize information, apply for jobs, clean data, learn new skills, and build professional workflows. But as these tools become more powerful, another question becomes increasingly important: how can we use AI in a way that is practical, transparent, and more respectful of user control?
 
-- Introducing d'BiYOK Lab: Bring Your Own Key AI-assisted Apps by PagBiOmicS
-- Why I Am Building BYOK AI Apps for Researchers, Professionals, and Everyday Workflows
-- JobApp AI Assistant: A Local AI Tool for Tailoring Scientific CVs
+This is where **d'BiYOK Lab** begins.
 
-## Draft
+d'BiYOK Lab is a parallel project space within **PagBiOmicS**, created to explore practical AI-assisted tools beyond the strictly bioinformatics and omics context. While PagBiOmicS remains connected to biodiscovery, scientific training, omics, and applied research, d'BiYOK Lab expands that mindset toward broader productivity applications.
 
-AI tools are becoming more powerful, but many useful professional workflows still need more than a generic chatbot. Researchers, freelancers, entrepreneurs, and technical professionals often need small, focused applications that understand a specific task and help them work faster without giving up control of their data.
+The idea is simple: build focused tools that help people work better with AI, while making the process easier to understand.
 
-That is the idea behind **d'BiYOK Lab**, a PagBiOmicS initiative that integrates **Bi**, as **Biodiscovery-Integrated**, with BYOK: **Bring Your Own Key for AI-assisted Apps**.
+## What d'BiYOK Means
 
-The goal is to create practical AI applications that users can run with their own API keys or local models. These tools are meant to be productive, educational, and transparent. They should help people understand how AI APIs work, where their data goes, and why local-first workflows matter when documents are sensitive.
+The name **d'BiYOK** combines two ideas.
 
-One app I am preparing in this direction is **JobApp AI Assistant**.
+**Bi** reflects a Biodiscovery-Integrated perspective: the PagBiOmicS habit of connecting science, data, workflows, and applied problem-solving.
 
-Job applications are rarely won by sending the same CV everywhere. This is especially true for scientific and technical profiles. A researcher may need to emphasize publications for one role, software development for another, commercial experience for another, and project management for yet another.
+**BYOK** means **Bring Your Own Key**. In this context, it refers to applications where users can connect their own AI provider API key, such as Gemini, OpenAI, Claude, DeepSeek, GLM, Ollama, or other compatible systems.
 
-JobApp AI Assistant helps with that process. It can import a structured CV, parse it into editable sections, let the user select only the relevant experience, and then generate tailored CV bullets, a cover letter, and interview preparation for a specific job posting.
+Together, d'BiYOK Lab represents a space for AI-assisted applications that are practical, transparent, and user-oriented.
 
-The current strategy is local-first. Users download the app, run it on their own computer, and add their own API key inside the local interface. This avoids asking users to paste private API keys into a public website and keeps CV files and generated documents on the user's machine.
+## Why Create a Parallel Space?
 
-The broader d'BiYOK Lab idea is not limited to CV tools or research-only workflows. Future apps can focus on biodiscovery, literature work, data cleaning, proposal writing, business development, scientific communication, learning tools, everyday productivity, or other tasks where custom AI workflows are more useful than a generic chat window.
+PagBiOmicS started from a scientific and bioinformatics-oriented foundation. But many of the same principles that make scientific workflows useful also apply to broader productivity: structure messy information, make outputs editable, keep workflows reproducible, help users understand what the tool is doing, reduce unnecessary dependence on opaque platforms, and treat AI as an assistant rather than a black box.
 
-The philosophy is simple:
+d'BiYOK Lab allows PagBiOmicS to explore these ideas in a wider setting.
 
-- local-first when data is sensitive,
-- BYOK when users need AI generation,
-- transparent instructions,
-- practical outputs,
-- educational value,
-- responsible growth before monetization.
+The goal is not only to build tools for researchers. The goal is to support professionals, students, entrepreneurs, educators, job seekers, and everyday users who want practical AI workflows without losing control of their documents, keys, or process.
 
-PagBiOmicS may later explore web versions, sponsored tutorials, biotech/scientific-tool placements, or premium consulting services. But the first priority is to make the tools useful, safe, and easy to run.
+## Local-First and BYOK as Design Principles
 
-JobApp AI Assistant is one step in that direction.
+Some AI workflows are convenient in the cloud. Others deserve more caution.
 
-## Call To Action
+CVs, unpublished research, client documents, business plans, grant drafts, academic records, and personal files can contain sensitive information. For this reason, d'BiYOK Lab gives priority to a **local-first** approach whenever possible.
 
-Download the local app, try it with your own CV, and connect your preferred AI provider: Gemini, OpenAI, Claude, Ollama, DeepSeek, GLM, or another compatible API.
+A local-first app can run on the user's own computer, often through a local browser address such as `localhost`, while keeping files, exports, and databases on the user's machine.
 
-Your documents stay local. Your API key stays with you. The workflow stays understandable.
+The BYOK model complements this idea. Instead of forcing every user through a single centralized API account, a BYOK tool lets the user connect their own AI provider. This makes costs, limits, and model choice more transparent. It also helps users learn how AI tools actually work.
+
+This does not remove every privacy concern. Users still need to understand each provider's terms and avoid sending highly sensitive material blindly. But it creates a more educational and user-controlled model than many closed workflows.
+
+## Current Application: JobApp AI Assistant
+
+The current application presented under d'BiYOK Lab is **JobApp AI Assistant**.
+
+JobApp AI Assistant is a local-first CV parser, job matcher, and application exporter. It helps users adapt their CV and application materials to specific job opportunities in a more structured way.
+
+Instead of simply asking an AI model to "rewrite my CV", the app encourages a more careful process:
+
+1. Import a CV from PDF, TXT, or structured CV exports.
+2. Parse the CV into editable English sections.
+3. Select only the experience, skills, projects, and publications that matter for a specific job.
+4. Paste or fetch a job description.
+5. Generate tailored CV bullets, cover letter drafts, and interview preparation notes.
+6. Export the result as editable files.
+
+This matters because job applications are personal and strategic. A CV contains private professional history, motivations, skills, and sometimes unpublished work. A local-first workflow gives users more control while still benefiting from AI assistance.
+
+## What JobApp AI Assistant Can Do
+
+JobApp AI Assistant currently supports workflows such as:
+
+- CV import and parsing,
+- structured editing of CV sections,
+- role-focused filtering before AI generation,
+- job description matching,
+- tailored CV bullet generation,
+- cover letter drafting,
+- interview question preparation,
+- local application history,
+- export to editable formats such as DOCX, PDF, Markdown, and JSON,
+- connection to AI providers through user-configured API keys or compatible local models.
+
+The current recommendation is to use the desktop/local version for sensitive CVs and long workflows.
+
+An experimental browser-based Web Lite version can be used for public or anonymized tests, but it does not replace the local app for private documents.
+
+## Beyond Research: Wider Productivity Applications
+
+Although the project grows naturally from PagBiOmicS, d'BiYOK Lab is not limited to bioinformatics or academic research.
+
+The same approach can support literature and document assistants, data cleaning utilities, job application workflows, business planning helpers, learning and training apps, writing and editing tools, local knowledge-base assistants, and small automation tools for professionals and citizens.
+
+The common thread is not the domain. The common thread is the philosophy: practical, transparent, editable, and user-controlled AI assistance.
+
+## Current Links
+
+- JobApp AI Assistant repository: https://github.com/danydguezperez/JobApp-AI-Assistant
+- Windows release: https://github.com/danydguezperez/JobApp-AI-Assistant/releases/tag/v0.1.0
+- Download Windows app: https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-Windows.exe
+- Download user guide: https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-README.pdf
+- Get a Gemini API key: https://ai.google.dev/gemini-api/docs/api-key
+
+## Closing Perspective
+
+d'BiYOK Lab is a parallel PagBiOmicS space for exploring practical AI-assisted productivity tools.
+
+It is experimental, but intentional. The aim is to build small, focused applications that solve real problems, make AI workflows easier to understand, and give users more control over their own data, keys, documents, and outputs.
+
+JobApp AI Assistant is one step in this direction.

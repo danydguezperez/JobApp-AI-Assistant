@@ -1,5 +1,5 @@
 """
-JobApMaker launcher - packaged with PyInstaller.
+JobApp AI Assistant launcher - packaged with PyInstaller.
 Starts uvicorn in-process, waits until the server is ready,
 and opens the browser automatically.
 """
@@ -72,5 +72,5 @@ if __name__ == "__main__":
         main()
     except Exception:
         log_dir = Path(sys.executable).parent if getattr(sys, "frozen", False) else Path(__file__).parent
-        (log_dir / "JobApMaker_launcher.log").write_text(traceback.format_exc(), encoding="utf-8")
+        (log_dir / "JobApp-AI-Assistant-Windows_launcher.log").write_text(traceback.format_exc(), encoding="utf-8")
         raise

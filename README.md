@@ -13,8 +13,9 @@ This app can be presented under the broader [d'BiYOK Lab](docs/DBIYOK_LAB.md) id
 d'BiYOK page materials are kept separately:
 
 - [d'BiYOK Lab concept](docs/DBIYOK_LAB.md)
-- [PagBiOmicS page copy](docs/PAGBIOMICS_DBIYOK_PAGE_COPY.md)
+- [PagBiOmicS page content](docs/PAGBIOMICS_DBIYOK_PAGE_CONTENT.md)
 - [Blog post draft](docs/BLOG_POST_DBIYOK_JOBAPP.md)
+- [Experimental Web Lite page](docs/jobapp-web-lite.html)
 
 ## What It Does
 
@@ -56,7 +57,7 @@ Local providers can run without an API key when they expose an OpenAI-compatible
 
 ## Recommended Local Workflow
 
-For non-technical users, the preferred distribution is the desktop executable: double-click `JobApMaker.exe`, the app starts a local server, and the browser opens automatically.
+For non-technical users, the preferred distribution is the desktop executable: double-click `JobApp-AI-Assistant-Windows.exe`, the app starts a local server, and the browser opens automatically.
 
 For development:
 
@@ -86,10 +87,10 @@ powershell -ExecutionPolicy Bypass -File .\build_exe.ps1
 Output:
 
 ```text
-dist\JobApMaker.exe
+dist\JobApp-AI-Assistant-Windows.exe
 ```
 
-For distribution, share only `dist\JobApMaker.exe`. Do not bundle local `data/`, `exports/`, `applications.db`, or API configuration files. On first run, the app creates its own local data folders next to the executable on the user's computer.
+For distribution, share only `dist\JobApp-AI-Assistant-Windows.exe`. Do not bundle local `data/`, `exports/`, `applications.db`, or API configuration files. On first run, the app creates its own local data folders next to the executable on the user's computer.
 
 The launcher prefers `localhost:8080`; if that is busy, it tries `8090`, `8091`, `8000`, and then a free port from `8100+`.
 
@@ -167,13 +168,13 @@ API key: leave empty unless your server requires one
 This repository is currently a localhost version. The safest PagBiOmicS web strategy is to offer two routes and explain the trade-offs clearly:
 
 - **Run locally, recommended:** download the app, run it on localhost, and enter API keys only on the user's computer.
-- **Run from the web, advanced/future:** possible for low-risk workflows or demos, but it must warn users about API-key trust, browser risks, and data sensitivity.
+- **Run from the web, experimental:** possible for low-risk workflows or demos, but it must warn users about API-key trust, browser risks, and data sensitivity.
 
-The initial public web page should be a landing/download page that explains the workflow and sends users to the desktop app.
+The initial public web page should be a landing/download page that explains the workflow and sends users to the desktop app. An experimental Web Lite page is included for public or anonymized tests only.
 
 - Downloadable Windows executable first.
 - Mac `.dmg` later, ideally built on macOS or GitHub Actions.
-- BYOK inside the local app, not inside the website.
+- BYOK inside the local app for private work; Web Lite is only for public, anonymized, or low-risk tests.
 - Free local tools: heuristic parsing and parsed-CV exports without AI credits.
 - Email capture for updates, tutorials, and release notifications.
 - Newsletter signup for job-search, bioinformatics, omics, and scientific-career resources.
@@ -181,12 +182,12 @@ The initial public web page should be a landing/download page that explains the 
 
 The web version must be designed carefully around privacy: CVs, job postings, and API keys are sensitive data.
 
-An embeddable HTML prototype is included in [pagbiomics_embed.html](pagbiomics_embed.html). It is now a landing/download block, not a hosted BYOK app.
+An embeddable HTML prototype is included in [pagbiomics_embed.html](pagbiomics_embed.html). It is a landing/download block with a link to the experimental Web Lite page.
 
 - It links users to the desktop release.
-- It explains that API keys stay on the user's computer.
+- It explains that private API keys and sensitive CV work belong in the local desktop app.
 - It links directly to Gemini/AI Studio/Ollama setup pages.
-- It can later link to a web BYOK lite mode once the warnings, privacy policy, and technical boundaries are clear.
+- It links to Web Lite only as a low-risk browser experiment.
 
 Future paid/API-hosted/Web3 ideas are tracked in [CHANGELOG.md](CHANGELOG.md), not exposed as current web options.
 
