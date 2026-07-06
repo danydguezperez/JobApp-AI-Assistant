@@ -11,6 +11,7 @@
 - Added direct API key help links for Gemini, OpenAI, Claude, and Ollama.
 - Added an experimental browser-only Web Lite page for public or anonymized tests.
 - Renamed public distribution references from JobApMaker to JobApp AI Assistant.
+- Clarified Web Lite warnings around browser-entered API keys: use a temporary or restricted key, test, clear the field, and revoke/delete the key after testing.
 - Future monetization ideas to evaluate:
   - sponsored biotech/scientific software placements,
   - newsletter sponsorships,
