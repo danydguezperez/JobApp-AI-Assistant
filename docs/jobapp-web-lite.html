@@ -128,10 +128,13 @@
       }
       .section-list { display: grid; gap: 12px; margin-top: 16px; }
       .section-card {
+        display: block;
         border: 1px solid rgba(255,255,255,0.13);
         border-radius: 8px;
         background: rgba(255,255,255,0.045);
+        color: var(--ink);
         padding: 14px;
+        text-decoration: none;
       }
       .section-card header {
         display: flex;
@@ -171,7 +174,7 @@
           <h1>JobApp AI Assistant</h1>
           <p>Import a CV in the browser, focus the relevant evidence, paste or fetch a job posting when possible, and generate an editable draft with your own Gemini API key.</p>
           <div class="actions">
-            <a class="btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-Windows.exe">Download local app</a>
+            <a class="btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-Windows.exe">Download local app</a>
             <a class="btn" href="https://github.com/danydguezperez/JobApp-AI-Assistant">View repository</a>
           </div>
         </div>
@@ -264,6 +267,7 @@
               Model
               <select id="model">
                 <option value="gemini-3.5-flash">gemini-3.5-flash</option>
+                <option value="gemini-2.5-flash">gemini-2.5-flash</option>
                 <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview</option>
                 <option value="gemini-flash-latest">gemini-flash-latest</option>
               </select>
@@ -290,9 +294,70 @@
         <div id="output" class="output">Your tailored draft will appear here.</div>
       </section>
 
-      <section class="panel sponsor">
-        <h2>Partner placement</h2>
-        <p>This space is reserved for relevant, clearly labelled sponsors such as scientific software, omics platforms, training providers, recruiters, or job boards. No third-party ad scripts are loaded in this prototype.</p>
+      <section class="panel" id="api-keys">
+        <p class="eyebrow">Set up your AI key</p>
+        <h2>Provider links for BYOK use</h2>
+        <p>JobApp AI Assistant is BYOK. Create a key with your preferred provider, paste it only when you are ready to test, then clear and revoke temporary keys after use.</p>
+        <div class="three-grid">
+          <a class="section-card" href="https://ai.google.dev/aistudio?utm_source=jobapp-ai&utm_medium=referral" target="_blank" rel="noopener sponsored">
+            <strong>Google Gemini</strong>
+            <p>Use Gemini Flash models with the free tier where available.</p>
+          </a>
+          <a class="section-card" href="https://platform.openai.com/api-keys?utm_source=jobapp-ai&utm_medium=referral" target="_blank" rel="noopener sponsored">
+            <strong>OpenAI / ChatGPT</strong>
+            <p>Create a platform key for OpenAI-compatible workflows.</p>
+          </a>
+          <a class="section-card" href="https://console.anthropic.com/settings/keys?utm_source=jobapp-ai&utm_medium=referral" target="_blank" rel="noopener sponsored">
+            <strong>Anthropic Claude</strong>
+            <p>Connect Claude models from your own Anthropic console.</p>
+          </a>
+          <a class="section-card" href="https://ollama.com/?utm_source=jobapp-ai&utm_medium=referral" target="_blank" rel="noopener">
+            <strong>Ollama local</strong>
+            <p>Run compatible local models on your own computer.</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="panel sponsor" id="sponsor-slot">
+        <p class="eyebrow">Sponsor slot</p>
+        <h2>Support practical AI tools</h2>
+        <p>This space is reserved for relevant, clearly labelled sponsors such as scientific software, omics platforms, training providers, recruiters, or job boards.</p>
+        <!-- Carbon Ads can be activated after approval:
+        <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=YOUR_CODE&placement=jobapp-ai-assistant" id="_carbonads_js"></script>
+        -->
+        <div id="carbon-slot" style="margin-top:12px;padding:12px;border:1px solid rgba(255,255,255,0.12);border-radius:8px;background:rgba(255,255,255,0.03);font-size:.82rem;color:var(--soft);text-align:center;">
+          Sponsor placeholder. No third-party ad script is loaded in this prototype.
+        </div>
+      </section>
+
+      <section class="panel" id="newsletter">
+        <div class="grid">
+          <div>
+            <p class="eyebrow">Stay updated</p>
+            <h2>Release alerts and job-search notes</h2>
+            <p>New app versions, AI tool guides, and bioinformatics career resources. No spam, unsubscribe any time.</p>
+          </div>
+          <form action="https://formspree.io/f/xgveqlzv" method="POST" style="display:flex;flex-direction:column;gap:10px;">
+            <input type="email" name="email" required placeholder="your@email.com" />
+            <input type="hidden" name="source" value="jobapp-web-lite-newsletter" />
+            <button class="primary" type="submit">Subscribe free</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="panel" id="pro">
+        <div class="grid">
+          <div>
+            <p class="eyebrow">Coming later</p>
+            <h2>JobApp AI Pro waitlist</h2>
+            <p>A hosted version may come later with no local setup, team sharing, auto-fetch from job boards, and ATS tracking. The current recommendation for sensitive CVs remains the desktop app.</p>
+          </div>
+          <form action="https://formspree.io/f/xgveqlzv" method="POST" style="display:flex;flex-direction:column;gap:10px;">
+            <input type="email" name="email" required placeholder="your@email.com" />
+            <input type="hidden" name="source" value="jobapp-pro-waitlist" />
+            <button type="submit">Join waitlist</button>
+          </form>
+        </div>
       </section>
     </main>
 
@@ -440,7 +505,7 @@
       }
 
       function getFocusedCv() {
-        const cards = Array.from(document.querySelectorAll(".section-card"));
+        const cards = Array.from($("sections").querySelectorAll(".section-card"));
         return cards.map((card) => {
           const toggle = card.querySelector(".section-toggle");
           const text = card.querySelector(".section-text").value.trim();

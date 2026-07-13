@@ -1,0 +1,388 @@
+<!--
+  d'BiYOK Lab hero embed for PagBiOmicS.
+  Paste this full block into Durable / PagBiOmicS as a Custom Code or Embed section.
+  Self-contained: no external CSS, no external images, no PagBiOmicS logo.
+-->
+<section class="dbiyok-hero-embed" aria-labelledby="dbiyok-title">
+  <style>
+    .dbiyok-hero-embed {
+      --ink: #f8fbf8;
+      --muted: #d6e6df;
+      --soft: #91aaa2;
+      --mint: #62e1c2;
+      --teal: #0fb79f;
+      --gold: #f0b52f;
+      --gold-soft: #f8d987;
+      --dark: #051012;
+      --panel: rgba(8, 22, 25, 0.82);
+      position: relative;
+      overflow: hidden;
+      min-height: clamp(560px, 72vw, 760px);
+      border-radius: 10px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 78% 30%, rgba(240, 181, 47, 0.18), transparent 20%),
+        radial-gradient(circle at 68% 78%, rgba(98, 225, 194, 0.2), transparent 24%),
+        linear-gradient(115deg, #050b10 0%, #071719 44%, #061115 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      isolation: isolate;
+    }
+
+    .dbiyok-hero-embed * { box-sizing: border-box; }
+
+    .dbiyok-hero-embed::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(5, 11, 16, 0.98) 0%, rgba(5, 11, 16, 0.9) 37%, rgba(5, 11, 16, 0.26) 72%, rgba(5, 11, 16, 0.6) 100%),
+        repeating-linear-gradient(115deg, rgba(98, 225, 194, 0.12) 0 1px, transparent 1px 22px);
+      opacity: 0.9;
+      z-index: -3;
+    }
+
+    .dbiyok-hero-embed::after {
+      content: "";
+      position: absolute;
+      width: 72%;
+      height: 92%;
+      right: -16%;
+      top: -9%;
+      background:
+        radial-gradient(circle, rgba(98, 225, 194, 0.35) 1px, transparent 2px) 0 0 / 34px 34px,
+        radial-gradient(circle at center, rgba(98, 225, 194, 0.16), transparent 58%);
+      mask-image: radial-gradient(circle at center, black 0 58%, transparent 74%);
+      opacity: 0.75;
+      z-index: -2;
+    }
+
+    .dbiyok-flow {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.85;
+    }
+
+    .dbiyok-wrap {
+      min-height: inherit;
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.85fr);
+      align-items: center;
+      gap: clamp(28px, 5vw, 70px);
+      padding: clamp(30px, 5vw, 70px);
+    }
+
+    .dbiyok-copy {
+      max-width: 670px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .dbiyok-title {
+      margin: 0;
+      font-size: clamp(3.6rem, 10vw, 8.4rem);
+      line-height: 0.9;
+      letter-spacing: 0;
+      font-weight: 950;
+    }
+
+    .dbiyok-title .prefix,
+    .dbiyok-title .lab { color: var(--ink); }
+    .dbiyok-title .bi-b { color: var(--mint); }
+    .dbiyok-title .bi-i {
+      color: rgba(98, 225, 194, 0.15);
+      text-shadow: 0 0 18px rgba(98, 225, 194, 0.55);
+    }
+    .dbiyok-title .yok {
+      background: linear-gradient(135deg, #ffe59a 0%, var(--gold) 66%, #c98515 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .dbiyok-line {
+      width: min(520px, 100%);
+      height: 2px;
+      margin: clamp(16px, 2vw, 22px) 0;
+      background: linear-gradient(90deg, var(--mint), var(--gold), transparent);
+      box-shadow: 0 0 18px rgba(98, 225, 194, 0.55);
+    }
+
+    .dbiyok-subtitle {
+      margin: 0;
+      font-size: clamp(2rem, 4.5vw, 4rem);
+      line-height: 1.05;
+      font-weight: 920;
+      letter-spacing: 0;
+    }
+
+    .dbiyok-subtitle .mint { color: var(--mint); }
+    .dbiyok-subtitle .gold { color: var(--gold-soft); }
+
+    .dbiyok-audience {
+      margin: 14px 0 0;
+      color: var(--ink);
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      font-weight: 840;
+    }
+
+    .dbiyok-icons {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(92px, 1fr));
+      gap: 0;
+      margin-top: clamp(22px, 3vw, 34px);
+      max-width: 680px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .dbiyok-icon-card {
+      min-height: 120px;
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      gap: 10px;
+      padding: 16px 10px;
+      border-right: 1px solid rgba(255,255,255,0.14);
+      text-align: center;
+    }
+
+    .dbiyok-icon-card:last-child { border-right: 0; }
+
+    .dbiyok-icon-card svg {
+      width: 42px;
+      height: 42px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .dbiyok-icon-card:nth-child(odd) { color: var(--mint); }
+    .dbiyok-icon-card:nth-child(even) { color: var(--gold); }
+
+    .dbiyok-icon-card span {
+      color: var(--ink);
+      font-size: 0.88rem;
+      line-height: 1.22;
+    }
+
+    .dbiyok-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin-top: clamp(22px, 3vw, 32px);
+      color: var(--mint);
+      text-transform: uppercase;
+      letter-spacing: 0.26em;
+      font-size: clamp(0.72rem, 1.2vw, 0.9rem);
+      font-weight: 880;
+    }
+
+    .dbiyok-footer i {
+      width: 4px;
+      height: 4px;
+      display: inline-block;
+      border-radius: 999px;
+      background: var(--gold);
+      box-shadow: 0 0 10px rgba(240, 181, 47, 0.9);
+    }
+
+    .dbiyok-visual {
+      position: relative;
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      z-index: 1;
+    }
+
+    .dbiyok-orbit {
+      position: absolute;
+      width: min(92%, 520px);
+      aspect-ratio: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(98, 225, 194, 0.28);
+      background:
+        repeating-radial-gradient(circle, transparent 0 26px, rgba(98, 225, 194, 0.17) 27px 28px),
+        radial-gradient(circle, rgba(98, 225, 194, 0.14), transparent 62%);
+      box-shadow:
+        inset 0 0 45px rgba(98, 225, 194, 0.14),
+        0 0 70px rgba(98, 225, 194, 0.2);
+      transform: perspective(760px) rotateX(62deg) translateY(140px);
+    }
+
+    .dbiyok-key {
+      width: min(76%, 430px);
+      transform: rotate(-22deg) translate(10px, -16px);
+      filter: drop-shadow(0 26px 32px rgba(0,0,0,0.48)) drop-shadow(0 0 18px rgba(98,225,194,0.5));
+    }
+
+    .dbiyok-mini-badge {
+      position: absolute;
+      right: 8%;
+      bottom: 13%;
+      width: min(220px, 44%);
+      border: 1px solid rgba(98, 225, 194, 0.34);
+      border-radius: 8px;
+      padding: 14px;
+      background: rgba(4, 17, 19, 0.72);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.24);
+    }
+
+    .dbiyok-mini-badge strong {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .dbiyok-mini-badge span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .dbiyok-helix {
+      position: absolute;
+      right: -10%;
+      top: 2%;
+      width: min(42vw, 420px);
+      opacity: 0.82;
+      transform: rotate(16deg);
+    }
+
+    @media (max-width: 940px) {
+      .dbiyok-wrap {
+        grid-template-columns: 1fr;
+        padding: 28px;
+      }
+      .dbiyok-visual {
+        min-height: 360px;
+        order: -1;
+        opacity: 0.92;
+      }
+      .dbiyok-icons {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .dbiyok-icon-card {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+      }
+      .dbiyok-icon-card:last-child { grid-column: 1 / -1; }
+      .dbiyok-mini-badge { display: none; }
+    }
+
+    @media (max-width: 560px) {
+      .dbiyok-hero-embed { min-height: auto; }
+      .dbiyok-title { font-size: clamp(3.2rem, 18vw, 4.8rem); }
+      .dbiyok-subtitle { font-size: clamp(1.7rem, 10vw, 2.6rem); }
+      .dbiyok-icons { grid-template-columns: 1fr; }
+      .dbiyok-footer { letter-spacing: 0.16em; gap: 10px; }
+    }
+  </style>
+
+  <svg class="dbiyok-flow" viewBox="0 0 1600 720" aria-hidden="true" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="flowMintGold" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#62e1c2" stop-opacity="0" />
+        <stop offset="0.45" stop-color="#62e1c2" stop-opacity="0.62" />
+        <stop offset="0.72" stop-color="#f0b52f" stop-opacity="0.58" />
+        <stop offset="1" stop-color="#62e1c2" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <path d="M420 182 C650 50, 742 274, 976 148 S1290 80, 1590 142" stroke="url(#flowMintGold)" stroke-width="2" fill="none"/>
+    <path d="M440 222 C680 80, 760 300, 998 184 S1308 120, 1600 206" stroke="url(#flowMintGold)" stroke-width="1.4" fill="none" opacity="0.7"/>
+    <path d="M438 520 C680 410, 766 590, 1004 472 S1306 386, 1600 502" stroke="url(#flowMintGold)" stroke-width="1.6" fill="none" opacity="0.65"/>
+    <g opacity="0.62" stroke="#62e1c2" stroke-width="1.2" fill="none">
+      <path d="M918 284 h42 l22 36 -22 36 h-42 l-22-36z"/>
+      <path d="M984 284 h42 l22 36 -22 36 h-42 l-22-36z"/>
+      <path d="M951 340 h42 l22 36 -22 36 h-42 l-22-36z"/>
+      <path d="M1017 340 h42 l22 36 -22 36 h-42 l-22-36z"/>
+    </g>
+  </svg>
+
+  <div class="dbiyok-wrap">
+    <div class="dbiyok-copy">
+      <h1 class="dbiyok-title" id="dbiyok-title">
+        <span class="prefix">d'</span><span class="bi-b">B</span><span class="bi-i">i</span><span class="yok">YOK</span> <span class="lab">Lab</span>
+      </h1>
+      <div class="dbiyok-line" aria-hidden="true"></div>
+      <p class="dbiyok-subtitle">
+        <span class="mint">Bring Your Own Key for</span><br />
+        <span class="gold">AI-assisted Apps</span>
+      </p>
+      <p class="dbiyok-audience">For professionals, researchers, entrepreneurs & citizens</p>
+
+      <div class="dbiyok-icons" aria-label="d'BiYOK Lab principles">
+        <div class="dbiyok-icon-card">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 8 11v12c0 10 6.8 17.3 16 21 9.2-3.7 16-11 16-21V11L24 4Z"/><path d="M18 24v-4a6 6 0 0 1 12 0v4"/><rect x="16" y="24" width="16" height="12" rx="2"/></svg>
+          <span>Privacy First</span>
+        </div>
+        <div class="dbiyok-icon-card">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="12" cy="24" r="6"/><path d="M18 24h10l5-5h7"/><path d="M28 24l5 5h7"/><path d="M32 19v-6h8"/><path d="M32 29v6h8"/></svg>
+          <span>Bring Your Key</span>
+        </div>
+        <div class="dbiyok-icon-card">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M20 5h8"/><path d="M22 5v12L10 39a4 4 0 0 0 3.5 6h21a4 4 0 0 0 3.5-6L26 17V5"/><path d="M15 34h18"/><circle cx="21" cy="29" r="1.8"/><circle cx="29" cy="38" r="1.8"/></svg>
+          <span>Biodiscovery Tools</span>
+        </div>
+        <div class="dbiyok-icon-card">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 7c-7 0-12 5-12 12 0 8 12 22 12 22s12-14 12-22c0-7-5-12-12-12Z"/><path d="M16 21c8 1 14-2 16-8"/><path d="M17 27c7 0 13 3 16 9"/></svg>
+          <span>AI-powered Workflows</span>
+        </div>
+        <div class="dbiyok-icon-card">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="14" r="6"/><path d="M13 42a11 11 0 0 1 22 0"/><circle cx="10" cy="23" r="5"/><path d="M3 42a9 9 0 0 1 11-8"/><circle cx="38" cy="23" r="5"/><path d="M34 34a9 9 0 0 1 11 8"/></svg>
+          <span>Productivity-driven AI</span>
+        </div>
+      </div>
+
+      <div class="dbiyok-footer" aria-label="Practical transparent local powered by you">
+        <span>Practical</span><i></i><span>Transparent</span><i></i><span>Local</span><i></i><span>Powered by You</span>
+      </div>
+    </div>
+
+    <div class="dbiyok-visual" aria-hidden="true">
+      <svg class="dbiyok-helix" viewBox="0 0 260 560">
+        <defs>
+          <linearGradient id="helixGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#62e1c2"/>
+            <stop offset="1" stop-color="#f0b52f"/>
+          </linearGradient>
+        </defs>
+        <path d="M42 20c140 80 140 170 0 250s-140 170 0 250" stroke="url(#helixGrad)" stroke-width="3" fill="none"/>
+        <path d="M218 20c-140 80-140 170 0 250s140 170 0 250" stroke="url(#helixGrad)" stroke-width="3" fill="none" opacity="0.8"/>
+        <g stroke="#62e1c2" stroke-width="1.5" opacity="0.75">
+          <path d="M42 60h176"/><path d="M72 108h116"/><path d="M88 156h84"/><path d="M62 204h136"/><path d="M42 252h176"/>
+          <path d="M42 316h176"/><path d="M70 364h120"/><path d="M90 412h80"/><path d="M62 460h136"/><path d="M42 508h176"/>
+        </g>
+      </svg>
+
+      <div class="dbiyok-orbit"></div>
+      <svg class="dbiyok-key" viewBox="0 0 360 560">
+        <defs>
+          <linearGradient id="keyGold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fff3b9"/>
+            <stop offset="0.4" stop-color="#f4bd3a"/>
+            <stop offset="1" stop-color="#b36f13"/>
+          </linearGradient>
+          <linearGradient id="keyEdge" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#62e1c2"/>
+            <stop offset="1" stop-color="#f0b52f"/>
+          </linearGradient>
+        </defs>
+        <path d="M201 27c-82 0-139 61-139 134 0 59 35 106 88 126v226c0 12 10 22 22 22h42c12 0 22-10 22-22v-54h58c8 0 14-6 14-14v-35c0-8-6-14-14-14h-58v-45h42c8 0 14-6 14-14v-35c0-8-6-14-14-14h-42v-7c61-16 105-68 105-136C341 83 283 27 201 27Zm0 73c38 0 67 27 67 62s-29 62-67 62-67-27-67-62 29-62 67-62Z" fill="url(#keyGold)" stroke="#ffe7a0" stroke-width="8"/>
+        <path d="M201 100c38 0 67 27 67 62s-29 62-67 62-67-27-67-62 29-62 67-62Z" fill="#061012" stroke="url(#keyEdge)" stroke-width="5"/>
+        <path d="M188 286v215" stroke="#fff0b8" stroke-width="7" opacity="0.55"/>
+        <path d="M238 287c-38 8-70 7-104-6" stroke="#62e1c2" stroke-width="5" opacity="0.7"/>
+      </svg>
+
+      <div class="dbiyok-mini-badge">
+        <strong>BYOK-native</strong>
+        <span>Users keep control of keys, providers, limits, and local-first workflows.</span>
+      </div>
+    </div>
+  </div>
+</section>

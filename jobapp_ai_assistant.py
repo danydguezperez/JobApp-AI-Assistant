@@ -87,14 +87,14 @@ PROFILE_DOSSIER = configured_path("JOBAPP_PROFILE_DOSSIER", _EXE_DIR / "data" / 
 
 APP_NAME = "JobApp AI Assistant"
 GEMINI_DEFAULT_MODEL = "gemini-3.5-flash"
-OPENAI_DEFAULT_MODEL = "gpt-5.5"
+OPENAI_DEFAULT_MODEL = "gpt-5.6-terra"
 ANTHROPIC_DEFAULT_MODEL = "claude-sonnet-5"
 
 
 app = FastAPI(
     title=APP_NAME,
     description="Local-first CV parsing, job matching, and application drafting assistant.",
-    version="1.0.0",
+    version="0.2.0",
 )
 app.add_middleware(
     CORSMiddleware,
@@ -538,9 +538,10 @@ def anthropic_generate(prompt: str, temperature: float = 0.25, provider: Optiona
     payload = {
         "model": model,
         "max_tokens": 24000,
-        "temperature": temperature,
         "messages": [{"role": "user", "content": prompt}],
     }
+    if not model.startswith("claude-sonnet-5"):
+        payload["temperature"] = temperature
     response = requests.post(f"{base_url}/messages", headers=headers, json=payload, timeout=240)
     if response.status_code >= 400:
         raise RuntimeError(f"Anthropic request failed with HTTP {response.status_code}: {response.text[:500]}")

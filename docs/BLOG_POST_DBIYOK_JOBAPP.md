@@ -85,9 +85,9 @@ The common thread is not the domain. The common thread is the philosophy: practi
 ## Current Links
 
 - JobApp AI Assistant repository: https://github.com/danydguezperez/JobApp-AI-Assistant
-- Windows release: https://github.com/danydguezperez/JobApp-AI-Assistant/releases/tag/v0.1.0
-- Download Windows app: https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-Windows.exe
-- Download user guide: https://github.com/danydguezperez/JobApp-AI-Assistant/releases/download/v0.1.0/JobApp-AI-Assistant-README.pdf
+- Windows release: https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest
+- Download Windows app: https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-Windows.exe
+- Download user guide: https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-README.pdf
 - Get a Gemini API key: https://ai.google.dev/gemini-api/docs/api-key
 
 ## Closing Perspective

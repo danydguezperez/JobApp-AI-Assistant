@@ -145,6 +145,8 @@ Direct provider help:
 - Claude API keys: <https://console.anthropic.com/settings/keys>
 - Ollama local API: <https://docs.ollama.com/api>
 
+Security note: never commit `data/llm_providers.json` with a real API key. The file is ignored by Git, but local copies can still contain secrets; clear keys before packaging, screenshots, or support requests.
+
 For local Ollama:
 
 ```text
