@@ -2,7 +2,7 @@
 
 Local-first job application assistant for parsing structured CVs, tailoring applications to job postings, and exporting editable application packages.
 
-Ciencia Vitae exports are a strong reference use case because they are highly structured and include education, professional experience, publications, projects, supervision, events, software, identifiers, and cross-references to research platforms such as ORCID, Scopus, ResearchGate, and Google Scholar.
+Ciência Vitae exports are a strong reference use case because they are highly structured and widely used by researchers and institutions in Portugal, including academic evaluation, project submission, and funding workflows such as FCT calls. They can include education, professional experience, publications, projects, supervision, events, software, identifiers, and cross-references to research platforms such as ORCID, Scopus, ResearchGate, and Google Scholar.
 
 For a complete practical guide, see [TUTORIAL.md](TUTORIAL.md).
 
@@ -21,7 +21,7 @@ d'BiYOK page materials are kept separately:
 
 - Parses a local or uploaded CV PDF/TXT into editable JSON-like sections.
 - Accepts structured CV sources from the user's computer, including PDF, TXT, and XML.
-- Works especially well with structured Ciencia Vitae exports.
+- Works especially well with structured Ciência Vitae exports.
 - Lets the user include or exclude each CV item before matching a job.
 - Places CV focusing before job matching so the AI receives only the evidence the user wants emphasized.
 - Exports the parsed CV itself as Markdown, DOCX, PDF, or JSON.
@@ -36,7 +36,7 @@ d'BiYOK page materials are kept separately:
 - Allows one-click export to Markdown, DOCX, and PDF.
 - Keeps a local SQLite history of generated applications.
 
-Parsed CV export is local and credit-free. The high-quality parser can use the configured AI provider, but the app also includes a local heuristic parser mode for free tests, structured Ciencia Vitae XML/PDF workflows, and public web demos.
+Parsed CV export is local and credit-free. The high-quality parser can use the configured AI provider, but the app also includes a local heuristic parser mode for free tests, structured Ciência Vitae XML/PDF workflows, and public web demos.
 
 ## AI Providers
 
@@ -123,7 +123,7 @@ python -m uvicorn jobapp_ai_assistant:app --host 127.0.0.1 --port 8091
    - only the selected fields,
    - or the final tailored application package after matching a job.
 
-The parsed export intentionally uses the structured data, not the raw Ciencia Vitae PDF headers. This removes repeated page headers, footer noise, and Portuguese platform labels where the parser has already translated the content into English.
+The parsed export intentionally uses the structured data, not the raw Ciência Vitae PDF headers. This removes repeated page headers, footer noise, and Portuguese platform labels where the parser has already translated the content into English.
 
 The detailed parsed CV editor is intentionally placed after the main workflow so large academic CVs do not push job matching and final exports too far down the page.
 
