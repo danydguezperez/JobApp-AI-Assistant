@@ -619,10 +619,27 @@ def chunk_words(text: str, max_words: int = 40) -> str:
     return " ".join(words[:max_words])
 
 
+def extract_contact_phone(text: str) -> str:
+    for pattern in (
+        r"(?:Mobile phone|Telem[oó]vel|Telefone|Phone)\D{0,80}(\+?\d[\d\s().-]{7,}\d)",
+        r"(?:Telephones?|Phones?)\D{0,120}(\+?\d[\d\s().-]{7,}\d)",
+    ):
+        match = re.search(pattern, text, flags=re.IGNORECASE)
+        if not match:
+            continue
+        candidate = re.sub(r"\s+", " ", match.group(1)).strip()
+        digits = re.sub(r"\D", "", candidate)
+        if re.fullmatch(r"(?:19|20)\d{2}(?:19|20)\d{2}", digits):
+            continue
+        if 9 <= len(digits) <= 15:
+            return candidate
+    return "+351 911 976 480"
+
+
 def heuristic_cv_json(cv_text: str, dossier: str = "") -> dict[str, Any]:
     merged = f"{cv_text}\n{dossier}"
     email = re.search(r"[\w.\-+]+@[\w.\-]+\.\w+", merged)
-    phone = re.search(r"(?:\+?\d[\d\s().-]{7,}\d)", merged)
+    phone = extract_contact_phone(merged)
     skills = [
         "Bioinformatics", "Proteo-transcriptomics", "RNA-Seq", "Single-cell omics",
         "De novo transcriptome assembly", "Shotgun proteomics", "Proteogenomics",
@@ -639,7 +656,7 @@ def heuristic_cv_json(cv_text: str, dossier: str = "") -> dict[str, Any]:
             "full_name": "Dany Domínguez Pérez",
             "headline": "PhD Bioinformatician | RNA-seq · Proteomics · NGS · Pipeline Development",
             "email": email.group(0) if email else "danydguezperez@gmail.com",
-            "phone": phone.group(0).strip() if phone else "+351 911 976 480",
+            "phone": phone,
             "location": "Porto, Portugal",
             "links": [
                 "https://orcid.org/0000-0002-5211-972X",
@@ -883,7 +900,16 @@ def local_publications(cv_text: str) -> list[dict[str, str]]:
 
 def local_activity_rows(cv_text: str, heading: str, limit: int = 12) -> list[dict[str, str]]:
     text = compact_cv_text(cv_text)
-    section = section_between(text, rf"\b{re.escape(heading)}\b", [r"\bDistinctions\b", r"\bOutputs\b", r"\bProjects\b"])
+    starts = list(re.finditer(rf"\b{re.escape(heading)}\b", text, flags=re.IGNORECASE))
+    if not starts:
+        return []
+    start = starts[-1] if heading.lower() == "distinctions" else starts[0]
+    tail = text[start.start() :]
+    end_patterns = [r"\bOutputs\b", r"\bProjects\b", r"\bActivities\b", r"\bSupervision\b"]
+    if heading.lower() != "distinctions":
+        end_patterns.append(r"\bDistinctions\b")
+    ends = [m.start() for pattern in end_patterns if (m := re.search(pattern, tail, flags=re.IGNORECASE)) and m.start() > 0]
+    section = tail[: min(ends)] if ends else tail
     if not section:
         return []
     rows = []

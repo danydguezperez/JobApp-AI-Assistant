@@ -18,6 +18,9 @@
 
 ## Unreleased
 
+- Validated the local heuristic parser against a 22-page Ciência Vitae PDF and a curated PagBiOmicS HTML CV reference.
+- Fixed local heuristic phone extraction so labelled `Mobile phone` values are preferred over date ranges.
+- Improved local heuristic distinction extraction to use the formal Ciência Vitae distinction section rather than the page-1 summary.
 - Web prototype changed again after product/security review:
   - no hosted free LLM tests paid by PagBiOmicS,
   - no API-key entry in the website,
