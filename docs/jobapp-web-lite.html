@@ -74,7 +74,9 @@
       }
       .warning strong { color: #ffd1d1; }
       .grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 18px; margin-top: 18px; }
+      .two-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
       .three-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+      .provider-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
       label { display: grid; gap: 8px; color: var(--muted); font-weight: 800; }
       input, select, textarea {
         width: 100%;
@@ -96,6 +98,19 @@
         font-weight: 700;
       }
       .checks input, .inline-check input { width: auto; margin-top: 4px; }
+      .mode-options { display: grid; gap: 12px; margin: 14px 0; }
+      .mode-option {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 12px;
+        align-items: start;
+        border: 1px solid rgba(255,255,255,0.13);
+        border-radius: 8px;
+        background: rgba(255,255,255,0.045);
+        padding: 13px;
+      }
+      .mode-option input { width: auto; margin-top: 4px; }
+      .mode-option span { color: var(--muted); font-weight: 600; line-height: 1.5; }
       .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
       button, .btn {
         min-height: 44px;
@@ -115,6 +130,14 @@
         color: #07110f;
         background: linear-gradient(135deg, var(--mint), #e4cc72);
         border-color: transparent;
+      }
+      button:hover, .btn:hover, .section-card[href]:hover {
+        transform: translateY(-1px);
+        border-color: rgba(97, 222, 192, 0.52);
+      }
+      button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .section-card[href]:focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 3px;
       }
       button:disabled { cursor: not-allowed; opacity: 0.5; }
       .mini { color: var(--soft); font-size: 0.92rem; }
@@ -154,14 +177,17 @@
         color: var(--ink);
         line-height: 1.55;
       }
-      .sponsor {
-        border: 1px dashed rgba(242, 178, 31, 0.52);
-        border-radius: 8px;
-        padding: 16px;
-        background: rgba(242, 178, 31, 0.06);
-      }
       @media (max-width: 920px) {
-        .hero, .grid, .three-grid { grid-template-columns: 1fr; }
+        .hero, .grid, .three-grid, .provider-grid { grid-template-columns: 1fr; }
+      }
+      @media (min-width: 641px) and (max-width: 920px) {
+        .three-grid, .provider-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 640px) {
+        main { width: min(100% - 20px, 1220px); padding-top: 20px; }
+        h1 { font-size: clamp(2.2rem, 13vw, 3.4rem); }
+        h2 { font-size: clamp(1.55rem, 9vw, 2.1rem); }
+        .actions > * { width: 100%; }
       }
     </style>
   </head>
@@ -172,7 +198,7 @@
           <div class="mark" aria-hidden="true">JA</div>
           <p class="eyebrow">Experimental Web App Lite</p>
           <h1>JobApp AI Assistant</h1>
-          <p>Import a CV in the browser, focus the relevant evidence, paste or fetch a job posting when possible, and generate an editable draft with your own Gemini API key. This Web Lite parser is heuristic and works best with structured Ciência Vitae exports used by researchers and institutions in Portugal, including FCT-oriented funding/project contexts.</p>
+          <p>Clean and structure a CV directly in the browser, then optionally use your own Gemini API key to tailor it to a job. The first practical target is <strong>Ci&ecirc;ncia Vitae</strong>: the official Portuguese CV platform widely used by researchers, institutions, and FCT-oriented funding/project workflows.</p>
           <div class="actions">
             <a class="btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-Windows.exe">Download local app</a>
             <a class="btn" href="https://github.com/danydguezperez/JobApp-AI-Assistant">View repository</a>
@@ -191,7 +217,7 @@
         <div class="three-grid">
           <div class="section-card">
             <strong>Good for quick browser tests</strong>
-            <p>Heuristic parsing of PDF, TXT, Markdown, JSON, and XML CV files, with extra rules for structured Ciência Vitae exports.</p>
+            <p>Heuristic parsing of PDF, TXT, Markdown, JSON, and XML CV files, with extra rules for structured Ci&ecirc;ncia Vitae exports.</p>
           </div>
           <div class="section-card">
             <strong>Limited by the browser</strong>
@@ -199,7 +225,7 @@
           </div>
           <div class="section-card">
             <strong>Desktop remains recommended</strong>
-            <p>Use the Windows app for sensitive CVs, large Ciência Vitae exports, repeated applications, and stronger local parsing/exporting.</p>
+            <p>Use the Windows app for sensitive CVs, large Ci&ecirc;ncia Vitae exports, repeated applications, and stronger local parsing/exporting.</p>
           </div>
         </div>
       </section>
@@ -209,6 +235,17 @@
         <h2>Import CV</h2>
         <div class="grid">
           <div>
+            <p class="mini">Choose how to build the editable CV sections. The heuristic parser is free and local in your browser. The AI parser can improve structure and English wording, but it sends the raw CV text to Gemini using your pasted key.</p>
+            <div class="mode-options" role="radiogroup" aria-label="CV parsing mode">
+              <label class="mode-option">
+                <input type="radio" name="parseMode" value="heuristic" checked />
+                <span><strong>Heuristic parser - no API key</strong><br />Best for a free first pass: remove Ci&ecirc;ncia Vitae layout noise, create editable sections, and export a clean Markdown/JSON CV.</span>
+              </label>
+              <label class="mode-option">
+                <input type="radio" name="parseMode" value="ai" />
+                <span><strong>AI-assisted parser - Gemini key required</strong><br />Optional cleanup for better English structure. Use only with CVs you are comfortable sending to your selected provider.</span>
+              </label>
+            </div>
             <label>
               CV file from your computer
               <input id="cvFile" type="file" accept=".pdf,.txt,.md,.json,.xml" />
@@ -217,7 +254,7 @@
               <button id="parseCvBtn" class="primary" type="button">Parse CV in browser</button>
               <button id="clearCvBtn" type="button">Clear CV</button>
             </div>
-            <p class="mini">Supported here: PDF, TXT, Markdown, simple JSON, and XML. The browser parser is heuristic; the desktop app remains better for large or complex Ciência Vitae academic CVs.</p>
+            <p class="mini">Supported here: PDF, TXT, Markdown, simple JSON, and XML. The desktop app remains better for large or complex Ci&ecirc;ncia Vitae academic CVs.</p>
             <div id="cvStatus" class="status">No CV loaded yet.</div>
           </div>
           <div>
@@ -235,11 +272,13 @@
 
       <section class="panel">
         <p class="eyebrow">Step 2</p>
-        <h2>Focus CV evidence</h2>
-        <p>Select only the sections that should guide this application. You can edit each block before generating.</p>
+        <h2>Review, edit, and export parsed CV</h2>
+        <p>First use this as a CV cleaner: review the detected sections, edit the text, and export a clean CV without the extra layout/header noise from the source platform. Then select only the evidence that should guide a job application.</p>
         <div class="actions">
           <button id="selectAllBtn" type="button">Select all</button>
           <button id="selectCoreBtn" type="button">Select core profile</button>
+          <button id="downloadParsedMdBtn" type="button" disabled>Download parsed CV MD</button>
+          <button id="downloadParsedJsonBtn" type="button" disabled>Download parsed CV JSON</button>
           <button id="downloadFocusedBtn" type="button" disabled>Download focused CV MD</button>
         </div>
         <div id="sections" class="section-list">
@@ -317,16 +356,16 @@
         <p class="eyebrow">Set up your AI key</p>
         <h2>Provider links for BYOK use</h2>
         <p>JobApp AI Assistant is BYOK. Create a key with your preferred provider, paste it only when you are ready to test, then clear and revoke temporary keys after use.</p>
-        <div class="three-grid">
-          <a class="section-card" href="https://ai.google.dev/aistudio?utm_source=jobapp-ai&utm_medium=referral" target="_blank" rel="noopener sponsored">
+        <div class="provider-grid">
+          <a class="section-card" href="https://ai.google.dev/aistudio?utm_source=jobapp-ai&utm_medium=referral" target="_blank" rel="noopener">
             <strong>Google Gemini</strong>
             <p>Use Gemini Flash models with the free tier where available.</p>
           </a>
-          <a class="section-card" href="https://platform.openai.com/api-keys?utm_source=jobapp-ai&utm_medium=referral" target="_blank" rel="noopener sponsored">
+          <a class="section-card" href="https://platform.openai.com/api-keys?utm_source=jobapp-ai&utm_medium=referral" target="_blank" rel="noopener">
             <strong>OpenAI / ChatGPT</strong>
             <p>Create a platform key for OpenAI-compatible workflows.</p>
           </a>
-          <a class="section-card" href="https://console.anthropic.com/settings/keys?utm_source=jobapp-ai&utm_medium=referral" target="_blank" rel="noopener sponsored">
+          <a class="section-card" href="https://console.anthropic.com/settings/keys?utm_source=jobapp-ai&utm_medium=referral" target="_blank" rel="noopener">
             <strong>Anthropic Claude</strong>
             <p>Connect Claude models from your own Anthropic console.</p>
           </a>
@@ -334,18 +373,6 @@
             <strong>Ollama local</strong>
             <p>Run compatible local models on your own computer.</p>
           </a>
-        </div>
-      </section>
-
-      <section class="panel sponsor" id="sponsor-slot">
-        <p class="eyebrow">Sponsor slot</p>
-        <h2>Support practical AI tools</h2>
-        <p>This space is reserved for relevant, clearly labelled sponsors such as scientific software, omics platforms, training providers, recruiters, or job boards.</p>
-        <!-- Carbon Ads can be activated after approval:
-        <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=YOUR_CODE&placement=jobapp-ai-assistant" id="_carbonads_js"></script>
-        -->
-        <div id="carbon-slot" style="margin-top:12px;padding:12px;border:1px solid rgba(255,255,255,0.12);border-radius:8px;background:rgba(255,255,255,0.03);font-size:.82rem;color:var(--soft);text-align:center;">
-          Sponsor placeholder. No third-party ad script is loaded in this prototype.
         </div>
       </section>
 
@@ -415,8 +442,8 @@
           .replace(/\r/g, "\n")
           .replace(/[ \t]+\n/g, "\n")
           .replace(/\n{3,}/g, "\n\n")
-          .replace(/^\s*(p[aá]gina|page)\s+\d+.*$/gim, "")
-          .replace(/^\s*c[ií]ência vitae.*$/gim, "")
+          .replace(/^\s*(p[a\u00e1]gina|page)\s+\d+.*$/gim, "")
+          .replace(/^\s*c[i\u00ed]\u00eancia vitae.*$/gim, "")
           .replace(/^\s*curriculum vitae.*$/gim, "")
           .replace(/^\s*(p[a\u00e1]gina|page)\s+\d+.*$/gim, "")
           .replace(/^\s*(\u00a9\s*)?c[i\u00ed]\u00eancia\s+vitae.*$/gim, "")
@@ -477,23 +504,80 @@
         sections[key] = sections[key] ? `${sections[key]}\n\n${text}` : text;
       }
 
-      function parseJsonCv(text) {
-        const data = JSON.parse(text);
+      function stringifySectionValue(value) {
+        if (Array.isArray(value)) {
+          return value.map((item) => typeof item === "string" ? item : Object.values(item || {}).filter(Boolean).join(" | ")).join("\n");
+        }
+        if (typeof value === "object" && value) {
+          return Object.entries(value).map(([k, v]) => `${k}: ${typeof v === "string" ? v : JSON.stringify(v)}`).join("\n");
+        }
+        return String(value || "");
+      }
+
+      function loadSectionsFromObject(data) {
         const chunks = {};
         for (const [key, value] of Object.entries(data)) {
-          if (Array.isArray(value)) {
-            chunks[key.toLowerCase()] = value.map((item) => typeof item === "string" ? item : Object.values(item).filter(Boolean).join(" | ")).join("\n");
-          } else if (typeof value === "object" && value) {
-            chunks[key.toLowerCase()] = Object.entries(value).map(([k, v]) => `${k}: ${v}`).join("\n");
-          } else {
-            chunks[key.toLowerCase()] = String(value || "");
-          }
+          chunks[key.toLowerCase()] = stringifySectionValue(value);
         }
         sections = {};
         for (const [key, value] of Object.entries(chunks)) {
           const mapped = sectionOrder.find((name) => key.includes(name)) || (key.includes("personal") ? "profile" : "other");
           mergeSection(mapped, value);
         }
+      }
+
+      function parseJsonCv(text) {
+        loadSectionsFromObject(JSON.parse(text));
+      }
+
+      function extractJsonObject(text) {
+        const trimmed = (text || "").trim().replace(/^```(?:json)?/i, "").replace(/```$/i, "").trim();
+        const start = trimmed.indexOf("{");
+        const end = trimmed.lastIndexOf("}");
+        if (start === -1 || end === -1 || end <= start) throw new Error("The AI parser did not return a JSON object.");
+        return JSON.parse(trimmed.slice(start, end + 1));
+      }
+
+      async function callGemini(prompt, apiKey, model) {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.2 }
+          })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error?.message || `Gemini request failed (${response.status})`);
+        return data.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("\n").trim() || "";
+      }
+
+      async function parseCvWithAi(rawText, sourceName) {
+        const apiKey = $("apiKey").value.trim();
+        const model = $("model").value;
+        if (!apiKey) throw new Error("AI-assisted parsing requires a Gemini API key in Step 4. Use heuristic mode if you want free/local browser parsing.");
+        const prompt = `Parse this CV into a clean English JSON object for a job-application assistant.
+
+Context: this may be a Ci\u00eancia Vitae export from Portugal. Remove platform headers, page labels, repeated footers, navigation text, and source-layout noise. Preserve evidence, dates, institutions, software, publications, projects, grants, awards, and skills.
+
+Return ONLY valid JSON with these string fields:
+{
+  "profile": "",
+  "experience": "",
+  "education": "",
+  "skills": "",
+  "publications": "",
+  "projects": "",
+  "software": "",
+  "other": ""
+}
+
+Source file: ${sourceName}
+
+CV text:
+${rawText.slice(0, 45000)}`;
+        const text = await callGemini(prompt, apiKey, model);
+        loadSectionsFromObject(extractJsonObject(text));
       }
 
       function parseXmlCv(text) {
@@ -569,14 +653,17 @@
               <strong>${sectionLabels[key]}</strong>
               <label class="inline-check"><input type="checkbox" class="section-toggle" data-section="${key}" checked /> Include</label>
             </header>
-            <textarea class="section-text" data-section="${key}">${sections[key]}</textarea>
+            <textarea class="section-text" data-section="${key}"></textarea>
           `;
+          card.querySelector(".section-text").value = sections[key];
           container.appendChild(card);
         }
         container.querySelectorAll("textarea, input").forEach((element) => {
           element.addEventListener("input", updateFocusedPreview);
           element.addEventListener("change", updateFocusedPreview);
         });
+        $("downloadParsedMdBtn").disabled = false;
+        $("downloadParsedJsonBtn").disabled = false;
         $("downloadFocusedBtn").disabled = false;
         updateFocusedPreview();
       }
@@ -592,6 +679,33 @@
         }).filter(Boolean).join("\n\n");
       }
 
+      function getParsedCv() {
+        const cards = Array.from($("sections").querySelectorAll(".section-card"));
+        return cards.map((card) => {
+          const toggle = card.querySelector(".section-toggle");
+          const text = card.querySelector(".section-text").value.trim();
+          if (!text) return "";
+          const label = sectionLabels[toggle.dataset.section] || toggle.dataset.section;
+          return `## ${label}\n${text}`;
+        }).filter(Boolean).join("\n\n");
+      }
+
+      function getParsedCvJson() {
+        const parsed = {};
+        const cards = Array.from($("sections").querySelectorAll(".section-card"));
+        for (const card of cards) {
+          const toggle = card.querySelector(".section-toggle");
+          const key = toggle.dataset.section;
+          const text = card.querySelector(".section-text").value.trim();
+          if (text) parsed[key] = text;
+        }
+        return JSON.stringify({
+          source: "JobApp AI Assistant Web Lite",
+          parser_note: "Browser-exported editable CV sections. Heuristic mode is local; AI-assisted mode uses the user's Gemini key when selected.",
+          sections: parsed
+        }, null, 2);
+      }
+
       function updateFocusedPreview() {
         const focused = getFocusedCv();
         $("focusPreview").textContent = focused
@@ -605,11 +719,20 @@
         setStatus("cvStatus", `Reading ${file.name}...`);
         try {
           const text = await readCvFile(file);
-          if (file.name.toLowerCase().endsWith(".json")) parseJsonCv(text);
-          else if (file.name.toLowerCase().endsWith(".xml")) parseXmlCv(text);
-          else parseTextCv(text);
+          const parseMode = document.querySelector('input[name="parseMode"]:checked')?.value || "heuristic";
+          if (parseMode === "ai") {
+            setStatus("cvStatus", `AI-assisted parsing ${file.name}...`);
+            await parseCvWithAi(text, file.name);
+          } else if (file.name.toLowerCase().endsWith(".json")) {
+            parseJsonCv(text);
+          } else if (file.name.toLowerCase().endsWith(".xml")) {
+            parseXmlCv(text);
+          } else {
+            parseTextCv(text);
+          }
           renderSections();
-          setStatus("cvStatus", `Loaded ${file.name}. Parsed ${Object.keys(sections).filter((key) => sections[key]?.trim()).length} editable sections in the browser.`);
+          const parsedCount = Object.keys(sections).filter((key) => sections[key]?.trim()).length;
+          setStatus("cvStatus", `Loaded ${file.name}. Parsed ${parsedCount} editable sections in ${parseMode === "ai" ? "AI-assisted" : "heuristic browser"} mode. You can now edit and export the clean CV.`);
         } catch (error) {
           setStatus("cvStatus", `Could not parse CV: ${error.message}`);
         }
@@ -644,9 +767,14 @@
           const doc = new DOMParser().parseFromString(html, "text/html");
           doc.querySelectorAll("script,style,nav,footer,header,aside").forEach((node) => node.remove());
           const text = cleanText(doc.body?.innerText || html).slice(0, 22000);
-          parseTextCv(text);
+          const parseMode = document.querySelector('input[name="parseMode"]:checked')?.value || "heuristic";
+          if (parseMode === "ai") {
+            await parseCvWithAi(text, url);
+          } else {
+            parseTextCv(text);
+          }
           renderSections();
-          setStatus("cvStatus", `Fetched and parsed ${text.length.toLocaleString()} characters from the profile URL. Review sections before generating.`);
+          setStatus("cvStatus", `Fetched and parsed ${text.length.toLocaleString()} characters from the profile URL in ${parseMode === "ai" ? "AI-assisted" : "heuristic browser"} mode. Review sections before generating.`);
         } catch (error) {
           setStatus("cvStatus", `Browser profile fetch failed, usually because of CORS, login protection, or platform restrictions. Paste the profile/CV text manually or use the desktop app. Details: ${error.message}`);
         }
@@ -714,6 +842,8 @@ ${jobText}`;
         sections = {};
         $("cvFile").value = "";
         $("sections").innerHTML = '<div class="status">Import a CV to create editable sections.</div>';
+        $("downloadParsedMdBtn").disabled = true;
+        $("downloadParsedJsonBtn").disabled = true;
         $("downloadFocusedBtn").disabled = true;
         setStatus("cvStatus", "No CV loaded yet.");
         updateFocusedPreview();
@@ -733,6 +863,8 @@ ${jobText}`;
         });
         updateFocusedPreview();
       });
+      $("downloadParsedMdBtn").addEventListener("click", () => downloadText("parsed-cv-clean.md", getParsedCv()));
+      $("downloadParsedJsonBtn").addEventListener("click", () => downloadText("parsed-cv-clean.json", getParsedCvJson(), "application/json;charset=utf-8"));
       $("downloadFocusedBtn").addEventListener("click", () => downloadText("focused-cv.md", getFocusedCv()));
       $("generateBtn").addEventListener("click", generateDraft);
       $("clearKeyBtn").addEventListener("click", () => {
