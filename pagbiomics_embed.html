@@ -2,12 +2,10 @@
   PagBiOmicS / d'BiYOK Lab embed.
   Paste this whole block into Durable > Add section > Custom code > Embed.
 
-  The d'BiYOK Lab hero/banner image should remain as a separate image section above this embed.
-  This embed focuses on the JobApp AI Assistant application.
-  The Windows .exe is distributed from the public GitHub release.
-  Web App Lite runs as a separate static page because Durable embeds may block JavaScript execution.
+  The d'BiYOK Lab intro and banner should remain above this embed.
+  This block is intentionally focused on the first app: JobApp AI Assistant.
 -->
-<section class="dbiyok-page" id="dbiyok-lab">
+<section class="dbiyok-page" id="dbiyok-jobapp">
   <style>
     .dbiyok-page {
       --ink: #f7fbf7;
@@ -15,28 +13,27 @@
       --soft: #94aaa4;
       --mint: #61dec0;
       --gold: #f2b21f;
+      --dark: #061012;
       --panel: rgba(10, 26, 29, 0.88);
       --line: rgba(97, 222, 192, 0.26);
       color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: linear-gradient(145deg, #061012 0%, #102123 62%, #17170d 100%);
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 10px;
       overflow: hidden;
     }
     .dbiyok-page * { box-sizing: border-box; }
-    .dbiyok-wrap { padding: clamp(24px, 4vw, 52px); }
-    .jobapp-hero {
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background:
-        radial-gradient(circle at 88% 18%, rgba(242, 178, 31, 0.12), transparent 28%),
-        rgba(255,255,255,0.04);
-      padding: clamp(20px, 4vw, 34px);
+    .dbiyok-wrap { padding: clamp(22px, 4vw, 48px); }
+    .dbiyok-product-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+      gap: clamp(22px, 4vw, 42px);
+      align-items: center;
     }
     .jobapp-mark {
-      width: 58px;
-      height: 58px;
+      width: 54px;
+      height: 54px;
       display: grid;
       place-items: center;
       border-radius: 10px;
@@ -52,28 +49,43 @@
       font-weight: 900;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin: 0 0 12px;
+      margin: 0 0 10px;
     }
     .jobapp-title {
       margin: 0;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(2rem, 5vw, 3.35rem);
-      line-height: 0.96;
+      font-size: clamp(2.1rem, 5vw, 3.65rem);
+      line-height: 0.98;
       letter-spacing: 0;
     }
     .jobapp-subtitle {
-      margin: 16px 0 0;
+      margin: 14px 0 0;
       color: var(--gold);
-      font-size: clamp(1.05rem, 2.1vw, 1.45rem);
+      font-size: clamp(1.02rem, 2vw, 1.34rem);
       font-weight: 900;
-      line-height: 1.12;
+      line-height: 1.2;
     }
     .jobapp-lead {
-      max-width: 880px;
-      margin: 18px 0 0;
+      max-width: 720px;
+      margin: 16px 0 0;
       color: var(--muted);
-      font-size: 1.04rem;
-      line-height: 1.62;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .dbiyok-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .dbiyok-badge {
+      border: 1px solid rgba(97, 222, 192, 0.3);
+      border-radius: 999px;
+      padding: 6px 10px;
+      color: var(--mint);
+      background: rgba(97, 222, 192, 0.08);
+      font-size: 0.82rem;
+      font-weight: 850;
     }
     .dbiyok-actions, .dbiyok-mini-actions {
       display: flex;
@@ -86,107 +98,72 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255,255,255,0.18);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 7px;
       padding: 0 16px;
       color: var(--ink);
-      background: rgba(255,255,255,0.06);
+      background: rgba(255, 255, 255, 0.06);
       text-decoration: none;
       font-weight: 850;
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
     }
     .dbiyok-btn.primary {
       color: #07110f;
       background: linear-gradient(135deg, var(--mint), #e4cc72);
       border-color: transparent;
     }
-    .dbiyok-btn.warning {
+    .dbiyok-btn.secondary {
       color: #07110f;
       background: linear-gradient(135deg, #f6d36c, var(--gold));
       border-color: transparent;
     }
-    .dbiyok-btn.danger {
-      color: #ffd9d9;
-      background: rgba(210, 36, 36, 0.12);
-      border-color: rgba(255, 83, 83, 0.55);
+    .dbiyok-btn.ghost {
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.035);
+    }
+    .dbiyok-btn:hover, .dbiyok-card[href]:hover {
+      transform: translateY(-2px);
+      border-color: var(--mint);
+    }
+    .dbiyok-btn:focus-visible,
+    .dbiyok-card[href]:focus-visible,
+    .dbiyok-form input:focus-visible,
+    .dbiyok-form button:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 3px;
+    }
+    .dbiyok-shot {
+      border: 1px solid rgba(97, 222, 192, 0.24);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+    }
+    .dbiyok-shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
     .dbiyok-section {
-      margin-top: 26px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255,255,255,0.12);
+      margin-top: 30px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
     }
     .dbiyok-section h3 {
       margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      line-height: 1.05;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(1.45rem, 3vw, 2.15rem);
+      line-height: 1.1;
+      font-weight: 900;
+      letter-spacing: 0;
     }
     .dbiyok-section > p {
       max-width: 860px;
       color: var(--muted);
       line-height: 1.62;
-      margin: 12px 0 0;
-    }
-    .dbiyok-mode-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 20px;
-    }
-    .dbiyok-mode {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      padding: clamp(18px, 3vw, 26px);
-    }
-    .dbiyok-mode.download {
-      border-color: rgba(242, 178, 31, 0.42);
-    }
-    .dbiyok-mode h4, .dbiyok-card h4 {
-      margin: 0;
-      font-size: 1.25rem;
-      line-height: 1.2;
-    }
-    .dbiyok-mode p, .dbiyok-card p {
-      color: var(--muted);
-      line-height: 1.55;
-    }
-    .dbiyok-note {
-      color: var(--soft);
-      font-size: 0.92rem;
-      line-height: 1.48;
-      margin-top: 12px;
-    }
-    .dbiyok-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: #ffd9d9;
-      border: 1px solid rgba(255, 83, 83, 0.5);
-      border-radius: 999px;
-      background: rgba(210, 36, 36, 0.12);
-      padding: 8px 12px;
-      font-weight: 900;
-      margin-top: 14px;
-    }
-    .dbiyok-status-icon {
-      width: 24px;
-      height: 24px;
-      position: relative;
-      display: inline-block;
-      border: 2px solid #ff5555;
-      border-radius: 50%;
-      flex: 0 0 auto;
-    }
-    .dbiyok-status-icon::after {
-      content: "";
-      position: absolute;
-      width: 16px;
-      height: 2px;
-      left: 2px;
-      top: 9px;
-      background: #ff5555;
-      transform: rotate(-38deg);
-      transform-origin: center;
+      margin: 10px 0 0;
     }
     .dbiyok-card-grid {
       display: grid;
@@ -194,118 +171,224 @@
       gap: 14px;
       margin-top: 18px;
     }
-    .dbiyok-card {
-      border: 1px solid rgba(255,255,255,0.14);
+    .dbiyok-mode-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .dbiyok-provider-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .dbiyok-card, .dbiyok-mode {
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 8px;
-      background: rgba(255,255,255,0.045);
+      background: rgba(255, 255, 255, 0.045);
       padding: 18px;
     }
-    @media (max-width: 880px) {
-      .dbiyok-mode-grid, .dbiyok-card-grid { grid-template-columns: 1fr; }
-      .dbiyok-wrap { padding: 22px; }
+    .dbiyok-card-link {
+      display: block;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .dbiyok-mode.recommended {
+      border-color: rgba(97, 222, 192, 0.42);
+      background: rgba(97, 222, 192, 0.07);
+    }
+    .dbiyok-mode.lite {
+      border-color: rgba(242, 178, 31, 0.36);
+    }
+    .dbiyok-mode h4, .dbiyok-card h4 {
+      margin: 0;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+    .dbiyok-mode p, .dbiyok-card p {
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 0;
+    }
+    .dbiyok-note {
+      color: var(--soft);
+      font-size: 0.92rem;
+      line-height: 1.48;
+      margin-top: 12px;
+    }
+    .dbiyok-safety {
+      border: 1px solid rgba(242, 178, 31, 0.34);
+      border-radius: 8px;
+      background: rgba(242, 178, 31, 0.07);
+      padding: 16px 18px;
+      margin-top: 18px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .dbiyok-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .dbiyok-form label {
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 850;
+    }
+    .dbiyok-form input {
+      min-height: 44px;
+      padding: 11px 14px;
+      border-radius: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--ink);
+      font: inherit;
+    }
+    .dbiyok-form button {
+      min-height: 44px;
+      border-radius: 7px;
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--mint), #e4cc72);
+      color: #07110f;
+      font: inherit;
+    }
+    @media (max-width: 980px) {
+      .dbiyok-product-hero { grid-template-columns: 1fr; }
+      .dbiyok-card-grid, .dbiyok-provider-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .dbiyok-wrap { padding: 16px; }
+      .dbiyok-card-grid, .dbiyok-mode-grid, .dbiyok-provider-grid { grid-template-columns: 1fr; }
+      .dbiyok-section h3 { font-size: clamp(1.45rem, 7vw, 2rem); }
+      .dbiyok-actions .dbiyok-btn, .dbiyok-mini-actions .dbiyok-btn { width: 100%; }
+      .dbiyok-shot { padding: 7px; }
     }
   </style>
 
   <div class="dbiyok-wrap">
-    <section class="jobapp-hero" id="jobapp">
+    <section class="dbiyok-product-hero" id="dbiyok-jobapp-hero">
       <div>
         <div class="jobapp-mark" aria-hidden="true">JA</div>
-        <p class="dbiyok-kicker">Application card</p>
+        <p class="dbiyok-kicker">d'BiYOK Lab &middot; Local-first AI application</p>
         <h2 class="jobapp-title">JobApp AI Assistant</h2>
         <div class="jobapp-subtitle">CV parser, job matcher, and editable application exporter.</div>
-        <p class="jobapp-lead">A local-first assistant for adapting structured CVs to job opportunities. It is especially useful for Ci&ecirc;ncia Vitae exports, the official Portuguese academic CV platform used by researchers and institutions in funding and project workflows such as FCT calls.</p>
+        <p class="jobapp-lead">Adapt structured CVs to job opportunities with a local-first, BYOK workflow. Especially useful for Ci&ecirc;ncia Vitae exports used by researchers and institutions in Portugal, including FCT-oriented project contexts.</p>
+        <div class="dbiyok-badges" aria-label="Application attributes">
+          <span class="dbiyok-badge">Local-first</span>
+          <span class="dbiyok-badge">BYOK</span>
+          <span class="dbiyok-badge">Windows</span>
+          <span class="dbiyok-badge">Open source</span>
+        </div>
+        <div class="dbiyok-actions">
+          <a class="dbiyok-btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download for Windows</a>
+          <a class="dbiyok-btn secondary" href="https://danydguezperez.github.io/JobApp-AI-Assistant/jobapp-web-lite.html" target="_blank" rel="noopener">Try Web Lite</a>
+          <a class="dbiyok-btn ghost" href="https://github.com/danydguezperez/JobApp-AI-Assistant" target="_blank" rel="noopener">View source</a>
+          <a class="dbiyok-btn ghost" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-README.pdf" target="_blank" rel="noopener">Read guide</a>
+        </div>
       </div>
+      <figure class="dbiyok-shot">
+        <img src="https://raw.githubusercontent.com/danydguezperez/JobApp-AI-Assistant/main/docs/assets/jobapp-ai-assistant-screenshot.png" alt="Screenshot of the JobApp AI Assistant local interface showing CV import, AI engine settings, and application workflow." loading="lazy">
+      </figure>
     </section>
 
-    <section class="dbiyok-section">
-      <h3>Choose the right mode</h3>
-      <div class="dbiyok-mode-grid">
-        <article class="dbiyok-mode" id="jobapp-web">
-          <h4>Try from the web: experimental Web Lite</h4>
-          <div class="dbiyok-status"><span class="dbiyok-status-icon" aria-hidden="true"></span> API-key caution</div>
-          <p>Runs in the browser for quick BYOK tests. It can import PDF, TXT, Markdown, JSON, or XML and make a first heuristic pass over structured Ci&ecirc;ncia Vitae CVs.</p>
-          <p class="dbiyok-note">Use a temporary or restricted API key, clear it after testing, and revoke/delete it in your provider account.</p>
-          <div class="dbiyok-mini-actions">
-            <a class="dbiyok-btn danger" href="https://danydguezperez.github.io/JobApp-AI-Assistant/jobapp-web-lite.html" target="_blank" rel="noopener">Open Web App Lite</a>
-          </div>
-        </article>
-
-        <article class="dbiyok-mode download" id="download">
-          <h4>Recommended: download desktop app</h4>
-          <p>Best for repeated use, local exports, longer documents, structured Ci&ecirc;ncia Vitae CVs, and users who do not want to paste an API key into a browser page.</p>
-          <p class="dbiyok-note">Runs on localhost, keeps files on the user's computer, and can use BYOK or local models.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="dbiyok-section">
-      <h3>What JobApp AI Assistant does</h3>
+    <section class="dbiyok-section" id="dbiyok-jobapp-features">
+      <h3>What it does</h3>
       <div class="dbiyok-card-grid">
         <article class="dbiyok-card">
-          <h4>Parse and structure CVs</h4>
-          <p>Import PDF, TXT, or structured Ci&ecirc;ncia Vitae exports, then organize the content into editable English sections without repeated headers or platform noise.</p>
+          <h4>Parse structured CVs</h4>
+          <p>Import PDF, TXT, XML, JSON, or Ci&ecirc;ncia Vitae exports and turn them into editable English sections.</p>
         </article>
         <article class="dbiyok-card">
           <h4>Focus the evidence</h4>
-          <p>Select the experience, projects, publications, and skills that matter most for each job application.</p>
+          <p>Select the experience, publications, projects, software, and skills that should guide a specific application.</p>
         </article>
         <article class="dbiyok-card">
-          <h4>Export editable outputs</h4>
-          <p>Generate tailored CV bullets, cover letters, interview notes, and exportable Markdown, DOCX, PDF, or JSON files.</p>
+          <h4>Generate the package</h4>
+          <p>Create tailored CV bullets, cover-letter drafts, interview notes, and editable exports.</p>
         </article>
-      </div>
-      <div class="dbiyok-actions">
-        <a class="dbiyok-btn warning" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download Windows app</a>
-        <a class="dbiyok-btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest" target="_blank" rel="noopener">View GitHub release</a>
-        <a class="dbiyok-btn" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-README.pdf" target="_blank" rel="noopener">Download guide</a>
       </div>
     </section>
 
-    <section class="dbiyok-section" id="embed-connect">
-      <h3>Stay updated and get help</h3>
-      <p>Opt-in updates and consulting are the preferred support channels. The desktop CV workflow stays clean and ad-free.</p>
-      <div class="dbiyok-mode-grid" style="margin-top:18px;">
-        <article class="dbiyok-mode">
-          <h4>Release notifications</h4>
-          <p>New releases, AI-key safety notes, and practical resources for researchers and professionals.</p>
-          <form action="https://formspree.io/f/xgveqlzv" method="POST" style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
-            <input type="email" name="email" required placeholder="your@email.com" style="padding:11px 14px;border-radius:7px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#f7fbf7;font-size:.95rem;">
-            <input type="hidden" name="source" value="pagbiomics-embed-newsletter">
-            <button type="submit" style="padding:11px;border-radius:7px;border:none;cursor:pointer;font-weight:900;background:linear-gradient(135deg,#61dec0,#e4cc72);color:#07110f;">Subscribe free</button>
-          </form>
+    <section class="dbiyok-section" id="dbiyok-jobapp-modes">
+      <h3>Choose your mode</h3>
+      <div class="dbiyok-mode-grid">
+        <article class="dbiyok-mode recommended" id="dbiyok-download">
+          <h4>Desktop app — recommended</h4>
+          <p>Best for real CVs, sensitive documents, long Ci&ecirc;ncia Vitae exports, local history, and full export workflows.</p>
+          <p class="dbiyok-note">Runs on localhost and keeps files on the user's computer.</p>
+          <div class="dbiyok-mini-actions">
+            <a class="dbiyok-btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download for Windows</a>
+            <a class="dbiyok-btn ghost" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest" target="_blank" rel="noopener">Latest release</a>
+          </div>
         </article>
-        <article class="dbiyok-mode download">
-          <h4>Need expert support?</h4>
-          <p>Dany Dom&iacute;nguez P&eacute;rez, PhD, offers CV review, career consulting, and bioinformatics project support through PagBiOmicS.</p>
-          <div class="dbiyok-mini-actions" style="margin-top:14px;">
-            <a class="dbiyok-btn primary" href="https://www.pagbiomics.com" target="_blank" rel="noopener">Visit PagBiOmicS</a>
+
+        <article class="dbiyok-mode lite" id="dbiyok-web-lite">
+          <h4>Web Lite — experimental</h4>
+          <p>Useful for quick BYOK tests in the browser. It includes a heuristic parser, but cannot match the full desktop parser or backend job-board fetching.</p>
+          <p class="dbiyok-note">Use a temporary or restricted API key, then clear and revoke/delete it after testing.</p>
+          <div class="dbiyok-mini-actions">
+            <a class="dbiyok-btn secondary" href="https://danydguezperez.github.io/JobApp-AI-Assistant/jobapp-web-lite.html" target="_blank" rel="noopener">Open Web Lite</a>
           </div>
         </article>
       </div>
     </section>
 
-    <section class="dbiyok-section" id="embed-providers">
-      <h3>API keys to power the app</h3>
-      <p>JobApp AI Assistant is BYOK. Create a key with a provider, paste it in the AI Engine panel, and keep sensitive work local whenever possible.</p>
-      <div class="dbiyok-card-grid" style="margin-top:16px;">
-        <a class="dbiyok-card" href="https://ai.google.dev/aistudio?utm_source=pagbiomics-embed&utm_medium=referral" target="_blank" rel="noopener sponsored" style="text-decoration:none;color:#f7fbf7;display:block;">
+    <section class="dbiyok-section" id="dbiyok-providers">
+      <h3>Supported AI engines</h3>
+      <p>Use your own key or a local model. Provider links are setup shortcuts, not sponsored placements.</p>
+      <div class="dbiyok-provider-grid">
+        <a class="dbiyok-card dbiyok-card-link" href="https://ai.google.dev/aistudio?utm_source=pagbiomics-embed&utm_medium=referral" target="_blank" rel="noopener">
           <h4>Google Gemini</h4>
-          <p style="margin:6px 0 0;">Gemini Flash models with free-tier access where available.</p>
+          <p>Get a Gemini API key and use Flash models where available.</p>
         </a>
-        <a class="dbiyok-card" href="https://platform.openai.com/api-keys?utm_source=pagbiomics-embed&utm_medium=referral" target="_blank" rel="noopener sponsored" style="text-decoration:none;color:#f7fbf7;display:block;">
+        <a class="dbiyok-card dbiyok-card-link" href="https://platform.openai.com/api-keys?utm_source=pagbiomics-embed&utm_medium=referral" target="_blank" rel="noopener">
           <h4>OpenAI</h4>
-          <p style="margin:6px 0 0;">Create a platform API key for OpenAI-compatible workflows.</p>
+          <p>Create a platform API key for OpenAI-compatible workflows.</p>
         </a>
-        <a class="dbiyok-card" href="https://console.anthropic.com/settings/keys?utm_source=pagbiomics-embed&utm_medium=referral" target="_blank" rel="noopener sponsored" style="text-decoration:none;color:#f7fbf7;display:block;">
+        <a class="dbiyok-card dbiyok-card-link" href="https://console.anthropic.com/settings/keys?utm_source=pagbiomics-embed&utm_medium=referral" target="_blank" rel="noopener">
           <h4>Anthropic Claude</h4>
-          <p style="margin:6px 0 0;">Connect Claude models from your own console.</p>
+          <p>Connect Claude models from your own console.</p>
         </a>
-        <a class="dbiyok-card" href="https://ollama.com/?utm_source=pagbiomics-embed&utm_medium=referral" target="_blank" rel="noopener" style="text-decoration:none;color:#f7fbf7;display:block;">
+        <a class="dbiyok-card dbiyok-card-link" href="https://ollama.com/?utm_source=pagbiomics-embed&utm_medium=referral" target="_blank" rel="noopener">
           <h4>Ollama local</h4>
-          <p style="margin:6px 0 0;">Run compatible local models on your own computer.</p>
+          <p>Run compatible local models on your own computer.</p>
         </a>
       </div>
     </section>
 
+    <section class="dbiyok-section" id="dbiyok-privacy">
+      <h3>Privacy and API-key safety</h3>
+      <div class="dbiyok-safety">
+        The desktop app remains local-first, private, and ad-free. The Web Lite page runs in the browser, so visitors should use temporary or restricted API keys, avoid sensitive documents, clear the key field after testing, and revoke/delete test keys in the provider console.
+      </div>
+    </section>
+
+    <section class="dbiyok-section" id="dbiyok-connect">
+      <h3>Updates and professional support</h3>
+      <div class="dbiyok-mode-grid">
+        <article class="dbiyok-mode">
+          <h4>Release notifications</h4>
+          <p>New releases, setup notes, AI-key safety tips, and practical resources for researchers and professionals.</p>
+          <form class="dbiyok-form" action="https://formspree.io/f/xgveqlzv" method="POST">
+            <label for="dbiyok-email">Email address</label>
+            <input id="dbiyok-email" type="email" name="email" autocomplete="email" required placeholder="you@example.com">
+            <input type="hidden" name="source" value="pagbiomics-embed-newsletter">
+            <button type="submit">Subscribe free</button>
+          </form>
+        </article>
+        <article class="dbiyok-mode">
+          <h4>Expert CV and project support</h4>
+          <p>For academic CV review, job-application strategy, or bioinformatics project support through PagBiOmicS.</p>
+          <div class="dbiyok-mini-actions">
+            <a class="dbiyok-btn primary" href="https://www.pagbiomics.com/contact" target="_blank" rel="noopener">Request expert CV review</a>
+            <a class="dbiyok-btn ghost" href="https://www.pagbiomics.com/contact" target="_blank" rel="noopener">Discuss a project</a>
+          </div>
+        </article>
+      </div>
+    </section>
   </div>
 </section>
