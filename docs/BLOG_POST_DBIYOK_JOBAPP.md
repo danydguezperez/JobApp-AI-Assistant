@@ -44,6 +44,8 @@ The current application presented under d'BiYOK Lab is **JobApp AI Assistant**.
 
 JobApp AI Assistant is a local-first CV parser, job matcher, and application exporter. It helps users adapt their CV and application materials to specific job opportunities in a more structured way.
 
+One important reference use case is **Ciência Vitae**, the official Portuguese academic CV platform used by researchers and institutions for professional records, academic evaluation, and funding/project contexts such as FCT calls. Because Ciência Vitae exports are structured but often verbose, they are a good fit for a tool that can remove repeated platform headers, organize evidence into editable sections, and help users decide what should be emphasized for each application.
+
 Instead of simply asking an AI model to "rewrite my CV", the app encourages a more careful process:
 
 1. Import a CV from PDF, TXT, or structured CV exports.
@@ -72,7 +74,25 @@ JobApp AI Assistant currently supports workflows such as:
 
 The current recommendation is to use the desktop/local version for sensitive CVs and long workflows.
 
-An experimental browser-based Web App Lite version can be used to import a CV, focus the evidence, and run quick BYOK tests. The important caution is the API key: users should create a temporary or restricted key, use it for the test, clear it from the page, and revoke or delete it afterward.
+An experimental browser-based **Web App Lite** version can be used directly from the web page for quick BYOK tests. It can import PDF, TXT, Markdown, JSON, and XML files and now includes heuristic parsing rules for structured Ciência Vitae CVs.
+
+But the Web Lite version is intentionally limited. It runs only in the browser, so it cannot use the full Python/FastAPI parser, local SQLite history, desktop export workflow, or reliable backend scraping. It also cannot guarantee job-board fetching when platforms such as LinkedIn block direct browser requests or require login. For sensitive CVs, large Ciência Vitae exports, repeated applications, and serious export workflows, the local desktop app remains the recommended option.
+
+The important API-key caution remains: users should create a temporary or restricted key, use it for the test, clear it from the page, and revoke or delete it afterward.
+
+## How the Public Page Supports the Project
+
+d'BiYOK Lab should not monetize by interrupting a private CV workflow. The local desktop app should remain clean and focused.
+
+Instead, support and monetization can happen around the public page and educational layer:
+
+- newsletter signups for releases, tutorials, and AI-key safety notes,
+- clearly labelled sponsor placements from relevant biotech, omics, scientific software, training, recruiter, or productivity partners,
+- provider links that help users find BYOK setup pages,
+- optional PagBiOmicS consulting or CV review services,
+- future hosted/pro features only if the privacy and backend model are mature enough.
+
+This keeps the sensitive workflow local while still giving the project a practical path to grow.
 
 ## Beyond Research: Wider Productivity Applications
 

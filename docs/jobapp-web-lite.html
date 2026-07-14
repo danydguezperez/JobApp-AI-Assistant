@@ -172,7 +172,7 @@
           <div class="mark" aria-hidden="true">JA</div>
           <p class="eyebrow">Experimental Web App Lite</p>
           <h1>JobApp AI Assistant</h1>
-          <p>Import a CV in the browser, focus the relevant evidence, paste or fetch a job posting when possible, and generate an editable draft with your own Gemini API key. The workflow is especially relevant for structured Ciência Vitae exports used by researchers and institutions in Portugal, including FCT-oriented funding/project contexts.</p>
+          <p>Import a CV in the browser, focus the relevant evidence, paste or fetch a job posting when possible, and generate an editable draft with your own Gemini API key. This Web Lite parser is heuristic and works best with structured Ciência Vitae exports used by researchers and institutions in Portugal, including FCT-oriented funding/project contexts.</p>
           <div class="actions">
             <a class="btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-Windows.exe">Download local app</a>
             <a class="btn" href="https://github.com/danydguezperez/JobApp-AI-Assistant">View repository</a>
@@ -186,19 +186,38 @@
       </section>
 
       <section class="panel">
+        <p class="eyebrow">Scope</p>
+        <h2>What this Lite version can do</h2>
+        <div class="three-grid">
+          <div class="section-card">
+            <strong>Good for quick browser tests</strong>
+            <p>Heuristic parsing of PDF, TXT, Markdown, JSON, and XML CV files, with extra rules for structured Ciência Vitae exports.</p>
+          </div>
+          <div class="section-card">
+            <strong>Limited by the browser</strong>
+            <p>No local database, no full Python parser, no desktop export workflow, and no reliable scraping when job boards block CORS or require login.</p>
+          </div>
+          <div class="section-card">
+            <strong>Desktop remains recommended</strong>
+            <p>Use the Windows app for sensitive CVs, large Ciência Vitae exports, repeated applications, and stronger local parsing/exporting.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
         <p class="eyebrow">Step 1</p>
         <h2>Import CV</h2>
         <div class="grid">
           <div>
             <label>
               CV file from your computer
-              <input id="cvFile" type="file" accept=".pdf,.txt,.md,.json" />
+              <input id="cvFile" type="file" accept=".pdf,.txt,.md,.json,.xml" />
             </label>
             <div class="actions">
               <button id="parseCvBtn" class="primary" type="button">Parse CV in browser</button>
               <button id="clearCvBtn" type="button">Clear CV</button>
             </div>
-            <p class="mini">Supported here: PDF, TXT, Markdown, and simple JSON. The desktop app remains better for large or complex CV workflows, especially structured Ciência Vitae academic CVs.</p>
+            <p class="mini">Supported here: PDF, TXT, Markdown, simple JSON, and XML. The browser parser is heuristic; the desktop app remains better for large or complex Ciência Vitae academic CVs.</p>
             <div id="cvStatus" class="status">No CV loaded yet.</div>
           </div>
           <div>
@@ -392,13 +411,46 @@
 
       function cleanText(text) {
         return (text || "")
+          .normalize("NFC")
           .replace(/\r/g, "\n")
           .replace(/[ \t]+\n/g, "\n")
           .replace(/\n{3,}/g, "\n\n")
           .replace(/^\s*(p[aá]gina|page)\s+\d+.*$/gim, "")
           .replace(/^\s*c[ií]ência vitae.*$/gim, "")
           .replace(/^\s*curriculum vitae.*$/gim, "")
+          .replace(/^\s*(p[a\u00e1]gina|page)\s+\d+.*$/gim, "")
+          .replace(/^\s*(\u00a9\s*)?c[i\u00ed]\u00eancia\s+vitae.*$/gim, "")
           .trim();
+      }
+
+      function isCienciaVitaeText(text) {
+        return /c[i\u00ed]\u00eancia\s+vitae|funda[c\u00e7][a\u00e3]o\s+para\s+a\s+ci[e\u00ea]ncia|orcid|scopus|fct/i.test(text || "");
+      }
+
+      function prepareCienciaVitaeText(text) {
+        let prepared = cleanText(text);
+        const headings = [
+          "Identifica\u00e7\u00e3o", "Identification", "Dados pessoais", "Personal information",
+          "Forma\u00e7\u00e3o", "Education", "Graus acad\u00e9micos", "Academic degrees",
+          "Percurso profissional", "Professional experience", "Experi\u00eancia profissional", "Employment",
+          "Dom\u00ednios de atua\u00e7\u00e3o", "Areas of expertise", "Atua\u00e7\u00e3o cient\u00edfica", "Scientific area",
+          "Projetos", "Projects", "Bolsa", "Grants",
+          "Produ\u00e7\u00e3o cient\u00edfica", "Produ\u00e7\u00f5es", "Publica\u00e7\u00f5es", "Publications", "Articles", "Papers",
+          "Software", "Propriedade intelectual", "Intellectual property",
+          "Atividades", "Activities", "Orienta\u00e7\u00f5es", "Supervision", "J\u00faris", "Juries",
+          "Pr\u00e9mios", "Pr\u00e9mios e distin\u00e7\u00f5es", "Awards", "Distinctions",
+          "Compet\u00eancias", "Skills", "Idiomas", "Languages"
+        ];
+        for (const heading of headings) {
+          const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          prepared = prepared.replace(new RegExp(`\\s+(${escaped})(\\s*[:\\n])`, "gi"), "\n\n$1\n");
+        }
+        prepared = prepared
+          .replace(/\s+(https?:\/\/\S+)/g, "\n$1")
+          .replace(/\s+(ORCID|Scopus|ResearcherID|Ci\u00eancia ID|Email|E-mail|Telefone|Phone)\s*[:\-]/gi, "\n$1: ")
+          .replace(/\s+(\d{4})\s*[-\u2013]\s*(\d{4}|present|presente|atual)/gi, "\n$1-$2 ")
+          .replace(/\n{3,}/g, "\n\n");
+        return cleanText(prepared);
       }
 
       async function readPdf(file) {
@@ -444,18 +496,43 @@
         }
       }
 
+      function parseXmlCv(text) {
+        const xml = new DOMParser().parseFromString(text, "application/xml");
+        if (xml.querySelector("parsererror")) {
+          parseTextCv(text.replace(/<[^>]+>/g, "\n"));
+          return;
+        }
+        const lines = [];
+        const walk = (node, path = []) => {
+          if (node.nodeType !== Node.ELEMENT_NODE) return;
+          const children = Array.from(node.children || []);
+          if (!children.length) {
+            const value = cleanText(node.textContent || "");
+            if (value && value.length > 1) {
+              const label = [...path, node.nodeName].slice(-3).join(" / ").replace(/[_-]+/g, " ");
+              lines.push(`${label}: ${value}`);
+            }
+            return;
+          }
+          for (const child of children) walk(child, [...path, node.nodeName]);
+        };
+        walk(xml.documentElement);
+        parseTextCv(lines.join("\n"));
+      }
+
       function parseTextCv(text) {
-        const cleaned = cleanText(text);
+        const cleaned = isCienciaVitaeText(text) ? prepareCienciaVitaeText(text) : cleanText(text);
         const lines = cleaned.split("\n");
         sections = { profile: "" };
         let current = "profile";
         const headingMap = [
-          ["experience", /^(experience|professional|employment|work experience|positions?|appointments?)$/i],
-          ["education", /^(education|academic degrees?|degrees?|training)$/i],
-          ["skills", /^(skills?|technical skills?|competenc|expertise|languages?)$/i],
-          ["publications", /^(publications?|articles?|papers?|scientific production)$/i],
-          ["projects", /^(projects?|research projects?|grants?)$/i],
-          ["software", /^(software|tools?|code|repositories|github)$/i],
+          ["experience", /^(experience|professional|employment|work experience|positions?|appointments?|percurso profissional|experi\u00eancia profissional|atividade profissional)$/i],
+          ["education", /^(education|academic degrees?|degrees?|training|forma\u00e7\u00e3o|graus acad\u00e9micos|habilita\u00e7\u00f5es)$/i],
+          ["skills", /^(skills?|technical skills?|competenc|expertise|languages?|compet\u00eancias|idiomas|dom\u00ednios de atua\u00e7\u00e3o|areas? of expertise)$/i],
+          ["publications", /^(publications?|articles?|papers?|scientific production|produ\u00e7\u00e3o cient\u00edfica|produ\u00e7\u00f5es|publica\u00e7\u00f5es)$/i],
+          ["projects", /^(projects?|research projects?|grants?|projetos?|bolsas?|financiamento)$/i],
+          ["software", /^(software|tools?|code|repositories|github|propriedade intelectual)$/i],
+          ["other", /^(activities|atividades|supervision|orienta\u00e7\u00f5es|juries|j\u00faris|awards?|distinctions?|pr\u00e9mios|pr\u00e9mios e distin\u00e7\u00f5es)$/i],
         ];
         for (const raw of lines) {
           const line = raw.trim();
@@ -529,6 +606,7 @@
         try {
           const text = await readCvFile(file);
           if (file.name.toLowerCase().endsWith(".json")) parseJsonCv(text);
+          else if (file.name.toLowerCase().endsWith(".xml")) parseXmlCv(text);
           else parseTextCv(text);
           renderSections();
           setStatus("cvStatus", `Loaded ${file.name}. Parsed ${Object.keys(sections).filter((key) => sections[key]?.trim()).length} editable sections in the browser.`);
