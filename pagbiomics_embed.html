@@ -167,19 +167,19 @@
     }
     .dbiyok-card-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: 1fr;
       gap: 14px;
       margin-top: 18px;
     }
     .dbiyok-mode-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: 1fr;
       gap: 14px;
       margin-top: 18px;
     }
     .dbiyok-provider-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: 1fr;
       gap: 14px;
       margin-top: 18px;
     }
@@ -189,10 +189,25 @@
       background: rgba(255, 255, 255, 0.045);
       padding: 18px;
     }
+    .dbiyok-card {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.28fr) 1fr;
+      gap: 18px;
+      align-items: start;
+    }
     .dbiyok-card-link {
-      display: block;
+      display: grid;
       color: var(--ink);
       text-decoration: none;
+    }
+    #dbiyok-jobapp-modes .dbiyok-mode {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.32fr) 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .dbiyok-mode-body {
+      min-width: 0;
     }
     .dbiyok-mode.recommended {
       border-color: rgba(97, 222, 192, 0.42);
@@ -205,12 +220,19 @@
       margin: 0;
       font-size: 1.1rem;
       line-height: 1.2;
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: none;
     }
     .dbiyok-mode p, .dbiyok-card p {
       color: var(--muted);
       line-height: 1.55;
-      margin-bottom: 0;
+      margin: 0;
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: none;
     }
+    .dbiyok-card p + p, .dbiyok-mode p + p { margin-top: 10px; }
     .dbiyok-note {
       color: var(--soft);
       font-size: 0.92rem;
@@ -258,11 +280,11 @@
     }
     @media (max-width: 980px) {
       .dbiyok-product-hero { grid-template-columns: 1fr; }
-      .dbiyok-card-grid, .dbiyok-provider-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 640px) {
       .dbiyok-wrap { padding: 16px; }
       .dbiyok-card-grid, .dbiyok-mode-grid, .dbiyok-provider-grid { grid-template-columns: 1fr; }
+      .dbiyok-card, .dbiyok-mode { grid-template-columns: 1fr; }
       .dbiyok-section h3 { font-size: clamp(1.45rem, 7vw, 2rem); }
       .dbiyok-actions .dbiyok-btn, .dbiyok-mini-actions .dbiyok-btn { width: 100%; }
       .dbiyok-shot { padding: 7px; }
@@ -317,21 +339,25 @@
       <h3>Choose your mode</h3>
       <div class="dbiyok-mode-grid">
         <article class="dbiyok-mode recommended" id="dbiyok-download">
-          <h4>Desktop app — recommended</h4>
-          <p>Best for real CVs, sensitive documents, long Ci&ecirc;ncia Vitae exports, local history, and full export workflows.</p>
-          <p class="dbiyok-note">Runs on localhost and keeps files on the user's computer.</p>
-          <div class="dbiyok-mini-actions">
-            <a class="dbiyok-btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download for Windows</a>
-            <a class="dbiyok-btn ghost" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest" target="_blank" rel="noopener">Latest release</a>
+          <h4>Desktop app &mdash; recommended</h4>
+          <div class="dbiyok-mode-body">
+            <p>Best for real CVs, sensitive documents, long Ci&ecirc;ncia Vitae exports, local history, and full export workflows.</p>
+            <p class="dbiyok-note">Runs on localhost and keeps files on the user's computer.</p>
+            <div class="dbiyok-mini-actions">
+              <a class="dbiyok-btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download for Windows</a>
+              <a class="dbiyok-btn ghost" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest" target="_blank" rel="noopener">Latest release</a>
+            </div>
           </div>
         </article>
 
         <article class="dbiyok-mode lite" id="dbiyok-web-lite">
-          <h4>Web Lite — experimental</h4>
-          <p>Useful for quick BYOK tests in the browser. It includes a heuristic parser, but cannot match the full desktop parser or backend job-board fetching.</p>
-          <p class="dbiyok-note">Use a temporary or restricted API key, then clear and revoke/delete it after testing.</p>
-          <div class="dbiyok-mini-actions">
-            <a class="dbiyok-btn secondary" href="https://danydguezperez.github.io/JobApp-AI-Assistant/jobapp-web-lite.html" target="_blank" rel="noopener">Open Web Lite</a>
+          <h4>Web Lite &mdash; experimental</h4>
+          <div class="dbiyok-mode-body">
+            <p>Useful for quick BYOK tests in the browser. It includes a heuristic parser, but cannot match the full desktop parser or backend job-board fetching.</p>
+            <p class="dbiyok-note">Use a temporary or restricted API key, then clear and revoke/delete it after testing.</p>
+            <div class="dbiyok-mini-actions">
+              <a class="dbiyok-btn secondary" href="https://danydguezperez.github.io/JobApp-AI-Assistant/jobapp-web-lite.html" target="_blank" rel="noopener">Open Web Lite</a>
+            </div>
           </div>
         </article>
       </div>
