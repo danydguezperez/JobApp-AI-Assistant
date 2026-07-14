@@ -27,9 +27,16 @@
     .dbiyok-wrap { padding: clamp(22px, 4vw, 48px); }
     .dbiyok-product-hero {
       display: grid;
-      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
-      gap: clamp(22px, 4vw, 42px);
-      align-items: center;
+      grid-template-columns: 1fr;
+      gap: clamp(18px, 3vw, 30px);
+      align-items: start;
+    }
+    .dbiyok-hero-copy {
+      display: grid;
+      grid-template-columns: 66px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+      max-width: 980px;
     }
     .jobapp-mark {
       width: 54px;
@@ -40,9 +47,10 @@
       color: #07110f;
       background: linear-gradient(135deg, var(--mint), #e4cc72);
       font-weight: 950;
-      margin-bottom: 16px;
+      margin: 0;
       box-shadow: 0 18px 44px rgba(97, 222, 192, 0.12);
     }
+    .dbiyok-hero-main { min-width: 0; }
     .dbiyok-kicker {
       color: var(--mint);
       font-size: 0.78rem;
@@ -54,9 +62,13 @@
     .jobapp-title {
       margin: 0;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(2.1rem, 5vw, 3.65rem);
+      font-size: clamp(2.45rem, 6vw, 4.2rem);
       line-height: 0.98;
       letter-spacing: 0;
+      max-width: 920px;
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: none;
     }
     .jobapp-subtitle {
       margin: 14px 0 0;
@@ -138,6 +150,8 @@
       background: rgba(255, 255, 255, 0.05);
       padding: 10px;
       box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+      width: min(100%, 980px);
+      margin: 0;
     }
     .dbiyok-shot img {
       display: block;
@@ -283,8 +297,10 @@
     }
     @media (max-width: 640px) {
       .dbiyok-wrap { padding: 16px; }
+      .dbiyok-hero-copy { grid-template-columns: 1fr; }
+      .jobapp-mark { width: 50px; height: 50px; }
       .dbiyok-card-grid, .dbiyok-mode-grid, .dbiyok-provider-grid { grid-template-columns: 1fr; }
-      .dbiyok-card, .dbiyok-mode { grid-template-columns: 1fr; }
+      .dbiyok-card, .dbiyok-mode, #dbiyok-jobapp-modes .dbiyok-mode { grid-template-columns: 1fr; }
       .dbiyok-section h3 { font-size: clamp(1.45rem, 7vw, 2rem); }
       .dbiyok-actions .dbiyok-btn, .dbiyok-mini-actions .dbiyok-btn { width: 100%; }
       .dbiyok-shot { padding: 7px; }
@@ -293,23 +309,25 @@
 
   <div class="dbiyok-wrap">
     <section class="dbiyok-product-hero" id="dbiyok-jobapp-hero">
-      <div>
+      <div class="dbiyok-hero-copy">
         <div class="jobapp-mark" aria-hidden="true">JA</div>
-        <p class="dbiyok-kicker">d'BiYOK Lab &middot; Local-first AI application</p>
-        <h2 class="jobapp-title">JobApp AI Assistant</h2>
-        <div class="jobapp-subtitle">CV parser, job matcher, and editable application exporter.</div>
-        <p class="jobapp-lead">Adapt structured CVs to job opportunities with a local-first, BYOK workflow. Especially useful for Ci&ecirc;ncia Vitae exports used by researchers and institutions in Portugal, including FCT-oriented project contexts.</p>
-        <div class="dbiyok-badges" aria-label="Application attributes">
-          <span class="dbiyok-badge">Local-first</span>
-          <span class="dbiyok-badge">BYOK</span>
-          <span class="dbiyok-badge">Windows</span>
-          <span class="dbiyok-badge">Open source</span>
-        </div>
-        <div class="dbiyok-actions">
-          <a class="dbiyok-btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download for Windows</a>
-          <a class="dbiyok-btn secondary" href="https://danydguezperez.github.io/JobApp-AI-Assistant/jobapp-web-lite.html" target="_blank" rel="noopener">Try Web Lite</a>
-          <a class="dbiyok-btn ghost" href="https://github.com/danydguezperez/JobApp-AI-Assistant" target="_blank" rel="noopener">View source</a>
-          <a class="dbiyok-btn ghost" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-README.pdf" target="_blank" rel="noopener">Read guide</a>
+        <div class="dbiyok-hero-main">
+          <p class="dbiyok-kicker">d'BiYOK Lab &middot; Local-first AI application</p>
+          <h2 class="jobapp-title">JobApp AI Assistant</h2>
+          <div class="jobapp-subtitle">CV parser, job matcher, and editable application exporter.</div>
+          <p class="jobapp-lead">Adapt structured CVs to job opportunities with a local-first, BYOK workflow. Especially useful for Ci&ecirc;ncia Vitae exports used by researchers and institutions in Portugal, including FCT-oriented project contexts.</p>
+          <div class="dbiyok-badges" aria-label="Application attributes">
+            <span class="dbiyok-badge">Local-first</span>
+            <span class="dbiyok-badge">BYOK</span>
+            <span class="dbiyok-badge">Windows</span>
+            <span class="dbiyok-badge">Open source</span>
+          </div>
+          <div class="dbiyok-actions">
+            <a class="dbiyok-btn primary" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-Windows.exe" target="_blank" rel="noopener">Download for Windows</a>
+            <a class="dbiyok-btn secondary" href="https://danydguezperez.github.io/JobApp-AI-Assistant/jobapp-web-lite.html" target="_blank" rel="noopener">Try Web Lite</a>
+            <a class="dbiyok-btn ghost" href="https://github.com/danydguezperez/JobApp-AI-Assistant" target="_blank" rel="noopener">View source</a>
+            <a class="dbiyok-btn ghost" href="https://github.com/danydguezperez/JobApp-AI-Assistant/releases/latest/download/JobApp-AI-Assistant-README.pdf" target="_blank" rel="noopener">Read guide</a>
+          </div>
         </div>
       </div>
       <figure class="dbiyok-shot">
