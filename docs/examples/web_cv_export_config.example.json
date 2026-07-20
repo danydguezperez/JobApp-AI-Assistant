@@ -1,0 +1,15 @@
+{
+  "page_title": "Professional Web CV",
+  "include_contact": false,
+  "include_sections": [
+    "experience",
+    "education",
+    "projects",
+    "publications",
+    "book_chapters",
+    "teaching",
+    "software",
+    "languages"
+  ],
+  "filename_prefix": "professional_web_cv"
+}

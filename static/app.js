@@ -1,5 +1,6 @@
 const state = {
   cv: null,
+  canonical: null,
   selected: {},
   lastResult: null,
   activeTab: "cvResult",
@@ -96,6 +97,7 @@ function setCvExportEnabled(enabled) {
   [
     "#exportFullCvBtn",
     "#exportFilteredCvBtn",
+    "#exportWebCvBtn",
   ].forEach((selector) => {
     const button = $(selector);
     if (button) button.disabled = !enabled;
@@ -370,6 +372,7 @@ async function loadLocalCv(button) {
     form.append("use_ai", useAiParser() ? "true" : "false");
     const response = await api("/api/upload-cv", { method: "POST", body: form });
     const data = await response.json();
+    state.canonical = data.canonical || null;
     renderCv(data.cv);
     renderCvSource(data);
     toast(data.parse_mode === "local_heuristic" ? "Local CV parsed without AI credits." : "Local CV loaded and parsed.");
@@ -386,6 +389,14 @@ async function loadSavedCv(button) {
     const response = await api("/api/cv");
     const data = await response.json();
     renderCv(data.cv);
+    try {
+      const canonicalResponse = await api("/api/cv-canonical");
+      const canonicalData = await canonicalResponse.json();
+      state.canonical = canonicalData.canonical || null;
+    } catch {
+      state.canonical = null;
+    }
+    $("#exportWebCvBtn").disabled = !state.canonical;
     renderCvSource({ source: "Saved CV JSON" });
     toast("Saved CV loaded.");
   } catch (error) {
@@ -403,6 +414,7 @@ async function uploadCv(file) {
     toast("Extracting and parsing CV...");
     const response = await api("/api/upload-cv", { method: "POST", body: form });
     const data = await response.json();
+    state.canonical = data.canonical || null;
     renderCv(data.cv);
     renderCvSource(data);
     toast(data.parse_mode === "local_heuristic" ? "CV parsed locally without AI credits." : "CV uploaded and parsed.");
@@ -451,6 +463,39 @@ async function exportParsedCv(format, selectedOnly = false, button = null) {
 async function exportParsedCvBatch(selectedOnly = false, button = null) {
   for (const format of selectedCvExportFormats()) {
     await exportParsedCv(format, selectedOnly, button);
+  }
+}
+
+async function exportProfessionalWebCv(button) {
+  if (!state.canonical) {
+    toast("Import or open a parsed CV first.", "bad");
+    return;
+  }
+  setBusy(button, true, "Rendering HTML...");
+  try {
+    const payload = {
+      canonical: state.canonical,
+      page_title: $("#webCvTitleInput").value.trim(),
+      include_contact: $("#webCvContactOpt").checked,
+      filename_prefix: "professional_web_cv",
+    };
+    const response = await api("/api/export-web-cv", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `professional_web_cv_${new Date().toISOString().slice(0, 10)}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast("Professional HTML CV exported. Review it before publishing.");
+  } catch (error) {
+    toast(error.message, "bad");
+  } finally {
+    setBusy(button, false);
   }
 }
 
@@ -640,6 +685,7 @@ function wireEvents() {
   $("#pdfBtn").addEventListener("click", () => exportFile("pdf"));
   $("#exportFullCvBtn").addEventListener("click", (event) => exportParsedCvBatch(false, event.currentTarget));
   $("#exportFilteredCvBtn").addEventListener("click", (event) => exportParsedCvBatch(true, event.currentTarget));
+  $("#exportWebCvBtn").addEventListener("click", (event) => exportProfessionalWebCv(event.currentTarget));
   $("#refreshHistoryBtn").addEventListener("click", loadHistory);
   $("#openExportsBtn").addEventListener("click", (event) => openExportsFolder(event.currentTarget));
   $("#toggleEditorBtn").addEventListener("click", () => $("#cvEditor").classList.toggle("is-collapsed"));

@@ -1,0 +1,37 @@
+{
+  "run_id": "2026-07-16T12-00-00Z-example",
+  "canonical_schema_version": "1.0.0",
+  "sources": [
+    {
+      "name": "cv-export.xml",
+      "type": "ciencia_vitae_xml",
+      "sha256": "replace-with-source-sha256"
+    },
+    {
+      "name": "cv-export.pdf",
+      "type": "ciencia_vitae_pdf",
+      "sha256": "replace-with-source-sha256"
+    }
+  ],
+  "parser": {
+    "application": "JobApp AI Assistant",
+    "canonical_adapter": "cv_canonical.py",
+    "template": "templates/durable_cv_template.html"
+  },
+  "optional_ai_curation": {
+    "used": false,
+    "prompt_id": "cv_web_curator_v1",
+    "provider": "",
+    "model": "",
+    "input_sha256": ""
+  },
+  "review": {
+    "reviewed_by": "",
+    "reviewed_at": "",
+    "approved_for_publication": false
+  },
+  "output": {
+    "filename": "professional_web_cv.html",
+    "visual_qa": "pending"
+  }
+}

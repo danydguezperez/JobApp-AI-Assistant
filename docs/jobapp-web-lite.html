@@ -324,9 +324,8 @@
             <label style="margin-top:14px">
               Model
               <select id="model">
-                <option value="gemini-3.5-flash">gemini-3.5-flash</option>
                 <option value="gemini-2.5-flash">gemini-2.5-flash</option>
-                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview</option>
+                <option value="gemini-2.5-pro">gemini-2.5-pro</option>
                 <option value="gemini-flash-latest">gemini-flash-latest</option>
               </select>
             </label>
@@ -412,15 +411,22 @@
       pdfjsLib.GlobalWorkerOptions.workerSrc = "./vendor/pdf.worker.mjs";
 
       const $ = (id) => document.getElementById(id);
-      const sectionOrder = ["profile", "experience", "education", "skills", "publications", "projects", "software", "other"];
+      const sectionOrder = ["profile", "experience", "education", "projects", "publications", "book_chapters", "conferences", "datasets", "teaching", "supervision", "distinctions", "skills", "software", "languages", "other"];
       const sectionLabels = {
         profile: "Profile summary",
         experience: "Experience",
         education: "Education",
-        skills: "Skills",
-        publications: "Publications",
         projects: "Projects",
+        publications: "Peer-reviewed publications",
+        book_chapters: "Book chapters",
+        conferences: "Conference contributions",
+        datasets: "Datasets and data deposits",
+        teaching: "Teaching and lecturing",
+        supervision: "Supervision and academic juries",
+        distinctions: "Awards and distinctions",
+        skills: "Skills",
         software: "Software",
+        languages: "Languages",
         other: "Other evidence"
       };
       let sections = {};
@@ -478,6 +484,141 @@
           .replace(/\s+(\d{4})\s*[-\u2013]\s*(\d{4}|present|presente|atual)/gi, "\n$1-$2 ")
           .replace(/\n{3,}/g, "\n\n");
         return cleanText(prepared);
+      }
+
+      function cvSlice(text, startPattern, endPattern) {
+        const start = text.search(startPattern);
+        if (start < 0) return "";
+        const tail = text.slice(start).replace(startPattern, "");
+        const end = tail.search(endPattern);
+        return (end < 0 ? tail : tail.slice(0, end)).trim();
+      }
+
+      function cvDateBlocks(text) {
+        const datePattern = /^(\d{4}(?:\/\d{2}(?:\/\d{2})?)?(?:\s*[-–]\s*(?:\d{4}(?:\/\d{2}(?:\/\d{2})?)?|Current))?)\s*/gm;
+        const matches = [...text.matchAll(datePattern)];
+        return matches.map((match, index) => ({
+          date: match[1],
+          body: text.slice(match.index + match[0].length, index + 1 < matches.length ? matches[index + 1].index : text.length).trim()
+        })).filter((entry) => entry.body);
+      }
+
+      function compactCvRecord(value) {
+        return cleanText(value).replace(/\n+/g, " ").replace(/\s{2,}/g, " ").trim();
+      }
+
+      function parseCienciaVitaeText(text) {
+        const cleaned = prepareCienciaVitaeText(text);
+        sections = {};
+        const beforeEducation = cvSlice(cleaned, /^(?:Identification|Personal identification)/im, /^Education$/im) || cleaned.slice(0, 5000);
+        const fullName = (beforeEducation.match(/Full name\s*\n\s*([^\n]+)/i) || [])[1] || "";
+        const email = (beforeEducation.match(/[\w.\-+]+@[\w.\-]+\.\w+/) || [])[0] || "";
+        const links = [...beforeEducation.matchAll(/https?:\/\/[^\s)]+/gi)].map((match) => match[0]).filter((url) => !/(facebook|twitter|x\.com)/i.test(url));
+        const identifiers = [];
+        for (const [label, pattern] of [["Ciência ID", /Ci[êe]ncia ID\s*\n\s*([^\n]+)/i], ["ORCID", /ORCID iD\s*\n\s*([^\n]+)/i], ["Scopus Author ID", /Scopus Author Id\s*\n\s*([^\n]+)/i]]) {
+          const match = beforeEducation.match(pattern);
+          if (match) identifiers.push(`${label}: ${match[1].trim()}`);
+        }
+        mergeSection("profile", [fullName, email, ...identifiers, ...links].filter(Boolean).join("\n"));
+
+        const education = cvSlice(cleaned, /^Education$/im, /^Affiliation$/im);
+        const educationRows = cvDateBlocks(education).map(({ date, body }) => {
+          const lines = body.split("\n").map((line) => compactCvRecord(line)).filter(Boolean);
+          const title = lines.find((line) => !/^(Completed|Concluded|Classification|Major in|Aprovado)$/i.test(line)) || "";
+          const institution = [...lines].reverse().find((line) => /University|Universidade|Institute|Instituto|School|Centro/i.test(line)) || "";
+          return title ? `- ${date.replace("Current", "Present")} — ${title}${institution ? ` | ${institution}` : ""}` : "";
+        }).filter(Boolean);
+        mergeSection("education", educationRows.join("\n"));
+
+        const affiliation = cvSlice(cleaned, /^Affiliation$/im, /^Projects$/im);
+        const affiliationRows = cvDateBlocks(affiliation);
+        const experience = [], teaching = [];
+        for (const { date, body } of affiliationRows) {
+          const line = compactCvRecord(body).replace(/^(Science|Teaching in Higher Education|Others)\s*/i, "");
+          if (!line) continue;
+          const row = `- ${date.replace("Current", "Present")} — ${line}`;
+          (/(Lecturer|Tutor|Teaching)/i.test(line) ? teaching : experience).push(row);
+        }
+        mergeSection("experience", experience.join("\n"));
+        mergeSection("teaching", teaching.join("\n"));
+
+        const projects = cvSlice(cleaned, /^Projects$/im, /^Outputs$/im);
+        mergeSection("projects", cvDateBlocks(projects).map(({ date, body }) => `- ${date.replace("Current", "Present")} — ${compactCvRecord(body)}`).join("\n"));
+
+        const outputs = cvSlice(cleaned, /^Outputs$/im, /^Activities$/im);
+        const buckets = { publications: [], book_chapters: [], conferences: [], datasets: [] };
+        let bucket = "publications";
+        const tokens = [...outputs.matchAll(/(?:Book chapter|Journal article|Conference\s+(?:abstract|poster)|Dataset[^\n]*)|["“]([^"”]{12,850})["”]/gi)];
+        for (const token of tokens) {
+          const label = token[0];
+          if (/^Book chapter/i.test(label)) { bucket = "book_chapters"; continue; }
+          if (/^Journal article/i.test(label)) { bucket = "publications"; continue; }
+          if (/^Conference/i.test(label)) { bucket = "conferences"; continue; }
+          if (/^Dataset/i.test(label)) { bucket = "datasets"; continue; }
+          const title = compactCvRecord(token[1] || "");
+          if (title) buckets[bucket].push(`- ${title}`);
+        }
+        Object.entries(buckets).forEach(([key, rows]) => mergeSection(key, [...new Set(rows)].join("\n")));
+
+        const languageBlock = cvSlice(cleaned, /^Languages$/im, /^Education$/im);
+        const languageHeaderTokens = ["speaking", "reading", "writing", "listening", "peer-review", "spoken", "comprehension", "interaction", "production"];
+        const levelWords = new Set(["native", "mother", "tongue", "mother tongue", "proficient", "fluent", "advanced", "upper", "intermediate", "elementary", "beginner", "basic"]);
+        const languageRows = [];
+        let currentLanguageRow = "";
+        const startsLanguageRow = (value) => {
+          const low = value.toLowerCase().trim().replace(/^\(+|\)+$/g, "");
+          if (!low || levelWords.has(low) || /^\(?[abc][12]\)?$/i.test(low)) return false;
+          if (/^[A-Za-zÀ-ÿ'’;().\- ]+?\s+(?:Native|Mother|Proficient|Fluent|Advanced|Upper|Intermediate|Elementary|Beginner|Basic|\(?[ABC][12]\)?)\b/i.test(value)) return true;
+          return /^[A-Za-zÀ-ÿ'’;().\- ]{2,60}$/.test(value);
+        };
+        for (const rawLine of languageBlock.split("\n")) {
+          const line = rawLine.trim();
+          if (!line) continue;
+          const low = line.toLowerCase();
+          if (low.startsWith("language ") || languageHeaderTokens.filter((token) => low.includes(token)).length >= 2) continue;
+          if (currentLanguageRow && currentLanguageRow.trimEnd().endsWith(";")) {
+            currentLanguageRow = `${currentLanguageRow} ${line}`;
+            continue;
+          }
+          if (startsLanguageRow(line)) {
+            if (currentLanguageRow) languageRows.push(currentLanguageRow);
+            currentLanguageRow = line;
+          } else if (currentLanguageRow) {
+            currentLanguageRow = `${currentLanguageRow} ${line}`;
+          }
+        }
+        if (currentLanguageRow) languageRows.push(currentLanguageRow);
+        const languageSeen = new Set();
+        const languages = [];
+        for (const line of languageRows) {
+          const normalizedLine = line.replace(/\((Native speaker|Native|Mother tongue|Proficient|Fluent|Advanced|Upper[\s-]?intermediate|Intermediate|Elementary|Beginner|Basic)\)/gi, "$1");
+          const parts = normalizedLine.match(/^([A-Za-zÀ-ÿ'’;().\- ]+?)\s+((?:Native|Mother|Proficient|Fluent|Advanced|Upper|Intermediate|Elementary|Beginner|Basic|\(?[ABC][12]\)?)\b.*)$/);
+          let language = parts ? parts[1].trim() : line;
+          const rest = parts ? parts[2].trim() : "";
+          language = language.replace(/\s+/g, " ").replace(/^[.\s]+|[.\s]+$/g, "").replace(/\b\p{L}/gu, (c) => c.toUpperCase());
+          const key = language.toLowerCase();
+          if (!language || key === "language" || key === "languages" || languageSeen.has(key)) continue;
+          // Read the real proficiency level instead of assuming a fixed one.
+          const lv = rest.match(/(Native speaker|Native|Mother tongue|Proficient|Fluent|Advanced|Upper[\s-]?intermediate|Intermediate|Elementary|Beginner|Basic)(?:\s*\(?\s*([ABC][12])\s*\)?)?|\(?\s*([ABC][12])\s*\)?/i);
+          let level = "";
+          if (lv) {
+            let desc = (lv[1] || "").trim();
+            const cefr = lv[2] || lv[3];
+            if (/^(native|native speaker|mother tongue)$/i.test(desc)) desc = "Native";
+            else if (desc) desc = desc.charAt(0).toUpperCase() + desc.slice(1).toLowerCase();
+            if (desc && cefr) level = `${desc} (${cefr.toUpperCase()})`;
+            else if (desc) level = desc;
+            else if (cefr) level = `(${cefr.toUpperCase()})`;
+          } else {
+            level = rest.replace(/\s{2,}.*$/, "").trim();
+          }
+          languageSeen.add(key);
+          languages.push(`- ${language}: ${level}`);
+        }
+        mergeSection("languages", languages.join("\n"));
+
+        const distinctions = cvSlice(cleaned, /^Distinctions$/im, /$/);
+        mergeSection("distinctions", cvDateBlocks(distinctions).slice(0, 20).map(({ date, body }) => `- ${date} — ${compactCvRecord(body)}`).join("\n"));
       }
 
       async function readPdf(file) {
@@ -605,6 +746,10 @@ ${rawText.slice(0, 45000)}`;
       }
 
       function parseTextCv(text) {
+        if (isCienciaVitaeText(text)) {
+          parseCienciaVitaeText(text);
+          return;
+        }
         const cleaned = isCienciaVitaeText(text) ? prepareCienciaVitaeText(text) : cleanText(text);
         const lines = cleaned.split("\n");
         sections = { profile: "" };

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/danydguezperez/JobApp-AI-Assistant/schemas/cv_canonical.schema.json",
+  "title": "JobApp Canonical CV",
+  "description": "Versioned, source-aware professional CV document. It separates content, provenance, privacy, and display preferences from every final export.",
+  "type": "object",
+  "required": ["schema_version", "document", "profile", "sections", "display"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "document": {"type": "object", "required": ["kind", "sources"], "properties": {"kind": {"const": "professional_cv"}, "sources": {"type": "array"}}},
+    "profile": {"type": "object", "required": ["full_name", "contact", "links", "identifiers"], "properties": {"full_name": {"type": "string"}, "headline": {"type": "string"}, "summary": {"type": "string"}, "location": {"type": "string"}, "contact": {"type": "object"}, "links": {"type": "array", "items": {"type": "string"}}, "identifiers": {"type": "array", "items": {"type": "object"}}}},
+    "sections": {"type": "object", "additionalProperties": {"type": "array", "items": {"$ref": "#/$defs/item"}}},
+    "display": {"type": "object", "required": ["section_order", "locale", "theme"], "properties": {"section_order": {"type": "array", "items": {"type": "string"}}, "locale": {"type": "string"}, "theme": {"type": "string"}, "public_contact_fields": {"type": "array", "items": {"type": "string"}}}}
+  },
+  "$defs": {
+    "item": {"type": "object", "required": ["id", "selected", "visibility", "data", "provenance"], "properties": {"id": {"type": "string"}, "selected": {"type": "boolean"}, "visibility": {"enum": ["public", "restricted", "private"]}, "data": {"type": "object"}, "provenance": {"type": "array", "items": {"type": "object", "required": ["source_type", "source_name", "method", "confidence"]}}}}
+  }
+}

@@ -11,6 +11,7 @@ pyinstaller `
     --noconsole `
     --name "JobApp-AI-Assistant-Windows" `
     --add-data "static;static" `
+    --add-data "templates;templates" `
     --add-data "docs/vendor;docs/vendor" `
     --add-data "pagbiomics_embed.html;." `
     --hidden-import uvicorn.logging `

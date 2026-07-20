@@ -66,7 +66,7 @@
             </label>
             <label>
               Model
-              <input id="providerModelInput" type="text" placeholder="gemini-3.5-flash, gpt-5.6-terra, deepseek-chat..." />
+              <input id="providerModelInput" type="text" placeholder="gemini-2.5-flash, gpt-5.6-terra, deepseek-chat..." />
             </label>
             <label>
               Base URL
@@ -126,7 +126,7 @@
               <input type="radio" name="parserMode" value="heuristic" />
               <span>
                 <strong>Heuristic parser</strong>
-                Free local parsing without credits. Useful for tests and structured CV exports.
+                Free local parsing without credits. Optimised for Ciência Vitae exports (import the XML to include skills). For other PDFs/DOCX/XML it extracts only basic contact fields — use the AI parser for a rich structure.
               </span>
             </label>
           </div>
@@ -171,6 +171,22 @@
             <div class="cv-actions">
               <button class="ghost" id="exportFullCvBtn" type="button" disabled>Download full parsed CV</button>
               <button class="primary" id="exportFilteredCvBtn" type="button" disabled>Download filtered CV</button>
+            </div>
+          </div>
+          <div class="parsed-export web-cv-export">
+            <div>
+              <h3>Professional web CV export</h3>
+              <p>Create a standalone HTML CV from the source-aware canonical record. It is designed for a Durable custom-code block and keeps contact details hidden by default.</p>
+            </div>
+            <div class="format-checks">
+              <label>
+                Page title
+                <input id="webCvTitleInput" type="text" placeholder="Professional Web CV" />
+              </label>
+              <label><input id="webCvContactOpt" type="checkbox" /> Include approved public contact fields</label>
+            </div>
+            <div class="cv-actions">
+              <button class="primary" id="exportWebCvBtn" type="button" disabled>Download professional HTML</button>
             </div>
           </div>
         </section>

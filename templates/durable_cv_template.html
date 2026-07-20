@@ -1,0 +1,49 @@
+<!--
+  JobApp AI Assistant professional web CV template.
+  Content is injected from cv_canonical.json; edit this template to change design only.
+-->
+<div id="jobapp-web-cv" data-schema-version="{{SCHEMA_VERSION}}">
+  <style>
+    #jobapp-web-cv { --ink:#f4fbf8; --muted:#b8cbc4; --mint:#61dec0; --gold:#e4cc72; --dark:#061415; --mid:#0c2826; color:var(--ink); background:var(--dark); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.58; max-width:1100px; margin:0 auto; overflow:hidden; }
+    #jobapp-web-cv * { box-sizing:border-box; }
+    #jobapp-web-cv .cv-hero { padding:clamp(32px,6vw,76px); background:linear-gradient(135deg,#061415,#0b302c); border-bottom:1px solid rgba(97,222,192,.3); }
+    #jobapp-web-cv .cv-kicker { color:var(--mint); font-size:.76rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; margin:0 0 10px; }
+    #jobapp-web-cv h1 { font-family:Georgia,serif; font-size:clamp(2.25rem,5vw,4.3rem); line-height:1.02; margin:0; color:#fff; }
+    #jobapp-web-cv .cv-headline { color:var(--gold); font-size:clamp(1rem,2.2vw,1.3rem); font-weight:700; margin:14px 0 0; }
+    #jobapp-web-cv .cv-meta, #jobapp-web-cv .cv-links { color:var(--muted); font-size:.9rem; margin:13px 0 0; }
+    #jobapp-web-cv .cv-links { display:flex; flex-wrap:wrap; gap:8px 16px; }
+    #jobapp-web-cv .cv-links a { color:var(--mint); overflow-wrap:anywhere; }
+    #jobapp-web-cv .cv-summary { padding:clamp(26px,4vw,52px) clamp(24px,6vw,76px); background:#f8fcfa; color:#17302d; font-size:1.06rem; }
+    #jobapp-web-cv .cv-summary:empty { display:none; }
+    #jobapp-web-cv .cv-content { padding:clamp(28px,5vw,64px) clamp(24px,6vw,76px); background:#fff; color:#162d29; }
+    #jobapp-web-cv .cv-section { padding:0 0 35px; margin:0 0 35px; border-bottom:1px solid rgba(13,74,65,.18); }
+    #jobapp-web-cv .cv-section:last-child { border-bottom:0; margin-bottom:0; }
+    #jobapp-web-cv h2 { color:#087a68; font-size:clamp(1.45rem,3vw,2.05rem); margin:0 0 18px; }
+    #jobapp-web-cv .cv-record { padding:0 0 17px; margin:0 0 17px; border-bottom:1px solid rgba(13,74,65,.12); }
+    #jobapp-web-cv .cv-record:last-child { border-bottom:0; margin-bottom:0; padding-bottom:0; }
+    #jobapp-web-cv h3 { margin:0; color:#163f39; font-size:1.04rem; line-height:1.35; }
+    #jobapp-web-cv .cv-record p { margin:7px 0 0; }
+    #jobapp-web-cv .cv-meta { color:#8a6717; font-weight:700; }
+    #jobapp-web-cv .cv-identifiers ul { margin:0; padding-left:20px; }
+    #jobapp-web-cv .cv-footer { padding:18px clamp(24px,6vw,76px); color:#a9beb7; background:#04100f; font-size:.75rem; }
+    #jobapp-web-cv .cv-cta { display:flex; flex-wrap:wrap; gap:16px 28px; align-items:center; justify-content:space-between; padding:clamp(20px,3.5vw,32px) clamp(24px,6vw,76px); background:linear-gradient(135deg,#0b302c,#061415); border-top:1px solid rgba(97,222,192,.3); border-bottom:1px solid rgba(97,222,192,.3); }
+    #jobapp-web-cv .cv-cta-kicker { margin:0; color:var(--mint); font-weight:800; font-size:1.02rem; }
+    #jobapp-web-cv .cv-cta-text { margin:6px 0 0; color:var(--muted); font-size:.92rem; max-width:60ch; }
+    #jobapp-web-cv .cv-cta-actions { display:flex; flex-wrap:wrap; gap:12px; }
+    #jobapp-web-cv .cv-cta-btn { display:inline-block; padding:11px 20px; border-radius:9px; font-weight:700; font-size:.92rem; text-decoration:none; }
+    #jobapp-web-cv .cv-cta-primary { background:var(--mint); color:#04100f; }
+    #jobapp-web-cv .cv-cta-secondary { background:transparent; color:var(--mint); border:1px solid var(--mint); }
+    @media (max-width:640px) { #jobapp-web-cv .cv-hero,#jobapp-web-cv .cv-summary,#jobapp-web-cv .cv-content { padding-left:20px; padding-right:20px; } #jobapp-web-cv h1 { font-size:2.25rem; } }
+  </style>
+  <header class="cv-hero">
+    <p class="cv-kicker">Professional web CV</p>
+    <h1>{{FULL_NAME}}</h1>
+    <p class="cv-headline">{{HEADLINE}}</p>
+    <p class="cv-meta">{{META}}</p>
+    <nav class="cv-links" aria-label="Professional links">{{LINKS}}</nav>
+  </header>
+  <div class="cv-summary">{{SUMMARY}}</div>
+  {{CTA}}
+  <main class="cv-content">{{SECTIONS}}</main>
+  <footer class="cv-footer">Generated locally with JobApp AI Assistant · Canonical CV schema {{SCHEMA_VERSION}} · {{GENERATED_AT}}</footer>
+</div>

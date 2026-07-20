@@ -18,6 +18,21 @@
 
 ## Unreleased
 
+### Professional Web CV pipeline
+
+- Added the versioned `cv_canonical.json` representation and public JSON Schema.
+- Added Ciência Vitae XML canonicalization with per-record source metadata, selection state, and visibility.
+- Added a standalone, Durable-oriented professional HTML template that is separated from CV content.
+- Added local professional HTML export and privacy-first defaults: public contact details stay hidden unless explicitly selected.
+- Added reproducibility documentation, a versioned AI-curation prompt, and a generic export configuration example.
+
+### Ciência Vitae heuristic parser
+
+- Replaced the PDF fallback-first behaviour with a dedicated deterministic parser for official Ciência Vitae PDF exports.
+- Added separate editable records for education, affiliations, projects, publications, book chapters, conferences, datasets, teaching, distinctions, and languages.
+- Added a browser-side section-first counterpart for Web Lite, with local Markdown and JSON exports that do not require an API key.
+- Added automated parser coverage with a representative Ciência Vitae fixture and validated the desktop executable against the 22-page reference PDF.
+
 - Validated the local heuristic parser against a 22-page Ciência Vitae PDF and a curated PagBiOmicS HTML CV reference.
 - Fixed local heuristic phone extraction so labelled `Mobile phone` values are preferred over date ranges.
 - Improved local heuristic distinction extraction to use the formal Ciência Vitae distinction section rather than the page-1 summary.

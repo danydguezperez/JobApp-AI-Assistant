@@ -16,12 +16,15 @@ d'BiYOK page materials are kept separately:
 - [PagBiOmicS page content](docs/PAGBIOMICS_DBIYOK_PAGE_CONTENT.md)
 - [Blog post draft](docs/BLOG_POST_DBIYOK_JOBAPP.md)
 - [Experimental Web App Lite page](docs/jobapp-web-lite.html)
+- [Professional Web CV pipeline](docs/CV_WEB_EXPORT_PIPELINE.md)
+- [Canonical CV JSON schema](schemas/cv_canonical.schema.json)
+- [Validated CV golden-reference protocol](docs/CV_GOLDEN_REFERENCE.md)
 
 ## What It Does
 
 - Parses a local or uploaded CV PDF/TXT into editable JSON-like sections.
 - Accepts structured CV sources from the user's computer, including PDF, TXT, and XML.
-- Works especially well with structured Ciência Vitae exports.
+- Includes a dedicated, credit-free heuristic parser for Ciência Vitae PDF exports: it removes layout noise and separates education, affiliations, projects, publications, chapters, conferences, datasets, teaching, distinctions, and languages into editable records.
 - Lets the user include or exclude each CV item before matching a job.
 - Places CV focusing before job matching so the AI receives only the evidence the user wants emphasized.
 - Exports the parsed CV itself as Markdown, DOCX, PDF, or JSON.
@@ -37,6 +40,8 @@ d'BiYOK page materials are kept separately:
 - Keeps a local SQLite history of generated applications.
 
 Parsed CV export is local and credit-free. The high-quality parser can use the configured AI provider, but the app also includes a local heuristic parser mode for free tests, structured Ciência Vitae XML/PDF workflows, and public web demos.
+
+**Parser scope (be honest about what each mode does).** The robust heuristic parser is specific to Ciência Vitae exports. For generic PDFs, DOC/DOCX, or non–Ciência Vitae XML, the heuristic mode now returns a *neutral* result — it extracts only basic contact fields rather than a full structure. This is a deliberate, safer default (it never invents or reuses another person's data); for a rich structure from those formats, use the AI parser or edit the sections manually. Note also that **skills are populated only from the Ciência Vitae XML export**, because the PDF/RTF export does not contain the Knowledge-fields keywords (see `docs/CIENCIA_VITAE_EXPORT_BEHAVIOR.md`).
 
 ## AI Providers
 
@@ -123,9 +128,20 @@ python -m uvicorn jobapp_ai_assistant:app --host 127.0.0.1 --port 8091
    - only the selected fields,
    - or the final tailored application package after matching a job.
 
-The parsed export intentionally uses the structured data, not the raw Ciência Vitae PDF headers. This removes repeated page headers, footer noise, and Portuguese platform labels where the parser has already translated the content into English.
+The parsed export intentionally uses structured data rather than raw Ciência Vitae PDF headers. It removes repeated page headers, footer noise, and Portuguese platform labels. Common labels and course names are normalised to English when this is deterministic; specialised titles should remain editable and be reviewed before publication.
 
 The detailed parsed CV editor is intentionally placed after the main workflow so large academic CVs do not push job matching and final exports too far down the page.
+
+## Professional Web CV Export
+
+JobApp creates a source-aware `cv_canonical.json` whenever a CV is imported. This is a local, ignored data file that separates CV content from presentation. It is the foundation for a professional HTML export suitable for a Durable Custom Code block or a standalone web CV.
+
+1. Import a CV. Prefer a Ciência Vitae XML export when available; PDF/TXT stay useful for narrative material and fallback parsing.
+2. Review the parsed CV and use **Download professional HTML** in Step 2.
+3. Contact details remain hidden by default. Enable them only when the selected fields are intended for a public page.
+4. Open the resulting `.html` file to review it, then paste its content into Durable if desired.
+
+The generated HTML is driven by `templates/durable_cv_template.html`; personal facts live in `data/cv_canonical.json`, not in the template. See [CV_WEB_EXPORT_PIPELINE.md](docs/CV_WEB_EXPORT_PIPELINE.md) for source priority, privacy safeguards, provenance, prompt versioning, and the golden-reference validation workflow. An export configuration example lives in [web_cv_export_config.example.json](docs/examples/web_cv_export_config.example.json).
 
 ## Provider Setup Tutorial
 

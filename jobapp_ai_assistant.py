@@ -25,6 +25,14 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+from cv_canonical import (
+    canonical_from_import,
+    privacy_findings,
+    render_durable_html,
+    validate_canonical,
+)
+from ciencia_vitae_parser import is_ciencia_vitae_text, parse_ciencia_vitae
+
 try:
     from docx import Document
     from docx.shared import Pt
@@ -61,7 +69,10 @@ DATA_DIR = _EXE_DIR / "data"
 EXPORTS_DIR = _EXE_DIR / "exports"
 DB_PATH = _EXE_DIR / "applications.db"
 CV_JSON_PATH = DATA_DIR / "cv_profile.json"
+CANONICAL_CV_PATH = DATA_DIR / "cv_canonical.json"
 LLM_CONFIG_PATH = DATA_DIR / "llm_providers.json"
+TEMPLATE_DIR = BASE_DIR / "templates"
+WEB_CV_TEMPLATE_PATH = TEMPLATE_DIR / "durable_cv_template.html"
 
 def configured_path(env_name: str, fallback: Path) -> Path:
     value = os.getenv(env_name, "").strip()
@@ -86,7 +97,7 @@ PERSONA_MASTER = configured_path("JOBAPP_PERSONA_MASTER", _EXE_DIR / "data" / "p
 PROFILE_DOSSIER = configured_path("JOBAPP_PROFILE_DOSSIER", _EXE_DIR / "data" / "profile_brief.md")
 
 APP_NAME = "JobApp AI Assistant"
-GEMINI_DEFAULT_MODEL = "gemini-3.5-flash"
+GEMINI_DEFAULT_MODEL = "gemini-2.5-flash"
 OPENAI_DEFAULT_MODEL = "gpt-5.6-terra"
 ANTHROPIC_DEFAULT_MODEL = "claude-sonnet-5"
 
@@ -134,6 +145,14 @@ class CVExportRequest(BaseModel):
     cv: dict[str, Any] = Field(default_factory=dict)
     format: str = "md"
     filename_prefix: str = "parsed_cv"
+
+
+class WebCVExportRequest(BaseModel):
+    canonical: dict[str, Any] = Field(default_factory=dict)
+    page_title: str = ""
+    include_contact: bool = False
+    include_sections: list[str] = Field(default_factory=list)
+    filename_prefix: str = "professional_web_cv"
 
 
 class ProviderSaveRequest(BaseModel):
@@ -368,6 +387,25 @@ def default_llm_settings() -> dict[str, Any]:
     }
 
 
+# Model IDs that were shipped but are not valid; existing installs that persisted
+# them are self-healed to the current equivalent on load.
+DEPRECATED_MODEL_MIGRATIONS = {
+    "gemini-3.5-flash": "gemini-2.5-flash",
+    "gemini-3.1-pro-preview": "gemini-2.5-pro",
+}
+
+
+def migrate_llm_settings(settings: dict[str, Any]) -> bool:
+    """Rewrite deprecated/invalid model IDs in place. Returns True if changed."""
+    changed = False
+    for provider in (settings.get("providers") or {}).values():
+        current = (provider or {}).get("model")
+        if current in DEPRECATED_MODEL_MIGRATIONS:
+            provider["model"] = DEPRECATED_MODEL_MIGRATIONS[current]
+            changed = True
+    return changed
+
+
 def load_llm_settings() -> dict[str, Any]:
     defaults = default_llm_settings()
     if not LLM_CONFIG_PATH.exists():
@@ -382,6 +420,11 @@ def load_llm_settings() -> dict[str, Any]:
         if name not in merged["providers"]:
             merged["providers"][name] = {}
         merged["providers"][name].update(provider or {})
+    if migrate_llm_settings(merged):
+        try:
+            save_llm_settings(merged)
+        except Exception:
+            pass
     return merged
 
 
@@ -595,8 +638,8 @@ def extract_pdf_text(upload: UploadFile) -> str:
         tmp_path = tmp.name
     try:
         reader = PdfReader(tmp_path)
-        pages = [page.extract_text() or "" for page in reader.pages]
-        return "\n\n".join(pages).strip()
+        pages = [f"--- Page {index + 1} ---\n{page.extract_text() or ''}" for index, page in enumerate(reader.pages)]
+        return repair_mojibake("\n\n".join(pages).strip())
     finally:
         try:
             os.unlink(tmp_path)
@@ -633,205 +676,54 @@ def extract_contact_phone(text: str) -> str:
             continue
         if 9 <= len(digits) <= 15:
             return candidate
-    return "+351 911 976 480"
+    return ""
 
 
-def heuristic_cv_json(cv_text: str, dossier: str = "") -> dict[str, Any]:
+def generic_cv_scaffold(cv_text: str, dossier: str = "") -> dict[str, Any]:
+    """Neutral scaffold for CVs that are not recognised Ciencia Vitae exports.
+
+    Extracts only basic contact fields from the supplied text and never injects
+    a predefined personal identity.
+    """
     merged = f"{cv_text}\n{dossier}"
     email = re.search(r"[\w.\-+]+@[\w.\-]+\.\w+", merged)
     phone = extract_contact_phone(merged)
-    skills = [
-        "Bioinformatics", "Proteo-transcriptomics", "RNA-Seq", "Single-cell omics",
-        "De novo transcriptome assembly", "Shotgun proteomics", "Proteogenomics",
-        "Python", "R", "Bash", "Biopython", "Snakemake", "Nextflow",
-        "Proteomics", "Mass spectrometry", "NGS pipeline development",
-        "Phylogenetics", "IQ-TREE", "AlphaFold2", "Biodiscovery",
-        "Bioactive peptide discovery", "Antimicrobial peptides", "Toxinology",
-        "B2B scientific sales", "Account management", "Scientific consulting",
-        "Project leadership", "Academic mentoring", "Scientific writing",
-        "Peer review", "Systematic review", "Biostatistics",
-    ]
-    profile = {
+    name = ""
+    name_match = re.search(r"(?m)^\s*([A-Z][A-Za-z.'\-]+(?:\s+[A-Z][A-Za-z.'\-]+){1,3})\s*$", cv_text)
+    if name_match:
+        name = name_match.group(1).strip()
+    return {
         "personal_info": {
-            "full_name": "Dany Domínguez Pérez",
-            "headline": "PhD Bioinformatician | RNA-seq · Proteomics · NGS · Pipeline Development",
-            "email": email.group(0) if email else "danydguezperez@gmail.com",
+            "full_name": name,
+            "headline": "",
+            "email": email.group(0) if email else "",
             "phone": phone,
-            "location": "Porto, Portugal",
-            "links": [
-                "https://orcid.org/0000-0002-5211-972X",
-                "https://www.researchgate.net/profile/Dany_Dominguez_Perez3",
-                "https://www.linkedin.com/in/dany-dom%C3%ADnguez-p%C3%A9rez-755b6381",
-                "https://www.pagbiomics.com",
-            ],
-            "summary": (
-                "PhD bioinformatician with 10+ years of experience transforming raw biological data "
-                "into publication-ready results. Lead author of DeTox (Briefings in Bioinformatics, 2024) "
-                "and SeqLengthPlot v2.0 (Bioinformatics Advances, 2024). 43 peer-reviewed publications, "
-                "413 citations. Specializes in proteotranscriptomics, NGS pipelines, and bioactive peptide "
-                "discovery for non-model and marine organisms. Runs private dual-Xeon HPC (160 threads, "
-                "384 GB RAM). Available for freelance and consulting. Trilingual: Spanish (native), "
-                "Portuguese (fluent), English (professional)."
-            ),
+            "location": "",
+            "links": [],
+            "summary": "",
         },
-        "education": [
-            {
-                "degree": "PhD in Biology",
-                "institution": "University of Porto, Faculty of Sciences",
-                "year": "2017",
-                "description": (
-                    "Thesis on proteotranscriptomics and venom characterization of marine organisms. "
-                    "Integrated de novo transcriptome assembly, shotgun proteomics, and phylogenetic analysis."
-                ),
-            },
-            {
-                "degree": "Biology Degree (Licenciatura)",
-                "institution": "University of Havana, Cuba",
-                "year": "2009",
-                "description": "Specialization in marine biology and early toxinology.",
-            },
-            {
-                "degree": "Diploma in Higher Education (Pedagogical)",
-                "institution": "Universidad Central Marta Abreu de Las Villas, Cuba",
-                "year": "2011",
-                "description": "University teaching qualification.",
-            },
-            {
-                "degree": "Postgraduate Course — Single-Cell Technology",
-                "institution": "The Single-Cell World",
-                "year": "2023",
-                "description": "Advanced training in single-cell omics methodologies.",
-            },
-        ],
-        "experience": [
-            {
-                "title": "Independent Bioinformatician & Freelancer",
-                "company": "PagBiOMICs / Upwork",
-                "years": "2026–present",
-                "description": (
-                    "Freelance bioinformatics consulting. Services: RNA-seq analysis, proteomics, "
-                    "NGS pipeline development, phylogenetics, bioactive peptide discovery, "
-                    "scientific manuscript review. Operates dual-Xeon HPC cluster (160 threads, 384 GB RAM)."
-                ),
-            },
-            {
-                "title": "Research Fellow / Postdoctoral Researcher",
-                "company": "Stazione Zoologica Anton Dohrn (SZN), Naples, Italy",
-                "years": "Feb 2024 – Jan 2026",
-                "description": (
-                    "CRIMAC DEEPVEN project (funded by Italian MUR). Proteotranscriptomic characterization "
-                    "of deep-sea Anthozoa venoms. Built DeTox pipeline (Briefings in Bioinformatics, 2024). "
-                    "Integrated AlphaFold2 structural prediction, mass spectrometry-guided proteomics, "
-                    "and ion-channel pharmacological profiling for toxin discovery."
-                ),
-            },
-            {
-                "title": "Account Manager / Scientific Sales Representative",
-                "company": "Proquinorte, Unipessoal Lda",
-                "years": "2022–2023",
-                "description": (
-                    "B2B scientific equipment and diagnostics sales in Portugal. Managed laboratory "
-                    "accounts across industrial, clinical, and research sectors. Technical translation "
-                    "of product value to scientific decision-makers."
-                ),
-            },
-            {
-                "title": "Assistant Researcher & Co-Manager",
-                "company": "CIIMAR — Interdisciplinary Centre of Marine and Environmental Research, University of Porto",
-                "years": "2018–2022",
-                "description": (
-                    "MOREBIVALVES project. Led RNA-seq differential expression and quantitative proteomics "
-                    "of bivalves (cockles, mussels) under marine biotoxin exposure. Co-managed lab operations "
-                    "and supervised MSc students."
-                ),
-            },
-            {
-                "title": "Research Assistant / Proteomics Platform Coordinator",
-                "company": "EMBRC-PT — European Marine Biological Resource Centre, Portugal",
-                "years": "2017–2018",
-                "description": "Coordinated molecular biology and mass spectrometry platform for marine biological resources.",
-            },
-            {
-                "title": "Lecturer, Department of Biology",
-                "company": "Universidad Central Marta Abreu de Las Villas, Cuba",
-                "years": "2009–2012",
-                "description": "Taught molecular biology, genetics, ecology, and cell biology at undergraduate level.",
-            },
-        ],
-        "publications": [
-            {
-                "title": "DeTox: a pipeline for the detection of toxins in venomous organisms",
-                "journal": "Briefings in Bioinformatics",
-                "year": "2024",
-                "role": "Lead author",
-            },
-            {
-                "title": "SeqLengthPlot v2.0: interactive visualization of FASTA sequence length distributions",
-                "journal": "Bioinformatics Advances",
-                "year": "2024",
-                "role": "Lead author",
-            },
-            {
-                "title": "Unveiling Encrypted Antimicrobial Peptides from Cephalopods' Salivary Glands",
-                "journal": "ACS Omega",
-                "year": "2024",
-                "role": "Co-author",
-            },
-            {
-                "title": "43 peer-reviewed publications (413 citations) across genomics, proteomics, toxinology, marine biology",
-                "journal": "Multiple indexed journals including Toxins, npj Biofilms & Microbiomes, IJMS, Frontiers in Microbiology",
-                "year": "2009–2026",
-                "role": "Author/co-author",
-            },
-        ],
-        "projects": [
-            {
-                "name": "PagBiOMICs",
-                "role": "Founder",
-                "description": (
-                    "Bioinformatics consulting platform and brand manager. Services: OMICs analysis, "
-                    "pipeline development, scientific writing. Active distributor sourcing pipeline "
-                    "(41 verified brands). FastAPI backend with local dashboard."
-                ),
-            },
-            {
-                "name": "CRIMAC DEEPVEN",
-                "role": "Postdoctoral lead",
-                "description": "Deep-sea Anthozoa venom discovery project at SZN Naples. Produced DeTox pipeline and 3 publications.",
-            },
-            {
-                "name": "MOREBIVALVES",
-                "role": "Scientific lead / Co-manager",
-                "description": "Molecular toxicology, transcriptomics, and proteomics of commercial bivalves under biotoxin exposure.",
-            },
-        ],
-        "skills": skills,
-        "software": [
-            "FiltDeTox (author · github.com/danydguezperez/FiltDeTox)",
-            "DeTox (lead author, Briefings in Bioinformatics 2024)",
-            "SeqLengthPlot v2.0 (lead author)",
-            "FastAPI",
-            "Snakemake",
-            "Nextflow",
-            "MaxQuant",
-            "Perseus",
-            "FragPipe",
-            "DESeq2",
-            "IQ-TREE",
-            "BEAST",
-        ],
-        "languages": [
-            {"language": "Spanish", "level": "Native"},
-            {"language": "Portuguese", "level": "Fluent"},
-            {"language": "English", "level": "Professional"},
-        ],
-        "infrastructure": "Dual-node Xeon HPC: 160 threads, 384 GB RAM, 9.3 TB storage, 1 Gbps (Porto, Portugal)",
+        "education": [],
+        "experience": [],
+        "publications": [],
+        "projects": [],
+        "skills": [],
+        "software": [],
+        "languages": [],
         "source_notes": {
-            "mode": "heuristic_fallback",
+            "mode": "generic_heuristic",
+            "note": "Unrecognised CV format; extracted basic contact fields only. Edit sections manually or use AI parsing.",
             "cv_excerpt": chunk_words(cv_text, 80),
         },
     }
-    return profile
+
+
+def heuristic_cv_json(cv_text: str, dossier: str = "") -> dict[str, Any]:
+    # Ciencia Vitae has stable headings in its official PDF export.  Parse its
+    # evidence directly instead of starting from a personal fallback profile.
+    # Any other input returns a neutral scaffold — never a predefined identity.
+    if is_ciencia_vitae_text(cv_text):
+        return parse_ciencia_vitae(cv_text)
+    return generic_cv_scaffold(cv_text, dossier)
 
 
 def compact_cv_text(text: str) -> str:
@@ -1499,6 +1391,34 @@ def export_cv_pdf(payload: CVExportRequest) -> Path:
     return path
 
 
+def export_web_cv(payload: WebCVExportRequest) -> Path:
+    """Render an editable, standalone HTML CV from canonical data only."""
+    ensure_dirs()
+    canonical = payload.canonical
+    if not canonical and CANONICAL_CV_PATH.exists():
+        canonical = json.loads(read_text_file(CANONICAL_CV_PATH))
+    if not canonical:
+        raise HTTPException(status_code=400, detail="No canonical CV is available. Import a CV first.")
+    errors = validate_canonical(canonical)
+    if errors:
+        raise HTTPException(status_code=400, detail=" ".join(errors))
+    if not WEB_CV_TEMPLATE_PATH.exists():
+        raise HTTPException(status_code=500, detail="Professional web CV template is missing.")
+    config = {
+        "page_title": payload.page_title,
+        "include_contact": payload.include_contact,
+        "include_sections": payload.include_sections,
+    }
+    try:
+        html = render_durable_html(canonical, WEB_CV_TEMPLATE_PATH, config)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    filename = f"{safe_filename(payload.filename_prefix, 'professional_web_cv')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
+    path = EXPORTS_DIR / filename
+    path.write_text(html, encoding="utf-8")
+    return path
+
+
 @app.on_event("startup")
 def startup() -> None:
     init_db()
@@ -1636,19 +1556,22 @@ async def upload_cv(
     use_ai: bool = Form(default=True),
 ) -> dict[str, Any]:
     ensure_dirs()
+    xml_raw: bytes | None = None
     if file and file.filename:
         suffix = Path(file.filename).suffix.lower()
         if suffix == ".pdf":
             text = extract_pdf_text(file)
         elif suffix == ".xml":
-            raw = await file.read()
-            text = extract_xml_text_from_string(raw.decode("utf-8", errors="replace"))
+            xml_raw = await file.read()
+            text = extract_xml_text_from_string(xml_raw.decode("utf-8", errors="replace"))
         else:
             raw = await file.read()
             text = raw.decode("utf-8", errors="replace")
         source = file.filename
     else:
         text, source = load_local_cv_text()
+        if LOCAL_CV_XML.exists():
+            xml_raw = LOCAL_CV_XML.read_bytes()
 
     if not text.strip():
         raise HTTPException(status_code=400, detail="No CV text could be extracted. Upload a PDF/TXT or check local CV path.")
@@ -1658,16 +1581,24 @@ async def upload_cv(
         parse_mode = "ai"
     else:
         structured = normalize_cv_profile(heuristic_cv_json(text, load_reference_bundle()["dossier"]))
-        structured = enrich_cv_from_source(structured, text)
+        # The deterministic Ciencia Vitae parser already has separate output
+        # categories. Generic uploads still benefit from the older enrichment.
+        if not is_ciencia_vitae_text(text):
+            structured = enrich_cv_from_source(structured, text)
         structured = normalize_cv_profile(structured)
         CV_JSON_PATH.write_text(json.dumps(structured, ensure_ascii=False, indent=2), encoding="utf-8")
         parse_mode = "local_heuristic"
+    canonical = canonical_from_import(structured, source_name=source, xml_raw=xml_raw)
+    CANONICAL_CV_PATH.write_text(json.dumps(canonical, ensure_ascii=False, indent=2), encoding="utf-8")
     return {
         "source": source,
         "parse_mode": parse_mode,
         "text_chars": len(text),
         "text_pages": len(re.findall(r"--- Page \d+ ---", text)),
         "cv": structured,
+        "canonical": canonical,
+        "canonical_validation": validate_canonical(canonical),
+        "privacy_findings": privacy_findings(canonical),
     }
 
 
@@ -1679,6 +1610,18 @@ def get_saved_cv() -> dict[str, Any]:
     if not text:
         raise HTTPException(status_code=404, detail="No saved CV JSON and local CV text was not found.")
     return {"cv": cv_to_structured_json(text)}
+
+
+@app.get("/api/cv-canonical")
+def get_saved_canonical_cv() -> dict[str, Any]:
+    if not CANONICAL_CV_PATH.exists():
+        raise HTTPException(status_code=404, detail="No canonical CV is available. Import a CV first.")
+    canonical = json.loads(read_text_file(CANONICAL_CV_PATH))
+    return {
+        "canonical": canonical,
+        "validation": validate_canonical(canonical),
+        "privacy_findings": privacy_findings(canonical),
+    }
 
 
 @app.post("/api/match")
@@ -1747,6 +1690,12 @@ def export_parsed_cv(payload: CVExportRequest) -> FileResponse:
         path = export_cv_markdown(payload)
         media_type = "text/markdown; charset=utf-8"
     return FileResponse(path, media_type=media_type, filename=path.name)
+
+
+@app.post("/api/export-web-cv")
+def export_professional_web_cv(payload: WebCVExportRequest) -> FileResponse:
+    path = export_web_cv(payload)
+    return FileResponse(path, media_type="text/html; charset=utf-8", filename=path.name)
 
 
 @app.get("/api/history")
