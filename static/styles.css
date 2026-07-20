@@ -331,6 +331,10 @@ button:disabled {
   margin: 0;
 }
 
+.import-grid .info-note:only-child {
+  grid-column: 1 / -1;
+}
+
 .parser-choice {
   padding-bottom: 22px;
 }

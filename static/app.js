@@ -364,25 +364,6 @@ function selectedCv() {
   return cv;
 }
 
-async function loadLocalCv(button) {
-  setBusy(button, true, "Reading CV...");
-  try {
-    const form = new FormData();
-    form.append("use_local", "true");
-    form.append("use_ai", useAiParser() ? "true" : "false");
-    const response = await api("/api/upload-cv", { method: "POST", body: form });
-    const data = await response.json();
-    state.canonical = data.canonical || null;
-    renderCv(data.cv);
-    renderCvSource(data);
-    toast(data.parse_mode === "local_heuristic" ? "Local CV parsed without AI credits." : "Local CV loaded and parsed.");
-  } catch (error) {
-    toast(error.message, "bad");
-  } finally {
-    setBusy(button, false);
-  }
-}
-
 async function loadSavedCv(button) {
   setBusy(button, true, "Loading...");
   try {
@@ -665,8 +646,6 @@ async function openExportsFolder(button) {
 function wireEvents() {
   setCvExportEnabled(false);
   $("#chooseCvBtn").addEventListener("click", chooseCvFromPc);
-  $("#chooseCvSecondaryBtn").addEventListener("click", chooseCvFromPc);
-  $("#loadLocalBtn").addEventListener("click", (event) => loadLocalCv(event.currentTarget));
   $("#loadSavedBtn").addEventListener("click", (event) => loadSavedCv(event.currentTarget));
   $("#providerSelect").addEventListener("change", (event) => fillProviderFields(event.target.value));
   $("#refreshProviderBtn").addEventListener("click", (event) => refreshProviderStatus(event.currentTarget));

@@ -232,42 +232,28 @@
 
       <section class="panel">
         <p class="eyebrow">Step 1</p>
-        <h2>Import CV</h2>
-        <div class="grid">
-          <div>
-            <p class="mini">Choose how to build the editable CV sections. The heuristic parser is free and local in your browser. The AI parser can improve structure and English wording, but it sends the raw CV text to Gemini using your pasted key.</p>
-            <div class="mode-options" role="radiogroup" aria-label="CV parsing mode">
-              <label class="mode-option">
-                <input type="radio" name="parseMode" value="heuristic" checked />
-                <span><strong>Heuristic parser - no API key</strong><br />Best for a free first pass: remove Ci&ecirc;ncia Vitae layout noise, create editable sections, and export a clean Markdown/JSON CV.</span>
-              </label>
-              <label class="mode-option">
-                <input type="radio" name="parseMode" value="ai" />
-                <span><strong>AI-assisted parser - Gemini key required</strong><br />Optional cleanup for better English structure. Use only with CVs you are comfortable sending to your selected provider.</span>
-              </label>
-            </div>
-            <label>
-              CV file from your computer
-              <input id="cvFile" type="file" accept=".pdf,.txt,.md,.json,.xml" />
-            </label>
-            <div class="actions">
-              <button id="parseCvBtn" class="primary" type="button">Parse CV in browser</button>
-              <button id="clearCvBtn" type="button">Clear CV</button>
-            </div>
-            <p class="mini">Supported here: PDF, TXT, Markdown, simple JSON, and XML. The desktop app remains better for large or complex Ci&ecirc;ncia Vitae academic CVs.</p>
-            <div id="cvStatus" class="status">No CV loaded yet.</div>
-          </div>
-          <div>
-            <label>
-              Import profile text from URL, when CORS allows it
-              <input id="profileUrl" type="url" placeholder="ORCID/Ciencia Vitae/public profile URL" />
-            </label>
-            <div class="actions">
-              <button id="fetchProfileBtn" type="button">Fetch profile URL</button>
-            </div>
-            <p class="mini">Many platforms block browser fetches. If that happens, copy/paste the profile or use the desktop app.</p>
-          </div>
+        <h2>Choose and parse a CV</h2>
+        <p class="mini">Choose how to build editable CV sections. The heuristic parser is free and remains in your browser. The AI parser can improve structure and English wording, but sends the raw CV text to Gemini using your key.</p>
+        <div class="mode-options" role="radiogroup" aria-label="CV parsing mode">
+          <label class="mode-option">
+            <input type="radio" name="parseMode" value="heuristic" checked />
+            <span><strong>Heuristic parser - no API key</strong><br />Best for official Ci&ecirc;ncia Vitae PDF/XML exports: creates editable sections and supports clean Markdown/JSON export.</span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="parseMode" value="ai" />
+            <span><strong>AI-assisted parser - Gemini key required</strong><br />Optional cleanup for a richer English structure. Use only with CVs you are comfortable sending to Gemini.</span>
+          </label>
         </div>
+        <label>
+          Browse CV file
+          <input id="cvFile" type="file" accept=".pdf,.txt,.md,.json,.xml" />
+        </label>
+        <div class="actions">
+          <button id="parseCvBtn" class="primary" type="button">Parse CV in browser</button>
+          <button id="clearCvBtn" type="button">Clear CV</button>
+        </div>
+        <p class="mini">For a complete Ci&ecirc;ncia Vitae result, use its official PDF or XML export. This browser version does not keep a persistent local history; use the desktop app for saved sessions and local DOCX/PDF exports.</p>
+        <div id="cvStatus" class="status">No CV loaded yet.</div>
       </section>
 
       <section class="panel">
@@ -628,7 +614,19 @@
         for (let pageNo = 1; pageNo <= pdf.numPages; pageNo += 1) {
           const page = await pdf.getPage(pageNo);
           const content = await page.getTextContent();
-          pages.push(content.items.map((item) => item.str || "").join(" "));
+          const lines = [];
+          let line = "";
+          for (const item of content.items) {
+            line += item.str || "";
+            if (item.hasEOL) {
+              if (line.trim()) lines.push(line.trim());
+              line = "";
+            } else {
+              line += " ";
+            }
+          }
+          if (line.trim()) lines.push(line.trim());
+          pages.push(lines.join("\n"));
         }
         return pages.join("\n\n");
       }
@@ -901,30 +899,6 @@ ${rawText.slice(0, 45000)}`;
         }
       }
 
-      async function fetchProfileUrl() {
-        const url = $("profileUrl").value.trim();
-        if (!url) return setStatus("cvStatus", "Add a profile URL first.");
-        try {
-          setStatus("cvStatus", "Fetching profile URL...");
-          const response = await fetch(url);
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          const html = await response.text();
-          const doc = new DOMParser().parseFromString(html, "text/html");
-          doc.querySelectorAll("script,style,nav,footer,header,aside").forEach((node) => node.remove());
-          const text = cleanText(doc.body?.innerText || html).slice(0, 22000);
-          const parseMode = document.querySelector('input[name="parseMode"]:checked')?.value || "heuristic";
-          if (parseMode === "ai") {
-            await parseCvWithAi(text, url);
-          } else {
-            parseTextCv(text);
-          }
-          renderSections();
-          setStatus("cvStatus", `Fetched and parsed ${text.length.toLocaleString()} characters from the profile URL in ${parseMode === "ai" ? "AI-assisted" : "heuristic browser"} mode. Review sections before generating.`);
-        } catch (error) {
-          setStatus("cvStatus", `Browser profile fetch failed, usually because of CORS, login protection, or platform restrictions. Paste the profile/CV text manually or use the desktop app. Details: ${error.message}`);
-        }
-      }
-
       function downloadText(filename, text, type = "text/markdown;charset=utf-8") {
         const blob = new Blob([text], { type });
         const link = document.createElement("a");
@@ -996,7 +970,6 @@ ${jobText}`;
 
       $("parseCvBtn").addEventListener("click", parseCv);
       $("clearCvBtn").addEventListener("click", clearCv);
-      $("fetchProfileBtn").addEventListener("click", fetchProfileUrl);
       $("fetchJobBtn").addEventListener("click", () => fetchPlainUrl("jobUrl", "jobText", "focusPreview"));
       $("selectAllBtn").addEventListener("click", () => {
         document.querySelectorAll(".section-toggle").forEach((box) => { box.checked = true; });

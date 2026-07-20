@@ -40,9 +40,8 @@
             <h1>Parse structured CVs, focus the right evidence, and tailor each application.</h1>
           </div>
           <div class="hero-actions">
-            <button class="ghost" id="chooseCvBtn" type="button">Choose CV from PC</button>
+            <button class="primary" id="chooseCvBtn" type="button">Browse CV files</button>
             <button class="ghost" id="loadSavedBtn" type="button">Open last parsed CV</button>
-            <button class="primary" id="loadLocalBtn" type="button">Load configured CV</button>
           </div>
         </header>
 
@@ -96,34 +95,30 @@
           <div class="panel-head">
             <div>
               <p class="eyebrow">Step 1</p>
-              <h2>Import and parse CV</h2>
+              <h2>Import CV</h2>
             </div>
             <div class="cv-actions">
               <label class="upload">
                 <input id="cvFile" type="file" accept=".pdf,.txt,.xml" />
-                Import CV from local drive
+                Browse CV files
               </label>
-              <button class="ghost" id="chooseCvSecondaryBtn" type="button">Browse files</button>
             </div>
           </div>
           <div class="import-grid">
             <section class="info-note">
-              <strong>Local import:</strong> upload a PDF, TXT, or Ciencia Vitae XML from this computer. The app keeps the last parsed CV so you do not need to import it again every time.
-            </section>
-            <section class="info-note muted-note">
-              <strong>Future web import:</strong> public links from Ciencia Vitae, ORCID, ResearchGate, Google Scholar, or LinkedIn can be added later when those platforms allow reliable access. Local upload remains the safest first workflow.
+              <strong>Choose a file from this computer:</strong> PDF, TXT, or Ciência Vitae XML. Your last parsed CV remains available through <strong>Open last parsed CV</strong>.
             </section>
           </div>
           <div class="parser-choice" role="radiogroup" aria-label="Parser mode">
             <label>
-              <input type="radio" name="parserMode" value="ai" checked />
+              <input type="radio" name="parserMode" value="ai" />
               <span>
                 <strong>AI parser</strong>
                 Requires a configured API key or local LLM. Best for clean English structured extraction.
               </span>
             </label>
             <label>
-              <input type="radio" name="parserMode" value="heuristic" />
+              <input type="radio" name="parserMode" value="heuristic" checked />
               <span>
                 <strong>Heuristic parser</strong>
                 Free local parsing without credits. Optimised for Ciência Vitae exports (import the XML to include skills). For other PDFs/DOCX/XML it extracts only basic contact fields — use the AI parser for a rich structure.
